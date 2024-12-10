@@ -1,6 +1,19 @@
 <nav>
     <ul class="parent-nav">
-        <li class="parent has-dropdown">
+        <li>
+            <a href="{% url "home_module:home-page" %}">صفحه اصلی</a>
+        </li>
+        <li>
+            <a href="#">درباره ما</a>
+        </li>
+        <li>
+            <a href="{% url "account_module:user-register" %}">ثبت نام</a>
+        </li>
+        <li>
+            <a href="#">ورود</a>
+        </li>
+
+        {% comment %} <li class="parent has-dropdown">
             <a class="nav-link" href="#">صفحه اصلی</a>
             <ul class="submenu">
                 <li><a class="sub-b" href="index.html">صفحه اصلی یک</a></li>
@@ -107,6 +120,6 @@
         </li>
         <li class="parent">
             <a href="contact.html">تماس</a>
-        </li>
+        </li> {% endcomment %}
     </ul>
 </nav>

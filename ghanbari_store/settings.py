@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # local apps
     'home_module.apps.HomeModuleConfig',
+    'account_module.apps.AccountModuleConfig',
     # third party packages
     'django_render_partial',
 ]
@@ -133,3 +134,6 @@ MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# User model configuration
+AUTH_USER_MODEL='account_module.User'

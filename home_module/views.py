@@ -16,6 +16,9 @@ def mobile_sidebar_component(request):
 def navbar_component(request):
     return render(request,'navbar_component.html')
 
+def slider_component(request):
+    return render(request,'home_module/includes/slider_component.html')
+
 def footer_component(request):
     return render(request,'footer_component.html')
 

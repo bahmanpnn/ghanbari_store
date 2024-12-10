@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="rts-navigation-area-breadcrumb bg_light-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="navigator-breadcrumb-wrapper">
+                        <a href="{% url "home_module:home-page" %}">صفحه اصلی</a>
+                        <i class="fa-regular fa-chevron-left"></i>
+                        <a class="current" href="{% url "account_module:user-register" %}">ثبت نام</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-seperator bg_light-1">
+        <div class="container">
+            <hr class="section-seperator">
+        </div>
+    </div>  
+
+
+
+    <!-- rts register area start -->
+    <div class="rts-register-area rts-section-gap bg_light-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="registration-wrapper-1">
+                        <div class="logo-area mb--0">
+                            <img class="mb--10" src="/static/assets/images/logo/fav.png" alt="لوگو">
+                        </div>
+                        <h3 class="title">در حساب کاربری خود ثبت نام کنید</h3>
+                        <form action="#" class="registration-form">
+                            <div class="input-wrapper">
+                                <label for="name">نام کاربری*</label>
+                                <input type="text" id="name">
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="email">پست الکترونیک*</label>
+                                <input type="email" id="email">
+                            </div>
+                            <div class="input-wrapper">
+                                <label for="password">کلمه عبور*</label>
+                                <input type="password" id="password">
+                            </div>
+                            <button class="rts-btn btn-primary">ثبت حساب</button>
+                            <div class="another-way-to-registration">
+                                <div class="registradion-top-text">
+                                    <span>یا ثبت نام با</span>
+                                </div>
+                                <div class="login-with-brand">
+                                    <a href="#" class="single">
+                                        <img src="/static/assets/images/form/google.svg" alt="وارد شدن">
+                                    </a>
+                                    <a href="#" class="single">
+                                        <img src="/static/assets/images/form/facebook.svg" alt="وارد شدن">
+                                    </a>
+                                </div>
+                                <p>از قبل حساب دارید؟ <a href="#">وارد شدن</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- rts register area end -->
+{% endblock content %}
+
+
+
+
