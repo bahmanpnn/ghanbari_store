@@ -32,6 +32,9 @@ INSTALLED_APPS = [
     'account_module.apps.AccountModuleConfig',
     'about_us_module.apps.AboutUsModuleConfig',
     'contact_module.apps.ContactModuleConfig',
+    'product_module.apps.ProductModuleConfig',
+    'blog_module.apps.BlogModuleConfig',
+
     # third party packages
     'django_render_partial',
 ]
