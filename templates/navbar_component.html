@@ -4,16 +4,16 @@
             <a href="{% url "home_module:home-page" %}">صفحه اصلی</a>
         </li>
         <li>
-            <a href="#">درباره ما</a>
+            <a href="{% url "about_us_module:about-us" %}">درباره ما</a>
         </li>
         <li>
-            <a href="#">تماس با ما</a>
+            <a href="{% url "contact_module:contact-us" %}">تماس با ما</a>
         </li>
         <li>
             <a href="{% url "account_module:user-register" %}">ثبت نام</a>
         </li>
         <li>
-            <a href="#">ورود</a>
+            <a href="{% url "account_module:user-login" %}">ورود</a>
         </li>
 
         {% comment %} <li class="parent has-dropdown">

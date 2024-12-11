@@ -3,7 +3,7 @@ from account_module.models import User
 from django.core.exceptions import ValidationError
 import re
 
-class RegisterModelForm(forms.Form):
+class UserRegisterForm(forms.Form):
     # todo change username with phone number 
     username=forms.CharField(max_length=63,widget=forms.TextInput(attrs=
                                         {'placeholder':"نام کاربری"})
@@ -60,6 +60,10 @@ class RegisterModelForm(forms.Form):
         if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):  # At least one special character
             return False
         return True
+
+    
+class UserLoginForm(forms.ModelForm):
+    pass
 
 
     

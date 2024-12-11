@@ -1,17 +1,17 @@
 from django.shortcuts import redirect, render
 from django.views import View
-from .forms import RegisterModelForm
+from .forms import UserRegisterForm,UserLoginForm
 from account_module.models import User
 from django.contrib import messages
 
 
 class UserRegisterView(View):
     template_name='account_module/register.html'
-    form_class=RegisterModelForm
+    form_class=UserRegisterForm
 
     def get(self,request):
         return render(request,self.template_name,{
-            'form':RegisterModelForm()
+            'form':UserRegisterForm()
         })
     
     def post(self,request):
@@ -30,3 +30,14 @@ class UserRegisterView(View):
         return render(request,self.template_name,{
             'form':self.form_class(request.POST)
         })
+    
+class UserLoginView(View):
+    template_name='account_module/login.html'
+    form_class=UserLoginForm
+
+    def get(self,request):
+        return render(request,self.template_name)
+    
+    def post(self,request):
+        pass
+    
