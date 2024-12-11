@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     # local apps
     'home_module.apps.HomeModuleConfig',
     'account_module.apps.AccountModuleConfig',
+    'about_us_module.apps.AboutUsModuleConfig',
+    'contact_module.apps.ContactModuleConfig',
     # third party packages
     'django_render_partial',
 ]
@@ -115,8 +117,8 @@ USE_TZ = True
 STATIC_URL = '/static/' #this is for load static in templates
 
 # this is for all the directory that set in django settings and load all the static files
-# STATICFILES_DIRS = [BASE_DIR / 'static'] #developing mode
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] #developing mode
+# STATICFILES_DIRS = [BASE_DIR / 'static'] # developing mode
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # developing mode
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static') # production mode
 # is the directory that use for production mode and when you run collectstatic command,
