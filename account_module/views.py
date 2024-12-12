@@ -18,7 +18,10 @@ class UserRegisterView(View):
         form=self.form_class(request.POST)
         if form.is_valid():
             cd=form.cleaned_data
-            new_user=User.objects.create_user(username=cd['username'],email=cd['email'])
+            if not cd['email']:
+                new_user=User(username=cd['phone_number'],phone_number=cd['phone_number'])
+            else:    
+                new_user=User(username=cd['email'],phone_number=cd['phone_number'],email=cd['email'])
             new_user.set_password(cd['password'])
             new_user.save()
 
@@ -26,7 +29,7 @@ class UserRegisterView(View):
             # messages.success(request,'ثبت نام با موفقیت انجام شد  لطفا ایمیل خود را چک کنید یا کد ارسال شده به شماره همراه خود را وارد کنید')
 
             messages.success(request,'ثبت نام با موفقیت انجام شد لطفا وارد حساب کاربری خود شوید')
-            return redirect("home_module:home-page")
+            return redirect("account_module:user-register")
         return render(request,self.template_name,{
             'form':self.form_class(request.POST)
         })

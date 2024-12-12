@@ -5,50 +5,51 @@ import re
 
 class UserRegisterForm(forms.Form):
     # todo change username with phone number 
-    username=forms.CharField(max_length=63,widget=forms.TextInput(attrs=
-                                        {'placeholder':"نام کاربری"})
+    phone_number=forms.CharField(max_length=63,widget=forms.TextInput(attrs=
+                                        {'placeholder':" شماره تلفن خود را وارد کنید"})
                                     )
-    email=forms.CharField(max_length=63,widget=forms.TextInput(attrs=
-                                        {'placeholder':"ایمیل"})
+    email=forms.CharField(max_length=63,required=False,widget=forms.TextInput(attrs=
+                                        {'placeholder':"ایمیل خود را وارد کنید"})
                                     )
     password=forms.CharField(max_length=63,widget=forms.PasswordInput(attrs=
-                                        {'placeholder':"رمز عبور"})
+                                        {'placeholder':"رمز عبور خود را وارد کنید"})
                                     )
     confirm_password=forms.CharField(max_length=63,widget=forms.PasswordInput(attrs=
-                                        {'placeholder':"تکرار رمز عبور"})
+                                        {'placeholder':"تکرار رمز عبور خود را وارد کنید"})
                                     )
 
     def clean_email(self):
         email=self.cleaned_data.get('email')
-        check_email=User.objects.filter(email__iexact=email)
-        if check_email:
-            print('این پست الکترونیک قبلا استفاد شده است')
-            raise ValidationError('این پست الکترونیک قبلا استفاده شده است')
-        
+        print(email)
+        if email:
+            check_email=User.objects.filter(email__iexact=email)
+            if check_email:
+                print('این پست الکترونیک قبلا استفاد شده است')
+                raise ValidationError('این پست الکترونیک قبلا استفاده شده است')    
         return email
     
-    # todo change username with phone number 
-    def clean_username(self):
-        username=self.cleaned_data.get('username')
-        check_username=User.objects.filter(username__iexact=username)
-        if check_username:
-            print('این نام کاربری قبلا استفاده شده است')
-            raise ValidationError('این نام کاربری قبلا استفاده شده است')
+    def clean_phone_number(self):
+        phone_number=self.cleaned_data.get('phone_number')
+        check_phone_number=User.objects.filter(phone_number__iexact=phone_number)
+        if check_phone_number:
+            # print('این شماره تلفن قبلا استفاده شده است')
+            raise ValidationError('این شماره تلفن قبلا استفاده شده است')
 
-        return username
+        return phone_number
     
-
     def clean_confirm_password(self):
         password=self.cleaned_data.get('password')
         confirm_password=self.cleaned_data.get('confirm_password')
         if password != confirm_password:
             print('رمز عبور با تکرار آن مطابقت ندارد')
             raise ValidationError('رمز عبور با تکرار آن مطابقت ندارد')
-        
+        elif not self.is_strong_password(password):
+            raise ValidationError('رمز عبور شما قوی نمی باشد\
+                                  .لطفا ازحروف کوچک و بزرگ به همراه اعداد و سمبل ها استفاده کنید')
+        # print('this is password',password)
         return confirm_password
 
-
-    def is_strong_password(password):
+    def is_strong_password(self,password):
         if len(password) < 8:
             return False
         if not re.search(r"[A-Z]", password):  # At least one uppercase letter
@@ -63,7 +64,11 @@ class UserRegisterForm(forms.Form):
 
     
 class UserLoginForm(forms.ModelForm):
-    pass
+    email=forms.CharField(max_length=63,widget=forms.TextInput(attrs=
+                                        {'placeholder':"ایمیل"})
+                                    )
+    password=forms.CharField(max_length=63,widget=forms.PasswordInput(attrs=
+                                        {'placeholder':"رمز عبور"}))
 
 
     
