@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block header_references %}
     <meta charset="UTF-8">
     <meta name="description" content="Ekomart-Grocery-Store(e-Commerce) HTML Template: A sleek, responsive, and user-friendly HTML template designed for online grocery stores.">
@@ -9,6 +11,8 @@
     <!-- plugins css -->
     <link rel="stylesheet preload" href="/static/assets/css/plugins.css" as="style">
     <link rel="stylesheet preload" href="/static/assets/css/style.css" as="style">
+
+    <link rel="stylesheet" href="{% static "account_module/css/account_custom.css" %}">
 {% endblock header_references %}
 
 {% block content %}        
@@ -19,7 +23,7 @@
                     <div class="navigator-breadcrumb-wrapper">
                         <a href="{% url "home_module:home-page" %}">صفحه اصلی</a>
                         <i class="fa-regular fa-chevron-left"></i>
-                        <a class="current" href="">صفحه ورود</a>
+                        <a class="current">صفحه ورود</a>
                     </div>
                 </div>
             </div>
@@ -41,30 +45,23 @@
                         <div class="logo-area mb--0">
                             <img class="mb--10" src="/static/assets/images/logo/fav.png" alt="لوگو">
                         </div>
-                        <h3 class="title">وارد حساب کاربری خود شوید</h3>
-                        <form action="#" class="registration-form">
+                        <h3 class="title">وارد حساب کاربری خود در خوشه شوید</h3>
+                        <form action="" class="registration-form" method="post" novalidate>
+                            {% csrf_token %}
                             <div class="input-wrapper">
-                                <label for="email">پست الکترونیک*</label>
-                                <input type="email" id="email">
+                                <label for="email">پست الکترونیک/شماره همراه*</label>
+                                {{form.email_or_phone_number}}
+                                {{form.email_or_phone_number.errors}}
                             </div>
                             <div class="input-wrapper">
                                 <label for="password">کلمه عبور*</label>
-                                <input type="password" id="password">
+                                {{form.password}}
+                                {{form.password.errors}}
                             </div>
                             <button class="rts-btn btn-primary">ورود به حساب کاربری</button>
                             <div class="another-way-to-registration">
-                                <div class="registradion-top-text">
-                                    <span>یا ثبت نام با</span>
-                                </div>
-                                <div class="login-with-brand">
-                                    <a href="#" class="single">
-                                        <img src="/static/assets/images/form/google.svg" alt="وارد شدن">
-                                    </a>
-                                    <a href="#" class="single">
-                                        <img src="/static/assets/images/form/facebook.svg" alt="وارد شدن">
-                                    </a>
-                                </div>
-                                <p>از قبل حساب دارید؟ <a href="#">وارد شدن</a></p>
+                                <p>حساب کاربری ندارید؟ <a href="{% url "account_module:user-register" %}">ثبت نام</a></p>
+                                <p>رمز عبور خود را فراموش کرده اید؟<a href=""> بازیابی کلمه عبور</a></p>
                             </div>
                         </form>
                     </div>

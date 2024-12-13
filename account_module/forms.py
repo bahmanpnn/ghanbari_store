@@ -63,12 +63,36 @@ class UserRegisterForm(forms.Form):
         return True
 
     
-class UserLoginForm(forms.ModelForm):
-    email=forms.CharField(max_length=63,widget=forms.TextInput(attrs=
-                                        {'placeholder':"ایمیل"})
-                                    )
-    password=forms.CharField(max_length=63,widget=forms.PasswordInput(attrs=
-                                        {'placeholder':"رمز عبور"}))
+class UserLoginForm(forms.Form):
 
+    email_or_phone_number=forms.CharField(widget=forms.TextInput(attrs={
+        'class':'form-control text-center',
+        'placeholder':'ایمیل یا رمز عبور خود را وارد کنید'
+    }))
+
+    password=forms.CharField(widget=forms.PasswordInput(attrs={
+        'class':'form-control text-center',
+        'placeholder':'رمز عبور خود را وارد کنید'
+    }))
+
+
+    # todo:check ip that dont try more than 5 times that fill password wrong in every 1 hour(throttle)
+    # def clean_email_or_phone_number(self): 
+    #     '''
+    #         this is for validation email or phone number field of login
+    #     '''
+    #     email_or_phone_number=self.cleaned_data.get('email_or_phone_number')
+    #     check_phone_number=User.objects.filter(phone_number__iexact=email_or_phone_number).exists()
+    #     if check_phone_number:
+    #         return email_or_phone_number
+    #     else:
+    #         check_email=User.objects.filter(email__iexact=email_or_phone_number).exists()
+    #         if check_email:
+    #             return email_or_phone_number
+    #         else:
+    #             raise ValidationError('این شماره تلفن یا ایمیل ثبت نشده است')
+
+
+        
 
     
