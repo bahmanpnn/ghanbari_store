@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% comment %} {% load thumbnail %} {% endcomment %}
 
 {% block header_references %}
@@ -11,6 +12,7 @@
     <!-- plugins css -->
     <link rel="stylesheet preload" href="/static/assets/css/plugins.css" as="style">
     <link rel="stylesheet preload" href="/static/assets/css/style.css" as="style">
+    <link rel="stylesheet" href="{% static "product_module/css/product_custom.css" %}">
 {% endblock header_references %}
 {% block content %}
 
@@ -208,5 +210,22 @@
         </div>
     </div>
     <!-- shop[ grid sidebar wrapper end -->
+    <div class="pagination">
+        <ul class="pagination post-pagination">
+            {% if page_obj.has_previous %}
+            <li><a class="prev" href="?page={{page_obj.previous_page_number}}">قبلی</a></li>
+            {% endif %}
+
+            {% if page_obj.has_next or page_obj.has_previous %}
+                {% for page in paginator.page_range %}
+                    <li ><a {% if page_obj.number == page %}class='active'{% endif %} href="?page={{page}}">{{page}}</a></li>
+                {% endfor %}
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <li><a class="next" href="?page={{page_obj.next_page_number}}">بعدی</a></li>
+            {% endif %}
+        </ul>
+    </div>
 
 {% endblock content %}

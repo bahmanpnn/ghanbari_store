@@ -12,9 +12,9 @@
         <li>
             <a href="{% url "product_module:products" %}">محصولات</a>
         </li>
-        <li>
+        {% comment %} <li>
             <a href="{% url "product_module:products-two" %}">محصولات2</a>
-        </li>
+        </li> {% endcomment %}
         {% if request.user.is_authenticated %}
         <li>
             <a href="{% url "account_module:user-logout" %}">خروج</a>

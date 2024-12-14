@@ -9,7 +9,7 @@ class ProductListView(ListView):
     model=Product
     context_object_name='products'
     ordering=['-added_date']
-    paginate_by=10
+    paginate_by=5
 
 
     def get_queryset(self):        
