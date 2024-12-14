@@ -128,11 +128,11 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # developing mode
 # all the static files that are in static_files directories collect in that.
 
 #media url is for load and server medias in site and templates
-MEDIA_URL='/media/'
+MEDIA_URL='/medias/'
 
 #media root is for uploading medias from user and site.it needs to add urls in base urls project
 # MEDIA_ROOT= BASE_DIR / 'medias'
-MEDIA_ROOT= os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT= os.path.join(BASE_DIR, 'medias')
 
 
 # Default primary key field type
