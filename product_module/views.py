@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import ListView
+from django.views.generic import ListView,DetailView
 from .models import Product
 
 
@@ -32,12 +32,25 @@ class ProductListView(ListView):
     
     def post(self,request):
         pass
-    
 
-class ProductTwoListView(View):
-    template_name="product_module/products2.html"
-    def get(self,request):
-        return render(request,self.template_name)
+
+
+class ProductDetailView(DetailView):
+    template_name='product_module/product_detail.html'
+    model=Product
+    context_object_name='product'
     
-    def post(self,request):
-        pass
+    def get_queryset(self):
+        return super().get_queryset()
+    
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_object(self, queryset = None):
+        queryset=Product.objects.get(pk=self.kwargs['pk'],slug=self.kwargs['slug'])
+        return queryset 
+
+
+

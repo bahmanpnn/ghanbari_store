@@ -1,7 +1,7 @@
 <div class="single-shopping-card-one">
     <!-- iamge and sction area start -->
     <div class="image-and-action-area-wrapper">
-        <a href="shop-details.html" class="thumbnail-preview">
+        <a href="{% url "product_module:product-detail" pk=product.pk slug=product.slug %}" class="thumbnail-preview">
             {% if product.discount_percent %}
                 <div class="badge">
                     <span>{{product.discount_percent}}% <br> 

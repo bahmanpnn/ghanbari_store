@@ -3,13 +3,16 @@ from django.utils.text import slugify
 from django.core.validators import MaxValueValidator,MinValueValidator
 from django.urls import reverse
 from account_module.models import User
+# from ckeditor.fields import RichTextField
 
 
 class Product(models.Model):
     title=models.CharField(max_length=127,db_index=True,unique=True)
+    quantity=models.PositiveIntegerField()
     image=models.ImageField(upload_to="images/products",null=True,blank=True)
     short_description=models.CharField(max_length=510,db_index=True,null=True,blank=True)
     content=models.TextField(null=True,blank=True)
+    # content=RichTextField(null=True,blank=True)
     price=models.PositiveIntegerField()
     weight=models.PositiveIntegerField()
     discount_percent=models.PositiveIntegerField(default=0,validators=[MaxValueValidator(100),MinValueValidator(0)],blank=True,null=True)

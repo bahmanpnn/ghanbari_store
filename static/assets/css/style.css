@@ -98,7 +98,8 @@
 }
 
 :root {
-  --color-primary: #629D23;
+  --color-primary: #cf830a;
+  /* --color-primary: #629D23; */
   --color-secondary: #1F1F25;
   --color-body: #6E777D;
   --color-heading-1: #2C3C28;
