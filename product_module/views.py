@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.views import View
 from django.views.generic import ListView,DetailView
 from .models import Product
 
@@ -51,6 +50,5 @@ class ProductDetailView(DetailView):
     def get_object(self, queryset = None):
         queryset=Product.objects.get(pk=self.kwargs['pk'],slug=self.kwargs['slug'])
         return queryset 
-
 
 

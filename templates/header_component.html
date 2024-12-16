@@ -93,7 +93,7 @@
                         <img src="/static/assets//images/logo/logo-01.svg" alt="لوگوی اصلی" class="logo" />
                     </a>
                     <div class="category-search-wrapper">
-                        <div class="category-btn category-hover-header">
+                        {% comment %} <div class="category-btn category-hover-header">
                             <img class="parent" src="/static/assets//images/icons/bar-1.svg" alt="نمادها" />
                             <span>دسته بندی ها</span>
                             <ul class="category-sub-menu" id="category-active-four">
@@ -182,7 +182,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> {% endcomment %}
                         <form action="#" class="search-header">
                             <input type="text" placeholder="محصولات، دسته&zwnj;ها یا برندها را جستجو کنید" required="" />
                             <a href="#" class="rts-btn btn-primary radious-sm with-icon">
@@ -216,15 +216,17 @@
                     <div class="accont-wishlist-cart-area-header">
                         <a href="account.html" class="btn-border-only account">
                             <i class="fa-light fa-user"></i>
-                            <span>حساب</span>
+                            <span>حساب کاربری</span>
                         </a>
                         <a href="wishlist.html" class="btn-border-only wishlist">
                             <i class="fa-regular fa-heart"></i>
                             <span>لیست علاقه مندیها</span>
                         </a>
                         <div class="btn-border-only cart category-hover-header">
-                            <i class="fa-sharp fa-regular fa-cart-shopping"></i>
-                            <span class="text">سبد خرید من</span>
+                            {% comment %} <a href="{% url "order_module:order-basket" %}">
+                            </a> {% endcomment %}
+                                <i class="fa-sharp fa-regular fa-cart-shopping"></i>
+                                <span class="text">سبد خرید من</span>
                             <div class="category-sub-menu card-number-show">
                                 <h5 class="shopping-cart-number">سبد خرید (03)</h5>
                                 <div class="cart-item-1 border-top">
@@ -298,12 +300,12 @@
                                         <p><span>125.00 تومان</span> بیشتر خرج کنید تا به <span>ارسال رایگان برسید</span></p>
                                     </div>
                                     <div class="button-wrapper d-flex align-items-center justify-content-between">
-                                        <a href="cart.html" class="rts-btn btn-primary">مشاهده سبد </a>
+                                        <a href="{% url "order_module:order-basket" %}" class="rts-btn btn-primary">مشاهده سبد </a>
                                         <a href="checkout.html" class="rts-btn btn-primary border-only">خرید</a>
                                     </div>
                                 </div>
                             </div>
-                            <a href="cart.html" class="over_link"></a>
+                            <a href="{% url "order_module:order-basket" %}" class="over_link"></a>
                         </div>
                     </div>
                 </div>

@@ -8,7 +8,7 @@ from account_module.models import User
 
 class Product(models.Model):
     title=models.CharField(max_length=127,db_index=True,unique=True)
-    quantity=models.PositiveIntegerField()
+    quantity=models.PositiveIntegerField(default=0,null=True)
     image=models.ImageField(upload_to="images/products",null=True,blank=True)
     short_description=models.CharField(max_length=510,db_index=True,null=True,blank=True)
     content=models.TextField(null=True,blank=True)

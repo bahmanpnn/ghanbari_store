@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'contact_module.apps.ContactModuleConfig',
     'product_module.apps.ProductModuleConfig',
     'blog_module.apps.BlogModuleConfig',
+    'order_module.apps.OrderModuleConfig',
 
     # third party packages
     'django_render_partial',
@@ -64,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'order_module.context_processors.basket_products'
             ],
         },
     },

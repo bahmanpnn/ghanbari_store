@@ -98,15 +98,17 @@
                                                     <span class="old-price ml--15">{{product.price_with_discount}}</span>
                                                 {% endif %}
                                             </span>
+
+                                            
                                             <div class="product-bottom-action">
                                                 <div class="cart-edits">
                                                     <div class="quantity-edit action-item">
                                                         <button class="button"><i class="fal fa-minus minus"></i></button>
-                                                        <input type="text" class="input" value="01">
+                                                        <input id="productCount" type="text" min="1" class="input" value="1"/>
                                                         <button class="button plus">+<i class="fal fa-plus plus"></i></button>
                                                     </div>
                                                 </div>
-                                                <a href="#" class="rts-btn btn-primary radious-sm with-icon">
+                                                <button onclick="addProductToBasket({{product.id}})" type="submit" class="rts-btn btn-primary radious-sm with-icon">
                                                     <div class="btn-text">افزودن به سبد</div>
                                                     <div class="arrow-icon">
                                                         <i class="fa-regular fa-cart-shopping"></i>
@@ -114,7 +116,7 @@
                                                     <div class="arrow-icon">
                                                         <i class="fa-regular fa-cart-shopping"></i>
                                                     </div>
-                                                </a>
+                                                </button>
                                                 <a href="javascript:void(0);" class="rts-btn btn-primary ml--20"><i class="fa-light fa-heart"></i></a>
                                             </div>
                                             <div class="product-uniques">
