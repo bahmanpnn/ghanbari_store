@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'product_module.apps.ProductModuleConfig',
     'blog_module.apps.BlogModuleConfig',
     'order_module.apps.OrderModuleConfig',
+    'polls.apps.PollsConfig',
 
     # third party packages
     'django_render_partial',

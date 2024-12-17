@@ -34,21 +34,22 @@ function addProductToBasket(productId){
     })
 }
 
-// function orderDetail(detailId) {
-//     $.get('/orders/remove_order_detail/?detail_id=' + detailId).then(res=>{
-//         if (res.status === "success") {
-//             $('#order-detail-content').html(res.body);
-//         }
-//     });
-// }
+function orderDetail(detailId) {
+    $.get('/orders/remove_order_detail/?detail_id=' + detailId).then(res=>{
+        if (res.status === "success") {
+            $('#order-detail-content').html(res.body);
+        }
+    });
+}
 
-// function changeOrderDetailCount(detailId,state) {
-//     $.get('/orders/change_order_detail_count/?detail_id=' + detailId+'&state='+state).then(res=>{
-//         if (res.status === "success") {
-//             $('#order-detail-content').html(res.body);
-//         }
-//     });
-// }
+
+function changeOrderDetailCount(detailId,state) {
+    $.get('/orders/change_order_detail_count/?detail_id=' + detailId+'&state='+state).then(res=>{
+        if (res.status === "success") {
+            $('#order-detail-content').html(res.body);
+        }
+    });
+}
 
 
 // function addProductToFavoriteList(productId) {

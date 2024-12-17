@@ -13,35 +13,35 @@ class OrderBasket(models.Model):
     def __str__(self):
         return str(self.user)
     
-    # def get_total_price(self):
-    #     total= sum(item.get_cost() for item in self.order_items.all())
-    #     if self.discount:
-    #         discount_price=(self.discount / 100 )*total
-    #         return int(total-discount_price)
-    #     return total
     
-    # def get_total_amount(self):
-    #     if self.is_paid:
-    #         total_amount=0
-    #         if self.discount:
-    #             for order_detail in self.order_detail.all():
-    #                 total_amount+=order_detail.final_price *order_detail.count
-    #             discount_price=(self.discount / 100 )*total_amount
-    #             return float(total_amount-discount_price)
+    def get_total_amount(self):
+        if self.is_paid:
+            total_amount=0
+            if self.discount:
+                for order_detail in self.order_detail.all():
+                    total_amount+=order_detail.final_price *order_detail.count
+                discount_price=(self.discount / 100 )*total_amount
+                return float(total_amount-discount_price)
             
-    #         for order_detail in self.order_detail.all():
-    #             total_amount+=order_detail.final_price *order_detail.count
-    #     else:
-    #         total_amount=0
-    #         if self.discount:
-    #             for order_detail in self.order_detail.all():
-    #                 total_amount+=order_detail.product.price *order_detail.count
-    #             discount_price=(self.discount / 100 )*total_amount
-    #             return float(total_amount-discount_price)
-    #         for order_detail in self.order_detail.all():
-    #             total_amount+=order_detail.product.price *order_detail.count
-        
-    #     return total_amount
+            for order_detail in self.order_detail.all():
+                total_amount+=order_detail.final_price *order_detail.count
+        else:
+            total_amount=0
+            if self.discount:
+                for order_detail in self.order_detail.all():
+                    if order_detail.product.price_with_discount:
+                        total_amount+=order_detail.product.price_with_discount *order_detail.count
+                    else:
+                        total_amount+=order_detail.product.price *order_detail.count
+                discount_price=(self.discount / 100 )*total_amount
+                return float(total_amount-discount_price)
+            for order_detail in self.order_detail.all():
+                if order_detail.product.price_with_discount:
+                    total_amount+=order_detail.product.price_with_discount *order_detail.count
+                else:
+                    total_amount+=order_detail.product.price *order_detail.count
+                        
+        return total_amount
     
 
 class OrderDetail(models.Model):
@@ -53,8 +53,8 @@ class OrderDetail(models.Model):
     def __str__(self):
         return str(self.order_basket)
     
-    # def get_total_price(self):
-    #     return self.product.price * self.count
+    def get_total_price(self):
+        return self.product.price * self.count
 
 
 # class Coupon(models.Model):
