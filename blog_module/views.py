@@ -9,7 +9,7 @@ class ArticleListView(ListView):
     model=Article
     context_object_name='articles'
     ordering=['-created_date']
-    paginate_by=2
+    paginate_by=1
 
 
     def get_queryset(self):        

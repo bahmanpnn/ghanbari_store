@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block header_references %}
+    <link rel="stylesheet preload" href="{% static "assets/css/custom.css" %}" as="style">
+{% endblock header_references %}
 
 {% block title %}مقالات{% endblock title %}
 {% block content %}
@@ -498,6 +503,28 @@
                         {% endfor %}
                         
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt--50">
+            <div class="col-lg-12 ">
+                <div class="pagination-area-main-wrappper article-pagination">
+                    <ul>
+                        {% if page_obj.has_previous %}
+                        <li><a href="?page={{page_obj.previous_page_number}}"><i class="fa-regular fa-chevrons-right"></i></a></li>
+                        {% endif %}
+        
+                        {% if page_obj.has_next or page_obj.has_previous %}
+                            {% for page in paginator.page_range %}
+                                <li {% if page_obj.number == page %}class='active'{% endif %}><a href="?page={{page}}">{{page}}</a></li>
+                            {% endfor %}
+                        {% endif %}
+        
+                        {% if page_obj.has_next %}
+                            <li><a href="?page={{page_obj.next_page_number}}"><i class="fa-regular fa-chevrons-left"></i></a></li>
+                        {% endif %}
+                        {% comment %} <li> <button class="active">01</button> </li> {% endcomment %}
+                    </ul>
                 </div>
             </div>
         </div>
