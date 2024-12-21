@@ -12,6 +12,14 @@
         <li>
             <a href="{% url "product_module:products" %}">محصولات</a>
         </li>
+        <li>
+            <a href="{% url "blog_module:articles" %}">مقالات</a>
+        </li>
+        {% if request.user.is_superuser %}
+            <li>
+                <a href="/admin">ادمین</a>
+            </li>
+        {% endif %}
         {% comment %} <li>
             <a href="{% url "product_module:products-two" %}">محصولات2</a>
         </li> {% endcomment %}
