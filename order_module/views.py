@@ -122,6 +122,33 @@ def remove_order_detail_user_basket(request):
         'body':render_to_string("order_module/includes/remove_order_detail_ajax.html",context)
     })
 
+@login_required
+def remove_user_basket_card_order_detail(request):
+    detail_id=request.GET.get('detail_id')
+
+    if detail_id is None:
+        return JsonResponse({
+            'status':'detail-not-found'
+        })
+
+    count,target_order_detail=OrderDetail.objects.filter(id=detail_id,order_basket__is_paid=False,order_basket__user_id=request.user.id).delete()
+    if count == 0:
+        return JsonResponse({
+            'status':'detail_not_found'
+        })
+    
+    current_basket,is_created=OrderBasket.objects.prefetch_related('order_detail').get_or_create(is_paid=False,user_id=request.user.id)
+
+    context={
+        'user_basket':current_basket,
+        'need_for_free_transportation':current_basket.get_total_amount()
+        }
+
+    return JsonResponse({
+        'status':'success',
+        'body':render_to_string("order_module/includes/basket_cart.html",context)
+    })
+
 
 @login_required
 def change_order_detail_count(request):

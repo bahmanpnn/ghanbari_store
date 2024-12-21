@@ -90,7 +90,8 @@
             <div class="col-lg-12">
                 <div class="logo-search-category-wrapper">
                     <a href="index.html" class="logo-area">
-                        <img src="/static/assets//images/logo/logo-01.svg" alt="لوگوی اصلی" class="logo" />
+                        {% comment %} <img src="/static/assets/images/logo/logo-01.svg" alt="لوگوی اصلی" class="logo" /> {% endcomment %}
+                        <img style="width:181px;height:41px;" src="/static/assets/images/logo/khooshe_logo.jpg" alt="لوگوی اصلی" class="logo" />
                     </a>
                     <div class="category-search-wrapper">
                         {% comment %} <div class="category-btn category-hover-header">
@@ -214,6 +215,7 @@
                         </div>
                     </div>
                     <div class="accont-wishlist-cart-area-header">
+                        {% if request.user.is_authenticated %}
                         <a href="account.html" class="btn-border-only account">
                             <i class="fa-light fa-user"></i>
                             <span>حساب کاربری</span>
@@ -223,90 +225,9 @@
                             <span>لیست علاقه مندیها</span>
                         </a>
                         <div class="btn-border-only cart category-hover-header">
-                            {% comment %} <a href="{% url "order_module:order-basket" %}">
-                            </a> {% endcomment %}
-                                <i class="fa-sharp fa-regular fa-cart-shopping"></i>
-                                <span class="text">سبد خرید من</span>
-                            <div class="category-sub-menu card-number-show">
-                                <h5 class="shopping-cart-number">سبد خرید (03)</h5>
-                                <div class="cart-item-1 border-top">
-                                    <div class="img-name">
-                                        <div class="thumbanil">
-                                            <img src="/static/assets//images/shop/cart-1.png" alt="" />
-                                        </div>
-                                        <div class="details">
-                                            <a href="shop-details.html">
-                                                <h5 class="title">مرغ به شکل ناگت سینه فاستر فاستر</h5>
-                                            </a>
-                                            <div class="number">
-                                                1<i class="fa-regular fa-x"></i>
-                                                <span>36.00 تومان</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="close-c1">
-                                        <i class="fa-regular fa-x"></i>
-                                    </div>
-                                </div>
-                                <div class="cart-item-1">
-                                    <div class="img-name">
-                                        <div class="thumbanil">
-                                            <img src="/static/assets//images/shop/05.png" alt="" />
-                                        </div>
-                                        <div class="details">
-                                            <a href="shop-details.html">
-                                                <h5 class="title">مرغ به شکل ناگت سینه فاستر فاستر</h5>
-                                            </a>
-                                            <div class="number">
-                                                1<i class="fa-regular fa-x"></i>
-                                                <span>36.00 تومان</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="close-c1">
-                                        <i class="fa-regular fa-x"></i>
-                                    </div>
-                                </div>
-                                <div class="cart-item-1">
-                                    <div class="img-name">
-                                        <div class="thumbanil">
-                                            <img src="/static/assets//images/shop/04.png" alt="" />
-                                        </div>
-                                        <div class="details">
-                                            <a href="shop-details.html">
-                                                <h5 class="title">مرغ به شکل ناگت سینه فاستر فاستر</h5>
-                                            </a>
-                                            <div class="number">
-                                                1<i class="fa-regular fa-x"></i>
-                                                <span>36.00 تومان</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="close-c1">
-                                        <i class="fa-regular fa-x"></i>
-                                    </div>
-                                </div>
-                                <div class="sub-total-cart-balance">
-                                    <div class="bottom-content-deals mt--10">
-                                        <div class="top">
-                                            <span>مجموع فرعی: </span>
-                                            <span class="number-c">108.00 تومان</span>
-                                        </div>
-                                        <div class="single-progress-area-incard">
-                                            <div class="progress">
-                                                <div class="progress-bar wow fadeInRight" role="progressbar" style="width: 80%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                        <p><span>125.00 تومان</span> بیشتر خرج کنید تا به <span>ارسال رایگان برسید</span></p>
-                                    </div>
-                                    <div class="button-wrapper d-flex align-items-center justify-content-between">
-                                        <a href="{% url "order_module:order-basket" %}" class="rts-btn btn-primary">مشاهده سبد </a>
-                                        <a href="checkout.html" class="rts-btn btn-primary border-only">خرید</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="{% url "order_module:order-basket" %}" class="over_link"></a>
+                            {% include "order_module/includes/basket_cart.html" %}
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -335,7 +256,9 @@
             <div class="col-lg-12">
                 <div class="logo-search-category-wrapper after-md-device-header">
                     <a href="index.html" class="logo-area">
-                        <img src="/static/assets/images/logo/logo-02.svg" alt="لوگوی اصلی" class="logo" />
+                        <img style="width:41px;height:41px;" src="/static/assets/images/logo/khooshe_logo.jpg" alt="لوگوی اصلی" class="logo" />
+                        {% comment %} <img src="/static/assets/images/logo/logo-02.svg" alt="لوگوی اصلی" class="logo" /> {% endcomment %}
+                        
                     </a>
                     <div class="category-search-wrapper">
                         <div class="category-btn category-hover-header">
@@ -422,6 +345,7 @@
                         </form>
                     </div>
                     <div class="main-wrapper-action-2 d-flex">
+                        {% if request.user.is_authenticated %}
                         <div class="accont-wishlist-cart-area-header">
                             <a href="account.html" class="btn-border-only account">
                                 <i class="fa-light fa-user"></i>
@@ -431,90 +355,13 @@
                                 <i class="fa-regular fa-heart"></i>
                                 لیست علاقه مندیها
                             </a>
+                            
                             <div class="btn-border-only cart category-hover-header">
-                                <i class="fa-sharp fa-regular fa-cart-shopping"></i>
-                                <span>سبد خرید من</span>
-                                <div class="category-sub-menu card-number-show">
-                                    <h5 class="shopping-cart-number">سبد خرید (03)</h5>
-                                    <div class="cart-item-1 border-top">
-                                        <div class="img-name">
-                                            <div class="thumbanil">
-                                                <img src="/static/assets/images/shop/cart-1.png" alt="" />
-                                            </div>
-                                            <div class="details">
-                                                <a href="shop-details.html">
-                                                    <h5 class="title">مرغ به شکل ناگت سینه فاستر فاستر</h5>
-                                                </a>
-                                                <div class="number">
-                                                    1<i class="fa-regular fa-x"></i>
-                                                    <span>36.00 تومان</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="close-c1">
-                                            <i class="fa-regular fa-x"></i>
-                                        </div>
-                                    </div>
-                                    <div class="cart-item-1">
-                                        <div class="img-name">
-                                            <div class="thumbanil">
-                                                <img src="/static/assets/images/shop/05.png" alt="" />
-                                            </div>
-                                            <div class="details">
-                                                <a href="shop-details.html">
-                                                    <h5 class="title">مرغ به شکل ناگت سینه فاستر فاستر</h5>
-                                                </a>
-                                                <div class="number">
-                                                    1<i class="fa-regular fa-x"></i>
-                                                    <span>36.00 تومان</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="close-c1">
-                                            <i class="fa-regular fa-x"></i>
-                                        </div>
-                                    </div>
-                                    <div class="cart-item-1">
-                                        <div class="img-name">
-                                            <div class="thumbanil">
-                                                <img src="/static/assets/images/shop/04.png" alt="" />
-                                            </div>
-                                            <div class="details">
-                                                <a href="shop-details.html">
-                                                    <h5 class="title">مرغ به شکل ناگت سینه فاستر فاستر</h5>
-                                                </a>
-                                                <div class="number">
-                                                    1<i class="fa-regular fa-x"></i>
-                                                    <span>36.00 تومان</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="close-c1">
-                                            <i class="fa-regular fa-x"></i>
-                                        </div>
-                                    </div>
-                                    <div class="sub-total-cart-balance">
-                                        <div class="bottom-content-deals mt--10">
-                                            <div class="top">
-                                                <span>مجموع فرعی: </span>
-                                                <span class="number-c">108.00 تومان</span>
-                                            </div>
-                                            <div class="single-progress-area-incard">
-                                                <div class="progress">
-                                                    <div class="progress-bar wow fadeInRight" role="progressbar" style="width: 80%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                            <p><span>125.00 تومان</span> بیشتر خرج کنید تا به <span>ارسال رایگان برسید</span></p>
-                                        </div>
-                                        <div class="button-wrapper d-flex align-items-center justify-content-between">
-                                            <a href="cart.html" class="rts-btn btn-primary">مشاهده سبد </a>
-                                            <a href="checkout.html" class="rts-btn btn-primary border-only">خرید</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="cart.html" class="over_link"></a>
+                                {% include "order_module/includes/basket_cart_mobile.html" %}
                             </div>
+
                         </div>
+                        {% endif %}
                         <div class="actions-area">
                             <div class="search-btn" id="search">
                                 <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
