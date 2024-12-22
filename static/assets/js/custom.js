@@ -61,6 +61,35 @@ function changeOrderDetailCount(detailId,state) {
     });
 }
 
+function SendArticleComment(ArticleId){
+
+    var comment=$('#text').val();
+    var parentId=$('#parentId').val();
+
+    $.get('/blog/add-comment/article_comment/',{
+        comment:comment,
+        article_id:ArticleId,
+        parent_id:parentId
+        
+    }).then(res=>{
+        $('#comments_area').html(res)
+        $('#text').val('');
+        $('#parentId').val('');
+        
+        //after adding comment must scroll to that 
+        if(parentId !== null && parentId !== ''){
+            document.getElementById('single_comment_'+parentId).scrollIntoView({behavior:'smooth'})
+        }else{
+            document.getElementById('comments_area').scrollIntoView({behavior:'smooth'})
+        }
+    })
+}
+
+
+function fillParentId(parentId) {
+    $('#parentId').val(parentId);
+    document.getElementById('comment_form').scrollIntoView({behavior:'smooth'})
+}
 
 // function addProductToFavoriteList(productId) {
 

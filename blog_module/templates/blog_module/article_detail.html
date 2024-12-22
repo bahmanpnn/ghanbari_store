@@ -315,58 +315,22 @@
                                 </div>
                             {% endif %}
                             <div class="comment-replay-area-start">
-                                <h3 class="title">03 نظر</h3>
-                                <div class="single-comment-area">
-                                    <div class="thumbanil">
-                                        <img src="/static/assets/images/blog/02.png" alt="اظهار نظر">
+                                {% include "blog_module/includes/article_comments.html" %}
+                                <br>
+                                {% if request.user.is_authenticated %}                                                        <!--new comment area-->
+                                    <div class="contact-form-wrapper-1 mt--50" id='comment_form'>
+                                        <h3 class="title mb--10 text-center">نظر خود را بنویسید</h3>
+                                        <br>
+                                        <form class="contact-form-1" id="form">
+                                            <input type='hidden' value="" id='parentId'>
+                                            <textarea name="message" name="text" id='text' placeholder="نظر خود را بنویسید"></textarea>
+                                            <a class="rts-btn btn-primary mt--20 cursor-pointer" onclick=SendArticleComment({{article.id}})>ارسال</a>
+                                        </form>
                                     </div>
-                                    <div class="comment-information">
-                                        <div class="top-area">
-                                            <div class="right">
-                                                <span>25 خرداد 1403</span>
-                                                <h5 class="title">آمالیا جنر</h5>
-                                            </div>
-                                            <div class="replay">
-                                                <span>پاسخ</span>
-                                            </div>
-                                        </div>
-                                        <p class="disc">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
-                                    </div>
-                                </div>
-                                <div class="single-comment-area bottom pl--100 pl_sm--0 mt--50 pt--50">
-                                    <div class="thumbanil">
-                                        <img src="/static/assets/images/blog/03.png" alt="اظهار نظر">
-                                    </div>
-                                    <div class="comment-information">
-                                        <div class="top-area">
-                                            <div class="right">
-                                                <span>25 خرداد 1403</span>
-                                                <h5 class="title">آمالیا جنر</h5>
-                                            </div>
-                                            <div class="replay">
-                                                <span>پاسخ</span>
-                                            </div>
-                                        </div>
-                                        <p class="disc">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
-                                    </div>
-                                </div>
-
-                                <div class="contact-form-wrapper-1 mt--50">
-                                    <h3 class="title mb--20">یک بررسی اضافه کنید</h3>
-                                    <p>آدرس ایمیل شما منتشر نخواهد شد. فیلدهای الزامی علامت گذاری شده اند*</p>
-                                    <form action="#" class="contact-form-1">
-                                        <div class="contact-form-wrapper--half-area">
-                                            <div class="single">
-                                                <input type="text" placeholder="نام*">
-                                            </div>
-                                            <div class="single">
-                                                <input type="text" placeholder="پست الکترونیک*">
-                                            </div>
-                                        </div>
-                                        <textarea name="message" placeholder="اینجا پیام بنویس"></textarea>
-                                        <button class="rts-btn btn-primary mt--20">اکنون ارسال کنید</button>
-                                    </form>
-                                </div>
+                                    <!--end new comment area-->
+                                    {% else %}
+                                    <p class="text-center alert alert-warning">برای ثبت نظر خود ابتدا باید <a href="{% url "account_module:user-login" %}"> وارد حساب خود </a> شوید</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

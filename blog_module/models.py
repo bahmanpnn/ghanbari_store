@@ -21,8 +21,17 @@ class Article(models.Model):
         self.slug=slugify(self.title,allow_unicode=True)
         return super().save(*args, **kwargs)
 
-# class ArticleImages(models.Model):
-#     pass
 
-# class ArticleComment(models.Model):
+class ArticleComment(models.Model):
+    article=models.ForeignKey(Article,on_delete=models.CASCADE)
+    parent=models.ForeignKey('ArticleComment',on_delete=models.CASCADE,blank=True,null=True)
+    author=models.ForeignKey(User,on_delete=models.CASCADE)
+    created_date=models.DateTimeField(auto_now_add=True)
+    text=models.TextField()
+
+    def __str__(self):
+        return f'{self.article.id}'
+
+
+# class ArticleImages(models.Model):
 #     pass

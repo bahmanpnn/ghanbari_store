@@ -1,0 +1,55 @@
+<div id='comments_area'>
+    <h3 class="title">نظر ها ({{comments_count}}) </h3>
+    <!--comment area-->
+    {% for comment in comments %}
+    {% if not forloop.first %}
+        <hr>
+    {% endif %}
+        <div class="single-comment-area" id='single_comment_{{comment.id}}'>
+            {% if comment.author.image %}
+                <div class="thumbanil">
+                    <img src="{{comment.author.image.url}}" alt="اظهار نظر">
+                </div>
+            {% endif %}
+            <div class="comment-information">
+                <div class="top-area">
+                    <div class="right">
+                        <span><time> {{comment.created_date}}</time></span>
+                        {% if comment.author.first_name and comment.author.last_name %}
+                        <h5 class="title">{{comment.author.first_name}} {{comment.author.last_name}}</h5>
+                        {% endif %}
+                    </div>
+                    <div class="replay">
+                        <a class="comment-button" onclick="fillParentId({{comment.id}})"><i class="tf-ion-chatbubbles"></i>پاسخ</a>
+                    </div>
+                </div>
+                <p class="disc">{{comment.text}}</p>
+            </div>
+        </div>
+        <!--answered comment area-->
+        {% if comment.articlecomment_set %}
+            {% for sub_comment in comment.articlecomment_set.all %}
+            <div class="single-comment-area bottom pl--100 pl_sm--0 mt--50 pt--50" id='single_comment_{{comment.id}}'>
+                {% if sub_comment.author.image %}
+                    <div class="thumbanil">
+                        <img src="{{sub_comment.author.image.url}}" alt="اظهار نظر">
+                    </div>
+                {% endif %}
+                <div class="comment-information">
+                    <div class="top-area">
+                        <div class="right">
+                            <span>{{sub_comment.created_date}}</span>
+                            {% if sub_comment.author.first_name and sub_comment.author.last_name %}
+                            <h5 class="title">{{sub_comment.author.first_name}} {{sub_comment.author.last_name}}</h5>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <p class="disc">{{sub_comment.text}}</p>
+                </div>
+            </div>                                        
+            {% endfor %}
+        {% endif %}
+        <!--end answered comment area-->
+    {% endfor %}
+    <!--end comment area-->
+</div>
