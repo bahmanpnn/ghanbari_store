@@ -271,25 +271,20 @@
                 <div class="col-lg-8 order-lg-1 order-md-2 order-sm-2 order-2 pr-md--10 pr-sm--10 pr-custom">
                     <div class="blog-details-area-1">
                         <div class="thumbnail">
-                            <img src="/static/assets/images/blog/21.jpg" alt="">
+                            <img src="{{article.image.url}}" alt="">
                         </div>
                         <div class="body-content-blog-details">
                             <div class="top-tag-time">
                                 <div class="single">
                                     <i class="fa-solid fa-clock"></i>
-                                    <span>15 خرداد 1403</span>
-                                </div>
-                                <div class="single">
-                                    <i class="fa-solid fa-folder"></i>
-                                    <span>فروشگاه ارگانیک</span>
+                                    <span>{{article.created_date}}</span>
                                 </div>
                             </div>
-                            <h1 class="title">کاوش در شیوه های پایدار در تجارت خواربار فروشی ما</h1>
-                            <p class="disc">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.</p>
-                            <p class="disc">کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت</p>
-                            <p class="quote">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد</p>
-                            <p class="disc">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد.</p>
-                            <div class="row">
+                            <h1 class="title">{{article.title}}</h1>
+                            <p class="disc">{{article.text}}</p>
+                            {% comment %} <p class="quote">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.</p> {% endcomment %}
+                            
+                            {% comment %} <div class="row">
                                 <div class="col-lg-6">
                                     <div class="thumbnail-row-iamge">
                                         <img src="/static/assets/images/blog/22.jpg" alt="">
@@ -297,43 +292,28 @@
                                     </div>
                                 </div>
                             </div>
-                            <p class="disc">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد.</p>
-                            <div class="tag-social-share-wrapper-area-wrapper">
-                                <div class="tags-area">
-                                    <span>برچسب ها</span>
-                                    <button>ارگانیک. آلی</button>
-                                    <button>حلقه</button>
-                                    <button>روز تولد</button>
-                                </div>
-                                <div class="social-icons">
-                                    <span>نماد اجتماعی</span>
-                                    <ul>
-                                        <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
-                                        <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
-                                        <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-                                        <li><a href="#"><i class="fa-brands fa-dribbble"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="blog-details-author">
-                                <div class="thumbnail">
-                                    <img src="/static/assets/images/blog/01.png" alt="">
-                                </div>
-                                <div class="author-information">
-                                    <span>
-                                        نویسنده
-                                    </span>
-                                    <h5 class="title">ونیلا والتون</h5>
-                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. </p>
-                                    <div class="social">
-                                        <ul>
-                                            <li><a href="#"><i class="fa-brands fa-dribbble"></i></a></li>
-                                            <li><a href="#"><i class="fa-brands fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-                                        </ul>
+                            <p class="disc">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد.</p> {% endcomment %}
+                            {% if article.author %}
+                                <div class="blog-details-author">
+                                    {% if article.author.image %}
+                                        <div class="thumbnail">
+                                            <img src="{{article.author.image.url}}" alt="">
+                                        </div>
+                                    {% endif %}
+                                    
+                                    <div class="author-information">
+                                        {% if article.author.first_name and article.author.last_name %}
+                                        <span>
+                                            نویسنده
+                                        </span>
+                                            <h5 class="title">{{article.author.first_name}}{{article.author.last_name}}</h5>
+                                        {% endif %}
+                                        {% if article.author.about_user %}
+                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. </p>
+                                        {% endif %}
                                     </div>
                                 </div>
-                            </div>
+                            {% endif %}
                             <div class="comment-replay-area-start">
                                 <h3 class="title">03 نظر</h3>
                                 <div class="single-comment-area">
@@ -397,46 +377,6 @@
                             <input type="text" placeholder="اینجا جستجو کنید" required="">
                             <button><i class="fa-regular fa-magnifying-glass"></i></button>
                         </form>
-                    </div>
-                    <div class="blog-sidebar-single-wized with-title">
-                        <h4 class="title">دسته بندی ها</h4>
-                        <div class="category-main-wrapper">
-                            <!-- single category area start -->
-                            <div class="single-category-area">
-                                <p>مواد پخت</p>
-                            </div>
-                            <!-- single category area end -->
-                            <!-- single category area start -->
-                            <div class="single-category-area">
-                                <p>نان و آبمیوه</p>
-                            </div>
-                            <!-- single category area end -->
-                            <!-- single category area start -->
-                            <div class="single-category-area">
-                                <p>لباس و زیبایی</p>
-                            </div>
-                            <!-- single category area end -->
-                            <!-- single category area start -->
-                            <div class="single-category-area">
-                                <p>سبزیجات تازه</p>
-                            </div>
-                            <!-- single category area end -->
-                            <!-- single category area start -->
-                            <div class="single-category-area">
-                                <p>غذای دریایی تازه</p>
-                            </div>
-                            <!-- single category area end -->
-                            <!-- single category area start -->
-                            <div class="single-category-area">
-                                <p>شیر و لبنیات</p>
-                            </div>
-                            <!-- single category area end -->
-                            <!-- single category area start -->
-                            <div class="single-category-area">
-                                <p>شراب و نوشیدنی</p>
-                            </div>
-                            <!-- single category area end -->
-                        </div>
                     </div>
                     <div class="blog-sidebar-single-wized with-title">
                         <h4 class="title">آخرین پست</h4>
@@ -524,51 +464,6 @@
                             <!-- single -->
                             <button class="single-category">اسکراب</button>
                             <!-- single end -->
-                        </div>
-                    </div>
-                    <div class="blog-sidebar-single-wized with-title">
-                        <h4 class="title">پست های اینستاگرام</h4>
-                        <div class="instagram-post-main-wrapper">
-                            <!-- single-instagram-post -->
-                            <a href="#"><div class="single-instagram-post">
-                                <img src="/static/assets/images/blog/thumb/04.jpg" alt="پست">
-                            </div></a>
-                            <!-- single-instagram-post end -->
-                            <!-- single-instagram-post -->
-                            <a href="#"><div class="single-instagram-post">
-                                <img src="/static/assets/images/blog/thumb/05.jpg" alt="پست">
-                            </div></a>
-                            <!-- single-instagram-post end -->
-                            <!-- single-instagram-post -->
-                            <a href="#"><div class="single-instagram-post">
-                                <img src="/static/assets/images/blog/thumb/06.jpg" alt="پست">
-                            </div></a>
-                            <!-- single-instagram-post end -->
-                            <!-- single-instagram-post -->
-                            <a href="#"><div class="single-instagram-post">
-                                <img src="/static/assets/images/blog/thumb/07.jpg" alt="پست">
-                            </div></a>
-                            <!-- single-instagram-post end -->
-                            <!-- single-instagram-post -->
-                            <a href="#"><div class="single-instagram-post">
-                                <img src="/static/assets/images/blog/thumb/08.jpg" alt="پست">
-                            </div></a>
-                            <!-- single-instagram-post end -->
-                            <!-- single-instagram-post -->
-                            <a href="#"><div class="single-instagram-post">
-                                <img src="/static/assets/images/blog/thumb/09.jpg" alt="پست">
-                            </div></a>
-                            <!-- single-instagram-post end -->
-                            <!-- single-instagram-post -->
-                            <a href="#"><div class="single-instagram-post">
-                                <img src="/static/assets/images/blog/thumb/10.jpg" alt="پست">
-                            </div></a>
-                            <!-- single-instagram-post end -->
-                            <!-- single-instagram-post -->
-                            <a href="#"><div class="single-instagram-post">
-                                <img src="/static/assets/images/blog/thumb/11.jpg" alt="پست">
-                            </div></a>
-                            <!-- single-instagram-post end -->
                         </div>
                     </div>
                     <div class="blog-sidebar-single-wized with-add bg_image">

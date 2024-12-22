@@ -9,7 +9,7 @@ class Article(models.Model):
     text=models.TextField(null=True,blank=True)
     image=models.ImageField(upload_to='images/blog/articles')
     created_date=models.DateTimeField(auto_now_add=True)
-    slug=models.SlugField(blank=True,unique=True,null=True,db_index=True,allow_unicode=True)
+    slug=models.SlugField(blank=True,unique=True,null=True,db_index=True,allow_unicode=True,max_length=127)
     author=models.ForeignKey(User,on_delete=models.PROTECT,null=True,blank=True)
     is_active=models.BooleanField(default=True)
 
