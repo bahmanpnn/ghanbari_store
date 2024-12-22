@@ -1,0 +1,16 @@
+.col-lg-4 {
+    order: 1 !important;
+}
+.col-lg-8 {
+    order: 2 !important;
+}
+.pr-custom {
+    padding-left: 10 !important; /* Default for small screens */
+}
+
+
+@media (min-width: 768px) {
+    .pr-custom {
+        padding-left: 60px !important;
+    }
+}

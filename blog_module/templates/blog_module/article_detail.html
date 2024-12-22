@@ -1,6 +1,15 @@
 {% extends "base.html" %}
-{% block title %}
+{% load static %}
+
+
+{% block title %}{{article.title|truncatewords:5}}
 {% endblock title %}
+
+{% block header_references %}
+    <link rel="stylesheet" href="{% static "blog_module/css/blog_custom.css" %}">
+{% endblock header_references %}
+
+
 
 {% block content %}
 
@@ -259,7 +268,7 @@
     <div class="blog-sidebar-area rts-section-gap">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 order-lg-1 order-md-2 order-sm-2 order-2">
+                <div class="col-lg-8 order-lg-1 order-md-2 order-sm-2 order-2 pr-md--10 pr-sm--10 pr-custom">
                     <div class="blog-details-area-1">
                         <div class="thumbnail">
                             <img src="/static/assets/images/blog/21.jpg" alt="">
@@ -382,7 +391,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 pl--60 order-lg-2 order-md-1 order-sm-1 order-1 pl_md--10 pl_sm--10 rts-sticky-column-item">
+                <div class="col-lg-4 pr--30  pr_md--10 pr_sm--10 rts-sticky-column-item">
                     <div class="blog-sidebar-single-wized">
                         <form action="#">
                             <input type="text" placeholder="اینجا جستجو کنید" required="">
