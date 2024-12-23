@@ -4042,7 +4042,7 @@
                 <div class="col-lg-12">
                     <div class="title-area-between">
                         <h2 class="title-right mb--0">
-                            آخرین اطلاعات پست وبلاگ
+                            آخرین پست های وبلاگ
                         </h2>
                     </div>
                 </div>
@@ -4051,146 +4051,39 @@
                 <div class="col-lg-12">
                     <div class="cover-card-main-over">
                         <div class="row g-4">
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <!-- single blog area start -->
-                                <div class="single-blog-area-start">
-                                    <a href="blog-details.html" class="thumbnail">
-                                        <img src="/static/assets/images/blog/01.jpg" alt="منطقه وبلاگ" />
-                                    </a>
-                                    <div class="blog-body">
-                                        <div class="top-area">
-                                            <div class="single-meta">
-                                                <i class="fa-light fa-clock"></i>
-                                                <span>15 خرداد 1403</span>
+                            {% for article in latest_articles %}
+                                <div class="col-lg-3 col-md-6 col-sm-12">
+                                    <!-- single blog area start -->
+                                    <div class="single-blog-area-start">
+                                        <a href="blog-details.html" class="thumbnail">
+                                            <img src="{{article.image.url}}" alt="منطقه وبلاگ" />
+                                        </a>
+                                        <div class="blog-body">
+                                            <div class="top-area">
+                                                <div class="single-meta">
+                                                    <i class="fa-light fa-clock"></i>
+                                                    <span>{{article.created_date}}</span>
+                                                </div>
                                             </div>
-                                            <div class="single-meta">
-                                                <i class="fa-regular fa-folder"></i>
-                                                <span>مد مدرن</span>
-                                            </div>
+                                            <a href="blog-details.html">
+                                                <h4 class="title">
+                                                {{article.title}}    
+                                                </h4>
+                                            </a>
+                                            <a href="{% url "blog_module:article-detail" pk=article.pk slug=article.slug %}" class="shop-now-goshop-btn">
+                                                <span class="text">جزئیات را بخوانید</span>
+                                                <div class="plus-icon">
+                                                    <i class="fa-sharp fa-regular fa-plus"></i>
+                                                </div>
+                                                <div class="plus-icon">
+                                                    <i class="fa-sharp fa-regular fa-plus"></i>
+                                                </div>
+                                            </a>
                                         </div>
-                                        <a href="blog-details.html">
-                                            <h4 class="title">
-                                                تثبيت اشيون: اشتیاق خود را برای همه چیزهای شیک تقویت کنید
-                                            </h4>
-                                        </a>
-                                        <a href="blog-details.html" class="shop-now-goshop-btn">
-                                            <span class="text">جزئیات را بخوانید</span>
-                                            <div class="plus-icon">
-                                                <i class="fa-sharp fa-regular fa-plus"></i>
-                                            </div>
-                                            <div class="plus-icon">
-                                                <i class="fa-sharp fa-regular fa-plus"></i>
-                                            </div>
-                                        </a>
                                     </div>
+                                    <!-- single blog area end -->
                                 </div>
-                                <!-- single blog area end -->
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <!-- single blog area start -->
-                                <div class="single-blog-area-start">
-                                    <a href="blog-details.html" class="thumbnail">
-                                        <img src="/static/assets/images/blog/02.jpg" alt="منطقه وبلاگ" />
-                                    </a>
-                                    <div class="blog-body">
-                                        <div class="top-area">
-                                            <div class="single-meta">
-                                                <i class="fa-light fa-clock"></i>
-                                                <span>15 خرداد 1403</span>
-                                            </div>
-                                            <div class="single-meta">
-                                                <i class="fa-regular fa-folder"></i>
-                                                <span>مد مدرن</span>
-                                            </div>
-                                        </div>
-                                        <a href="blog-details.html">
-                                            <h4 class="title">
-                                                تثبيت اشيون: اشتیاق خود را برای همه چیزهای شیک تقویت کنید
-                                            </h4>
-                                        </a>
-                                        <a href="blog-details.html" class="shop-now-goshop-btn">
-                                            <span class="text">جزئیات را بخوانید</span>
-                                            <div class="plus-icon">
-                                                <i class="fa-sharp fa-regular fa-plus"></i>
-                                            </div>
-                                            <div class="plus-icon">
-                                                <i class="fa-sharp fa-regular fa-plus"></i>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <!-- single blog area end -->
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <!-- single blog area start -->
-                                <div class="single-blog-area-start">
-                                    <a href="blog-details.html" class="thumbnail">
-                                        <img src="/static/assets/images/blog/03.jpg" alt="منطقه وبلاگ" />
-                                    </a>
-                                    <div class="blog-body">
-                                        <div class="top-area">
-                                            <div class="single-meta">
-                                                <i class="fa-light fa-clock"></i>
-                                                <span>15 خرداد 1403</span>
-                                            </div>
-                                            <div class="single-meta">
-                                                <i class="fa-regular fa-folder"></i>
-                                                <span>مد مدرن</span>
-                                            </div>
-                                        </div>
-                                        <a href="blog-details.html">
-                                            <h4 class="title">
-                                                تثبیت: اشتیاق خود را برای همه چیزهای شیک تقویت کنید
-                                            </h4>
-                                        </a>
-                                        <a href="blog-details.html" class="shop-now-goshop-btn">
-                                            <span class="text">جزئیات را بخوانید</span>
-                                            <div class="plus-icon">
-                                                <i class="fa-sharp fa-regular fa-plus"></i>
-                                            </div>
-                                            <div class="plus-icon">
-                                                <i class="fa-sharp fa-regular fa-plus"></i>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <!-- single blog area end -->
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <!-- single blog area start -->
-                                <div class="single-blog-area-start">
-                                    <a href="blog-details.html" class="thumbnail">
-                                        <img src="/static/assets/images/blog/04.jpg" alt="منطقه وبلاگ" />
-                                    </a>
-                                    <div class="blog-body">
-                                        <div class="top-area">
-                                            <div class="single-meta">
-                                                <i class="fa-light fa-clock"></i>
-                                                <span>15 خرداد 1403</span>
-                                            </div>
-                                            <div class="single-meta">
-                                                <i class="fa-regular fa-folder"></i>
-                                                <span>مد مدرن</span>
-                                            </div>
-                                        </div>
-                                        <a href="blog-details.html">
-                                            <h4 class="title">
-                                                تثبیت مد: اشتیاق خود را برای همه چیزهای شیک تقویت کنید
-                                            </h4>
-                                        </a>
-                                        <a href="blog-details.html" class="shop-now-goshop-btn">
-                                            <span class="text">جزئیات را بخوانید</span>
-                                            <div class="plus-icon">
-                                                <i class="fa-sharp fa-regular fa-plus"></i>
-                                            </div>
-                                            <div class="plus-icon">
-                                                <i class="fa-sharp fa-regular fa-plus"></i>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <!-- single blog area end -->
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

@@ -1,10 +1,15 @@
 from django.shortcuts import render
 from django.views import View
+from blog_module.models import Article
 
 
 class homePageView(View):
     def get(self,request):
-        return render(request,'home_module/home.html')
+        latest_articles=Article.objects.filter(is_active=True).order_by('-created_date')[:4]
+        
+        return render(request,'home_module/home.html',{
+            'latest_articles':latest_articles
+        })
     
 
 def header_component(request):
