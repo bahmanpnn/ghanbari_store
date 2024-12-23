@@ -213,17 +213,17 @@
     <div class="pagination">
         <ul class="pagination post-pagination">
             {% if page_obj.has_previous %}
-            <li><a class="prev" href="?page={{page_obj.previous_page_number}}">قبلی</a></li>
+            <li><a class="prev btn rts-btn" href="?page={{page_obj.previous_page_number}}">قبلی</a></li>
             {% endif %}
 
             {% if page_obj.has_next or page_obj.has_previous %}
                 {% for page in paginator.page_range %}
-                    <li ><a {% if page_obj.number == page %}class='active'{% endif %} href="?page={{page}}">{{page}}</a></li>
+                    <li><a {% if page_obj.number == page %}class='btn rts-btn active'{% else %}class="btn rts-btn"{% endif %} href="?page={{page}}">{{page}}</a></li>
                 {% endfor %}
             {% endif %}
 
             {% if page_obj.has_next %}
-                <li><a class="next" href="?page={{page_obj.next_page_number}}">بعدی</a></li>
+                <li><a class="next btn rts-btn" href="?page={{page_obj.next_page_number}}">بعدی</a></li>
             {% endif %}
         </ul>
     </div>
