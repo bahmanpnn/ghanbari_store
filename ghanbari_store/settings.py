@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # third party packages
     'django_render_partial',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
