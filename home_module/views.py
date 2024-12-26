@@ -4,6 +4,7 @@ from django.views import View
 from blog_module.models import Article
 from product_module.models import Product
 from django.template.loader import render_to_string
+from .models import Slider
 
 
 class homePageView(View):
@@ -27,22 +28,14 @@ def navbar_component(request):
     return render(request,'navbar_component.html')
 
 def slider_component(request):
-    return render(request,'home_module/includes/slider_component.html')
+    sliders=Slider.objects.filter(is_active=True)
+    
+    return render(request,'home_module/includes/slider_component.html',{
+        'sliders':sliders
+    })
 
 def footer_component(request):
     return render(request,'footer_component.html')
 
 def copyright_component(request):
     return render(request,'copyright_component.html')
-
-def change_modal_data(request):
-    product_id=request.GET.get('product_id')
-
-    target_product=get_object_or_404(Product,id=product_id)
-    context={
-        'product':target_product
-    }
-    return JsonResponse({
-        'status':'success',
-        'body':render_to_string("home_module/includes/product_modal.html",context)
-    })

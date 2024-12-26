@@ -128,15 +128,3 @@ function fillParentId(parentId) {
 
 
 
-
-// function changeModalData(productId){
-//     // console.log(productId);
-
-//     $.get('/change-modal-data/?product_id=' + productId,{
-//         // product_id:productId
-//     }).then(res=>{
-//         $('#product-modal').html(res);
-//           $(".product-details-popup-wrapper").fadeIn();
-//         console.log(res.status);
-//     })
-// }
