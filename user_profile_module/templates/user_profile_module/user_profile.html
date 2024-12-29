@@ -30,7 +30,7 @@
                         <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fa-regular fa-bag-shopping"></i>سفارش</button>
                         <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fa-sharp fa-regular fa-location-dot"></i>نشانی من</button>
                         <button class="nav-link" id="v-pills-settingsa-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settingsa" type="button" role="tab" aria-controls="v-pills-settingsa" aria-selected="false"><i class="fa-light fa-user"></i>جزئیات حساب</button>
-                        <button class="nav-link" id="v-pills-settingsb-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settingsb" type="button" role="tab" aria-controls="v-pills-settingsb" aria-selected="false"><a href="login.html"><i class="fa-light fa-left-from-bracket"></i>خروج</a></button>
+                        <a href="{% url "account_module:user-logout" %}"><button class="nav-link" id="v-pills-settingsb-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settingsb" type="button" role="tab" aria-controls="v-pills-settingsb" aria-selected="false"><i class="fa-light fa-left-from-bracket"></i>خروج</button></a>
                     </div>
                 </div>
                 <div class="col-lg-9 pl--50 pl_md--10 pl_sm--10 pt_md--30 pt_sm--30">
@@ -82,39 +82,45 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
-                            <div>
-                                <h2 class="title">آدرس قبض</h2>
-                                <p class="address">
-                                    3522 Interstate <br>
-                                    75 Business Spur, <br>
-                                    Sault Ste. <br>
-                                    ماری، MI 49783 <br>
-                                    نیویورک
-                                </p>
-                                <a href="#">ویرایش کنید</a>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="v-pills-settingsa" role="tabpanel" aria-labelledby="v-pills-settingsa-tab" tabindex="0">
-                            <form action="#" class="account-details-area">
-                                <h2 class="title">جزئیات حساب</h2>
+                            <h2 class="title text-center">آدرس </h2>
+                            <form action="" method="post" class="account-details-area" novalidate>
+                                {% csrf_token %}
                                 <div class="input-half-area">
                                     <div class="single-input">
-                                        <input type="text" placeholder="نام کوچک">
+                                        {{address_form.province}}
                                     </div>
                                     <div class="single-input">
-                                        <input type="text" placeholder="نام خانوادگی">
+                                        {{address_form.city}}
                                     </div>
                                 </div>
+                                <div class="single-input">
+                                    {{address_form.main_address}}
+                                </div>
                                 
-                                <input type="text" placeholder="شماره همراه" required="">
-                                <input type="email" placeholder="آدرس ایمیل *">
-                                <input type="password" placeholder="رمز عبور فعلی *" required="">
-                                <input type="password" placeholder="رمز عبور جدید *">
-                                <input type="password" placeholder="تایید رمز عبور *">
-                                <button class="rts-btn btn-primary">ذخیره تغییر</button>
+                                <button name='user-address'>ویرایش کنید</button>
                             </form>
                         </div>
-                        <div class="tab-pane fade" id="v-pills-settingsb" role="tabpanel" aria-labelledby="v-pills-settingsb-tab" tabindex="0">...</div>
+                        
+                        <div class="tab-pane fade" id="v-pills-settingsa" role="tabpanel" aria-labelledby="v-pills-settingsa-tab" tabindex="0">
+                            <form action="" method='post' class="account-details-area" novalidate>
+                                {% csrf_token %}
+                                <h2 class="title text-center">جزئیات حساب</h2>
+                                <div class="input-half-area">
+                                    <div class="single-input">
+                                        {{user_information_form.first_name}}
+                                    </div>
+                                    <div class="single-input">
+                                        {{user_information_form.last_name}}
+                                    </div>
+                                </div>
+                                {{user_information_form.phone_number}}
+                                {{user_information_form.email}}
+                                {{user_information_form.password}}
+                                {{user_information_form.new_password}}
+                                {{user_information_form.confirm_new_password}}
+                                <button class="rts-btn btn-primary" name='user-information'>ذخیره تغییرات</button>
+                            </form>
+                        </div>
                       </div>
                 </div>
             </div>

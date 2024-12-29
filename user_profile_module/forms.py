@@ -1,36 +1,91 @@
 from django import forms
-from account_module.models import User
+from account_module.models import User,UserAddress
 
 
-# class EditUserForm(forms.ModelForm):
-#     # user_image=forms.ImageField()
+class EditUserAddressForm(forms.ModelForm):
 
-#     class Meta:
-#         model = User
-#         fields = ('username','first_name','last_name', 'email','phone_number','about_user','image')
-#         labels = {
-#             "username":_("username"),
-#             "first_name":_("first name"),
-#             "last_name":_("last name"),
-#             "email":_("email"),
-#             "phone_number":_("phone number"),
-#             "about_user":_("about user"),
-#             "image":_("image"),
-#         }
+    class Meta:
+        model = UserAddress
+        fields = ('province','city','main_address')
+        widgets={
+            'province':forms.TextInput(attrs={
+                'class':'form-control',
+                'placeholder':' استان خود را وارد کنید'
+            }),
+            'city':forms.TextInput(attrs={
+                'class':'form-control',
+                'placeholder':' شهر خود را وارد کنید'
+            }),
+            'main_address':forms.Textarea(attrs={
+                'class':'form-control',
+                'placeholder':'آدرس محل سکونت خود را وارد کنید'
+            }),
+            }
+
+        error_messages={
+            'province':{
+                'max_length':"این فیلد بیشتر از 63 کارکتر را نمی پذیرد!!",
+                'required':'این فیلد اجباری می باشد'
+            },
+            'city':{
+                'max_length':"این فیلد بیشتر از 63 کارکتر را نمی پذیرد!!",
+                'required':'این فیلد اجباری می باشد'
+            },
+            'main_address':{
+                'required':'این فیلد اجباری می باشد'
+            }
+        }
 
 
-# class ChangePasswordForm(forms.Form):
-#     last_password=forms.CharField(widget=forms.PasswordInput(),label=_("last password"))
-#     new_password=forms.CharField(widget=forms.PasswordInput(),label=_("new password"))
-#     confirm_password=forms.CharField(widget=forms.PasswordInput(),label=_("confirm password"))
-    
-#     def clean_confirm_password(self):
+class EditUserInformationForm(forms.ModelForm):
+    new_password=forms.CharField(max_length=63,
+                                    required=False,
+                                    widget=forms.PasswordInput(attrs=
+                                    {'placeholder':"رمز عبور جدید خود را وارد کنید"})
+                                )
+    confirm_new_password=forms.CharField(max_length=63,
+                                            required=False,
+                                            widget=forms.PasswordInput(attrs=
+                                            {'placeholder':"تکرار رمز عبور جدید خود را وارد کنید"})
+                                        )
 
-#         new_password=self.cleaned_data.get('new_password')
-#         confirm_password=self.cleaned_data.get('confirm_password')
+    class Meta:
+        model = User
+        fields = ('first_name','last_name','phone_number','email','password','new_password','confirm_new_password')
+        widgets={
+            'first_name':forms.TextInput(attrs={
+                'class':'form-control',
+                'placeholder':' نام*'
+            }),
+            'last_name':forms.TextInput(attrs={
+                'class':'form-control',
+                'placeholder':' نام خانوادگی*'
+            }),
+            'phone_number':forms.TextInput(attrs={
+                'class':'form-control',
+                'placeholder':' شماره همراه*'
+            }),
+            'email':forms.EmailInput(attrs={
+                'class':'form-control',
+                'placeholder':' ایمیل*'
+            }),
+            'password':forms.PasswordInput(attrs={
+                'class':'form-control',
+                'placeholder':'رمز عبور*'
+            })
+            }
 
-#         if new_password==confirm_password:
-#             return new_password
-        
-#         raise forms.ValidationError('password does not match with confirm password please try again')
-#         # return ValidationError('confirm_password','password does not match with confirm password please try again')
+        # error_messages={
+        #     'province':{
+        #         'max_length':"این فیلد بیشتر از 63 کارکتر را نمی پذیرد!!",
+        #         'required':'این فیلد اجباری می باشد'
+        #     },
+        #     'city':{
+        #         'max_length':"این فیلد بیشتر از 63 کارکتر را نمی پذیرد!!",
+        #         'required':'این فیلد اجباری می باشد'
+        #     },
+        #     'main_address':{
+        #         'required':'این فیلد اجباری می باشد'
+        #     }
+        # }
+

@@ -15,4 +15,14 @@ class User(AbstractUser):
             return self.email
         elif self.phone_number:
             return self.phone_number
+        
+        
+class UserAddress(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='user_address')
+    province=models.CharField(max_length=63)
+    city=models.CharField(max_length=63)
+    main_address=models.TextField()
+
+    def __str__(self):
+        return f'{self.Province} - {self.city} - {self.main_address} - {self.user}'
     
