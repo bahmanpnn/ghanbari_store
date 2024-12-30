@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load render_partial %}
 {% load thumbnail %}
+{% load poll_extras %}
 
 
 {% block content %}
@@ -567,7 +568,7 @@
                                             <div class="top-area">
                                                 <div class="single-meta">
                                                     <i class="fa-light fa-clock"></i>
-                                                    <span>{{article.created_date}}</span>
+                                                    <span>{{article.created_date|jalal_date}}</span>
                                                 </div>
                                             </div>
                                             <a href="blog-details.html">

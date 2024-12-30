@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # third party packages
     'django_render_partial',
     'sorl.thumbnail',
+    'jalali_date',
 ]
 
 MIDDLEWARE = [
@@ -113,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
 

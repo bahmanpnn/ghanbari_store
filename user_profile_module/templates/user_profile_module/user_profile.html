@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% load poll_extras %}
+{% load tz %}
+
+
+
 {% block title %}{% endblock title %}
 
 {% block content %}
@@ -64,7 +69,8 @@
                                             {% for order in user_orders %}
                                                 <tr>
                                                     <td>{{order.id}}#</td>
-                                                    <td>{{order.payment_date}}</td>
+                                                    <td>{{order.payment_date|jalal_date}}
+                                                    </td>
                                                     <td>تکمیل شده</td>
                                                     <td>{{order.get_total_amount}}</td>
                                                     <td><a href="#" class="btn-small d-block">جزئیات</a></td>
