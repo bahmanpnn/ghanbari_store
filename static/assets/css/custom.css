@@ -6,3 +6,7 @@
     background-color: rgb(184, 92, 6) !important;
     color: azure !important;
 }
+.favorite-heart {
+    color: red !important;
+    font-weight: bold;
+}

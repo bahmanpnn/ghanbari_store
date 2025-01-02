@@ -91,7 +91,7 @@
                 <div class="logo-search-category-wrapper">
                     <a href="index.html" class="logo-area">
                         {% comment %} <img src="/static/assets/images/logo/logo-01.svg" alt="لوگوی اصلی" class="logo" /> {% endcomment %}
-                        <img style="width:181px;height:41px;" src="/static/assets/images/logo/khooshe_logo.jpg" alt="لوگوی اصلی" class="logo" />
+                        <img style="width:47px;height:47px;" src="/static/assets/images/logo/khooshe_logo.jpg" alt="لوگوی اصلی" class="logo" />
                     </a>
                     <div class="category-search-wrapper">
                         {% comment %} <div class="category-btn category-hover-header">
@@ -216,11 +216,11 @@
                     </div>
                     <div class="accont-wishlist-cart-area-header">
                         {% if request.user.is_authenticated %}
-                        <a href="account.html" class="btn-border-only account">
+                        <a href="{% url "user_profile_module:user-profile" %}" class="btn-border-only account">
                             <i class="fa-light fa-user"></i>
                             <span>حساب کاربری</span>
                         </a>
-                        <a href="wishlist.html" class="btn-border-only wishlist">
+                        <a href="{% url "user_profile_module:user-favorite-list" %}" class="btn-border-only wishlist">
                             <i class="fa-regular fa-heart"></i>
                             <span>لیست علاقه مندیها</span>
                         </a>
@@ -347,11 +347,11 @@
                     <div class="main-wrapper-action-2 d-flex">
                         {% if request.user.is_authenticated %}
                         <div class="accont-wishlist-cart-area-header">
-                            <a href="account.html" class="btn-border-only account">
+                            <a href="{% url "user_profile_module:user-profile" %}" class="btn-border-only account">
                                 <i class="fa-light fa-user"></i>
                                 حساب
                             </a>
-                            <a href="wishlist.html" class="btn-border-only wishlist">
+                            <a href="{% url "user_profile_module:user-favorite-list" %}" class="btn-border-only wishlist">
                                 <i class="fa-regular fa-heart"></i>
                                 لیست علاقه مندیها
                             </a>

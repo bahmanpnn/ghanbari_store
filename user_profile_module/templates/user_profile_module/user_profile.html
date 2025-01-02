@@ -35,6 +35,7 @@
                         <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fa-regular fa-bag-shopping"></i>سفارش</button>
                         <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fa-sharp fa-regular fa-location-dot"></i>نشانی من</button>
                         <button class="nav-link" id="v-pills-settingsa-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settingsa" type="button" role="tab" aria-controls="v-pills-settingsa" aria-selected="false"><i class="fa-light fa-user"></i>جزئیات حساب</button>
+                        <button class="nav-link" id="v-pills-settingsb-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settingsb" type="button" role="tab" aria-controls="v-pills-settingsb" aria-selected="false"><i class="fa-light fa-user"></i>تغییر رمز عبور</button>
                         <a href="{% url "account_module:user-logout" %}"><button class="nav-link" id="v-pills-settingsb-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settingsb" type="button" role="tab" aria-controls="v-pills-settingsb" aria-selected="false"><i class="fa-light fa-left-from-bracket"></i>خروج</button></a>
                     </div>
                 </div>
@@ -121,10 +122,17 @@
                                 </div>
                                 {{user_information_form.phone_number}}
                                 {{user_information_form.email}}
-                                {{user_information_form.password}}
-                                {{user_information_form.new_password}}
-                                {{user_information_form.confirm_new_password}}
                                 <button class="rts-btn btn-primary" name='user-information'>ذخیره تغییرات</button>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-settingsb" role="tabpanel" aria-labelledby="v-pills-settingsb-tab" tabindex="0">
+                            <form action="" method='post' class="account-details-area" novalidate>
+                                {% csrf_token %}
+                                <h2 class="title text-center">تغییر رمز عبور</h2>
+                                {{user_password_form.password}}
+                                {{user_password_form.new_password}}
+                                {{user_password_form.confirm_new_password}}
+                                <button class="rts-btn btn-primary" name='user-password'>تغییر </button>
                             </form>
                         </div>
                       </div>

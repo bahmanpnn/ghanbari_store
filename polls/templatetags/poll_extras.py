@@ -1,5 +1,6 @@
 from django import template
 from jalali_date import date2jalali,datetime2jalali
+from user_profile_module.models import UserFavoriteProduct
 # import pytz
 # from django.utils.timezone import make_aware
 
@@ -37,4 +38,10 @@ def jalal_date(value):
 @register.filter(name='jalal_time')
 def jalal_time(value):
     return date2jalali(value)
+
+@register.filter
+def is_favorite_product(product_id, user_id):
+    if not user_id:  # Handle case where user is not logged in
+        return False
+    return UserFavoriteProduct.objects.filter(product_id=product_id, user_id=user_id).exists()
 

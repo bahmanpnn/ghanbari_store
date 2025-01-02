@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django_render_partial',
     'sorl.thumbnail',
     'jalali_date',
+    'django_ckeditor_5',
+    # 'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -149,3 +151,75 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # User model configuration
 AUTH_USER_MODEL='account_module.User'
+
+
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': [
+            'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|',
+            'alignment', 'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+            'numberedList', 'bulletedList', 'blockQuote', '|',
+            'link', 'imageUpload', 'mediaEmbed', '|', 'undo', 'redo', '|', 'removeFormat'
+        ],
+        'fontSize': {
+            'options': [
+                'tiny',
+                'small',
+                'default',
+                'big',
+                'huge'
+            ],
+        },
+        'fontFamily': {
+            'options': [
+                'default',
+                'Arial, Helvetica, sans-serif',
+                'Courier New, Courier, monospace',
+                'Georgia, serif',
+                'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                'Tahoma, Geneva, sans-serif',
+                'Times New Roman, Times, serif',
+                'Trebuchet MS, Helvetica, sans-serif',
+                'Verdana, Geneva, sans-serif'
+            ],
+        },
+        'height': 300,
+        'width': '100%',
+        'image': {
+            'upload': 'ck_editor_5_upload_image',
+        },
+    },
+}
+
+
+# CKEDITOR_5_CONFIGS = {
+#     'default': {
+#         'toolbar': [
+#             'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|',
+#             'alignment', '|', 'numberedList', 'bulletedList', 'blockQuote', '|',
+#             'link', 'imageUpload', 'mediaEmbed', '|', 'undo', 'redo', '|', 'removeFormat'
+#         ],
+#         'height': 300,
+#         'width': '100%',
+#         'image': {
+#             'upload': 'ck_editor_5_upload_image',  # Ensure this matches the URL included above
+#         },
+#     },
+# }
+
+# CKEDITOR_CONFIGS = {
+#     "default": {
+#         "toolbar": "full",
+#         "height": 300,
+#         "width": "100%",
+#     },
+# }
+# CKEDITOR_CONFIGS = {
+#     'default': {
+#         'toolbar': 'full',
+#         'height': 300,
+#         'width': '100%',
+#         'removePlugins': 'stylesheetparser',
+#         'allowedContent': True,  # Allows inline styles
+#     },
+# }

@@ -1,4 +1,71 @@
-{% if sliders %}
+{% if sliders.count > 0 %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="category-area-main-wrapper-one">
+                    <div
+                        class="swiper mySwiper-category-1 swiper-data"
+                        data-swiper='{
+                            "spaceBetween": 1,
+                            "slidesPerView": 1,
+                            "loop": false,
+                            "speed": 2000,
+                            "autoplay": {
+                                "delay": 4000
+                            },
+                            "navigation": {
+                                "nextEl": ".swiper-button-next",
+                                "prevEl": ".swiper-button-prev"
+                            },
+                            "breakpoints": {
+                                "0": { "slidesPerView": 1 },
+                                "480": { "slidesPerView": 1 },
+                                "640": { "slidesPerView": 1 },
+                                "1140": { "slidesPerView": 1 }
+                            }
+                        }'
+                    >
+                        <div class="swiper-wrapper">
+                            {% for slider in sliders %}
+                                <!-- Single Slide -->
+                                <div class="swiper-slide">
+                                    <div
+                                        class="banner-bg-image bg_image ptb--120 ptb_md--80 ptb_sm--60"
+                                        style="background-image: url('{{ slider.image.url }}');"
+                                    >
+                                        <div class="banner-one-inner-content">
+                                            <p>{{ slider.text|safe }}</p>
+                                            <a href="{{ slider.link_url }}" class="rts-btn btn-primary radious-sm with-icon">
+                                                <div class="btn-text">{{ slider.btn_text }}</div>
+                                                <div class="arrow-icon">
+                                                    <i class="fa-light fa-arrow-left"></i>
+                                                </div>
+                                                <div class="arrow-icon">
+                                                    <i class="fa-light fa-arrow-left"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Single Slide End -->
+                            {% endfor %}
+                        </div>
+                        
+                        <button class="swiper-button-next">
+                            <i class="fa-regular fa-arrow-left"></i>
+                        </button>
+                        <button class="swiper-button-prev">
+                            <i class="fa-regular fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+
+{% comment %} {% if sliders %}
 
     <div class="container">
         <div class="row">
@@ -77,4 +144,4 @@
             </div>
         </div>
     </div>
-{% endif %}
+{% endif %} {% endcomment %}

@@ -1,7 +1,8 @@
 from django import forms
 from account_module.models import User
 from django.core.exceptions import ValidationError
-import re
+
+
 
 class UserRegisterForm(forms.Form):
     # todo change username with phone number 
@@ -43,24 +44,25 @@ class UserRegisterForm(forms.Form):
         if password != confirm_password:
             print('رمز عبور با تکرار آن مطابقت ندارد')
             raise ValidationError('رمز عبور با تکرار آن مطابقت ندارد')
-        elif not self.is_strong_password(password):
-            raise ValidationError('رمز عبور شما قوی نمی باشد\
-                                  .لطفا ازحروف کوچک و بزرگ به همراه اعداد و سمبل ها استفاده کنید')
-        # print('this is password',password)
+        
+        # elif not self.is_strong_password(password):
+        #     raise ValidationError('رمز عبور شما قوی نمی باشد\
+        #                           .لطفا ازحروف کوچک و بزرگ به همراه اعداد و سمبل ها استفاده کنید')
+        # # print('this is password',password)
         return confirm_password
 
-    def is_strong_password(self,password):
-        if len(password) < 8:
-            return False
-        if not re.search(r"[A-Z]", password):  # At least one uppercase letter
-            return False
-        if not re.search(r"[a-z]", password):  # At least one lowercase letter
-            return False
-        if not re.search(r"[0-9]", password):  # At least one digit
-            return False
-        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):  # At least one special character
-            return False
-        return True
+    # def is_strong_password(self,password):
+    #     if len(password) < 8:
+    #         return False
+    #     if not re.search(r"[A-Z]", password):  # At least one uppercase letter
+    #         return False
+    #     if not re.search(r"[a-z]", password):  # At least one lowercase letter
+    #         return False
+    #     if not re.search(r"[0-9]", password):  # At least one digit
+    #         return False
+    #     if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):  # At least one special character
+    #         return False
+    #     return True
 
     
 class UserLoginForm(forms.Form):

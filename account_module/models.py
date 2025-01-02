@@ -16,6 +16,9 @@ class User(AbstractUser):
         elif self.phone_number:
             return self.phone_number
         
+        return self.username
+        # return '' or None
+        
         
 class UserAddress(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE,related_name='user_address')
@@ -24,5 +27,5 @@ class UserAddress(models.Model):
     main_address=models.TextField()
 
     def __str__(self):
-        return f'{self.Province} - {self.city} - {self.main_address} - {self.user}'
+        return f'{self.province} - {self.city} - {self.main_address} - {self.user}'
     

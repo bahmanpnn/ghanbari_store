@@ -222,6 +222,8 @@
                                 {% for discounted_product in latest_discounted_products %}
                                 <!-- Single swiper slide -->
                                     <div class="swiper-slide">
+                                        <!-- todo:move single-shoping-card-one div element to seperated html file to use as product item from product module-->
+                                        
                                         <div class="single-shopping-card-one">
                                             <!-- Image and action area start -->
                                             <div class="image-and-action-area-wrapper">
@@ -238,9 +240,15 @@
                                                     {% endthumbnail %}
                                                 </a>
                                                 <div class="action-share-option">
-                                                    <div class="single-action openuptip message-show-action" data-flow="up" title="افزودن به علاقمندی ها">
+                                                    <a onclick="addProductToFavoriteList({{ product.id }})">
+                                                        <div class="single-action openuptip message-show-action" data-flow="up" title="افزودن به علاقمندی ها">
+                                                            <i id="product_{{product.id}}" {% if product.id|is_favorite_product:request.user.id %}class="favorite-heart" {% else %}class="fa-light fa-heart" {% endif %}>
+                                                            </i>
+                                                        </div>
+                                                    </a>  
+                                                    {% comment %} <div class="single-action openuptip message-show-action" data-flow="up" title="افزودن به علاقمندی ها">
                                                         <i class="fa-light fa-heart"></i>
-                                                    </div>
+                                                    </div> {% endcomment %}
                                                     <div 
                                                         class="single-action openuptip cta-quickview product-details-popup-btn"
                                                         data-flow="up"
@@ -293,6 +301,7 @@
                                             </div>
                                             <!-- Body content end -->
                                         </div>
+
                                     </div>
                                 <!-- Single swiper slide end -->
                                 {% endfor %}

@@ -1,9 +1,9 @@
 from django import forms
 from account_module.models import User,UserAddress
+from django.core.exceptions import ValidationError
 
 
 class EditUserAddressForm(forms.ModelForm):
-
     class Meta:
         model = UserAddress
         fields = ('province','city','main_address')
@@ -38,54 +38,89 @@ class EditUserAddressForm(forms.ModelForm):
 
 
 class EditUserInformationForm(forms.ModelForm):
-    new_password=forms.CharField(max_length=63,
-                                    required=False,
-                                    widget=forms.PasswordInput(attrs=
-                                    {'placeholder':"رمز عبور جدید خود را وارد کنید"})
-                                )
-    confirm_new_password=forms.CharField(max_length=63,
-                                            required=False,
-                                            widget=forms.PasswordInput(attrs=
-                                            {'placeholder':"تکرار رمز عبور جدید خود را وارد کنید"})
-                                        )
-
     class Meta:
         model = User
-        fields = ('first_name','last_name','phone_number','email','password','new_password','confirm_new_password')
-        widgets={
-            'first_name':forms.TextInput(attrs={
-                'class':'form-control',
-                'placeholder':' نام*'
+        fields = ('first_name', 'last_name', 'phone_number', 'email')
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'نام*'
             }),
-            'last_name':forms.TextInput(attrs={
-                'class':'form-control',
-                'placeholder':' نام خانوادگی*'
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'نام خانوادگی*'
             }),
-            'phone_number':forms.TextInput(attrs={
-                'class':'form-control',
-                'placeholder':' شماره همراه*'
+            'phone_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'شماره همراه*'
             }),
-            'email':forms.EmailInput(attrs={
-                'class':'form-control',
-                'placeholder':' ایمیل*'
-            }),
-            'password':forms.PasswordInput(attrs={
-                'class':'form-control',
-                'placeholder':'رمز عبور*'
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'ایمیل*'
             })
+        }
+        error_messages = {
+            'first_name': {
+                'max_length': "این فیلد بیشتر از 63 کارکتر را نمی پذیرد!!",
+            },
+            'last_name': {
+                'max_length': "این فیلد بیشتر از 63 کارکتر را نمی پذیرد!!",
+            },
+            'phone_number': {
+                'max_length': "این فیلد بیشتر از 11 کارکتر را نمی پذیرد!!",
+            },
+            'email': {
+                'max_length': "این فیلد بیشتر از 63 کارکتر را نمی پذیرد!!",
             }
+        }
 
-        # error_messages={
-        #     'province':{
-        #         'max_length':"این فیلد بیشتر از 63 کارکتر را نمی پذیرد!!",
-        #         'required':'این فیلد اجباری می باشد'
-        #     },
-        #     'city':{
-        #         'max_length':"این فیلد بیشتر از 63 کارکتر را نمی پذیرد!!",
-        #         'required':'این فیلد اجباری می باشد'
-        #     },
-        #     'main_address':{
-        #         'required':'این فیلد اجباری می باشد'
-        #     }
-        # }
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get('phone_number')
+        user_id = self.instance.id  # Get the current instance's ID
+        check_phone_number = User.objects.filter(phone_number__iexact=phone_number).exclude(id=user_id)
+        if check_phone_number.exists():
+            raise ValidationError('این شماره تلفن قبلا استفاده شده است')
+        return phone_number
+
+
+class ChangePasswordForm(forms.Form):
+    password = forms.CharField(
+        max_length=63,
+        required=False,
+        widget=forms.PasswordInput(attrs={
+            'placeholder': "رمز عبور قبلی"
+        })
+    )
+
+    new_password = forms.CharField(
+        max_length=63,
+        required=False,
+        widget=forms.PasswordInput(attrs={
+            'placeholder': "رمز عبور جدید"
+        })
+    )
+
+    confirm_new_password = forms.CharField(
+        max_length=63,
+        required=False,
+        widget=forms.PasswordInput(attrs={
+            'placeholder': "تکرار رمز عبور جدید"
+        })
+    )
+   
+    def clean_new_password(self):
+        new_password = self.cleaned_data.get('new_password')
+        confirm_new_password = self.cleaned_data.get('confirm_new_password')
+
+        if new_password and confirm_new_password:
+            if new_password != confirm_new_password:
+                raise ValidationError({'confirm_new_password': 'رمز عبور جدید با تکرار آن مطابقت ندارد'})
+        return new_password
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if not self.instance.check_password(password):
+            raise forms.ValidationError('رمز عبور فعلی نادرست است.')
+        return password
+
 

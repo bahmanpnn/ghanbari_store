@@ -14,6 +14,7 @@ urlpatterns = [
     path('orders/',include('order_module.urls',namespace='order_module')),
     path('blog/',include('blog_module.urls',namespace='blog_module')),
     path('profile/',include('user_profile_module.urls',namespace='user_profile_module')),
+    path('ckeditor5/', include('django_ckeditor_5.urls')), 
 ]
 
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
