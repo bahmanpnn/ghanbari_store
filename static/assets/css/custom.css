@@ -7,6 +7,12 @@
     color: azure !important;
 }
 .favorite-heart {
-    color: red !important;
+    color: rgb(152, 11, 11) !important;
     font-weight: bold;
+}
+.slider-image {
+    width: 100%; /* Adjust to fit the container's width */
+    height: 400px; /* Set a fixed height for all images */
+    object-fit: cover; /* Ensures the image scales proportionally and fills the space */
+    object-position: center; /* Centers the image within the container */
 }

@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView,DetailView
 from .models import Product
+from user_profile_module.models import UserFavoriteProduct
+from django.http import JsonResponse
 
 
 class ProductListView(ListView):
@@ -33,7 +35,6 @@ class ProductListView(ListView):
         pass
 
 
-
 class ProductDetailView(DetailView):
     template_name='product_module/product_detail.html'
     model=Product
@@ -52,3 +53,51 @@ class ProductDetailView(DetailView):
         return queryset 
 
 
+def add_remove_product_to_favorite_list(request):
+    if request.user.is_authenticated:
+        product_id=int(request.GET.get('product_id'))
+        target_product=get_object_or_404(Product,id=product_id,is_active=True,is_delete=False)
+        if target_product is not None:
+            check_product=UserFavoriteProduct.objects.filter(product_id=product_id,user_id=request.user.id).first()
+            if check_product is not None:
+                check_product.delete()
+                return JsonResponse({
+                        'status':'success',
+                        'title':'alert',
+                        'text':'product removed successfully',
+                        'icon':'success',
+                        'confirm_button_text':'OK',
+                        'product_id':product_id,
+                        'action':'removing'
+                    })
+            else:    
+                add_product_to_favorites=UserFavoriteProduct(user_id=request.user.id,product_id=target_product.id)
+                add_product_to_favorites.save()
+
+                return JsonResponse({
+                        'status':'success',
+                        'title':'alert',
+                        'text':'product added successfully',
+                        'icon':'success',
+                        'confirm_button_text':'OK',
+                        'product_id':product_id,
+                        'action':'adding'
+                    })
+        
+        else:
+            return JsonResponse({
+                'status':'invalid-product-id',
+                'title':'alert',
+                'text':'invalid product id',
+                'icon':'error',
+                'confirm_button_text':'OK'
+            })
+    else:
+        return JsonResponse({
+            'status':'not-authenticated',
+            'title':'alert',
+            'text':'if you want to add this product to your favorite,first must login or register',
+            'icon':'error',
+            'confirm_button_text':'OK'
+            })
+    

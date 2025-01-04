@@ -240,9 +240,9 @@
                                                     {% endthumbnail %}
                                                 </a>
                                                 <div class="action-share-option">
-                                                    <a onclick="addProductToFavoriteList({{ product.id }})">
+                                                    <a onclick="addProductToFavoriteList({{ discounted_product.id }})">
                                                         <div class="single-action openuptip message-show-action" data-flow="up" title="افزودن به علاقمندی ها">
-                                                            <i id="product_{{product.id}}" {% if product.id|is_favorite_product:request.user.id %}class="favorite-heart" {% else %}class="fa-light fa-heart" {% endif %}>
+                                                            <i id="product_{{discounted_product.id}}" {% if discounted_product.id|is_favorite_product:request.user.id %}class="fa-light fa-heart favorite-heart" {% else %}class="fa-light fa-heart" {% endif %}>
                                                             </i>
                                                         </div>
                                                     </a>  

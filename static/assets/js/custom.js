@@ -91,40 +91,46 @@ function fillParentId(parentId) {
     document.getElementById('comment_form').scrollIntoView({behavior:'smooth'})
 }
 
-// function addProductToFavoriteList(productId) {
+function addProductToFavoriteList(productId) {
 
-//     $.get('/products/add-to-user-favorite-list/?product_id=' + productId ,{
-//     }).then(res=>{
-//         if(res.status=='not-authenticated'){
-//             Swal.fire({
-//                 title: res.title,
-//                 text:res.text,
-//                 icon: res.icon,
-//                 showCancelButton: true,
-//                 showConfirmButton: true,
-//                 confirmButtonColor: "#3085d6",
-//                 cancelButtonColor: "#d33",
-//                 cancelButtonText:'OK',
-//                 confirmButtonText:res.confirm_button_text,
-//               }).then((result) => {
-//                 if (result.isConfirmed && res.status === 'not-authenticated') {
-//                     window.location.href= '/accounts/login/'
-//                 }
-//               });
-//         }else{
-//             Swal.fire({
-//                 title: res.title,
-//                 text:res.text,
-//                 icon: res.icon,
-//                 showConfirmButton: false,
-//                 showCancelButton: true,
-//                 cancelButtonColor: "#d33",
-//                 cancelButtonText:'OK',
-//             });
-//         };
+    $.get('/products/add-to-user-favorite-list/?product_id=' + productId ,{
+    }).then(res=>{
+        if(res.status=='not-authenticated'){
+            Swal.fire({
+                title: res.title,
+                text:res.text,
+                icon: res.icon,
+                showCancelButton: true,
+                showConfirmButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText:'OK',
+                confirmButtonText:res.confirm_button_text,
+              }).then((result) => {
+                if (result.isConfirmed && res.status === 'not-authenticated') {
+                    window.location.href= '/account/login/'
+                }
+              });
+        }else{
+            const heartIcon=document.getElementById('product_'+res.product_id)
+            if(res.action =='removing'){
+                heartIcon.classList.remove('favorite-heart');
+            }else{
+                heartIcon.classList.add('favorite-heart');
+            }
+            Swal.fire({
+                title: res.title,
+                text:res.text,
+                icon: res.icon,
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                cancelButtonText:'OK',
+            });
+        };
 
-//     })
-// }
+    })
+}
 
 
 
