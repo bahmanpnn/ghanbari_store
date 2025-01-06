@@ -16,3 +16,14 @@
     object-fit: cover; /* Ensures the image scales proportionally and fills the space */
     object-position: center; /* Centers the image within the container */
 }
+
+/* Title (text) inside the card */
+.card-text {
+  height: 40px; /* Reserve space for up to 2 lines of text */
+  line-height: 20px; /* Match line height to text size */
+  overflow: hidden; /* Hide overflowing text */
+  text-overflow: ellipsis; /* Add ellipsis for truncated text */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  -webkit-box-orient: vertical; /* Required for line-clamp */
+}
