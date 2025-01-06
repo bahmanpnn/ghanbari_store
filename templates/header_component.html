@@ -1,5 +1,5 @@
 {% load render_partial %}
-<div class="header-top-area">
+{% comment %} <div class="header-top-area">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -20,7 +20,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> {% endcomment %}
 {% comment %} <div class="header-mid-one-wrapper">
     <div class="container">
         <div class="row">
@@ -91,7 +91,7 @@
                 <div class="logo-search-category-wrapper">
                     <a href="index.html" class="logo-area">
                         {% comment %} <img src="/static/assets/images/logo/logo-01.svg" alt="لوگوی اصلی" class="logo" /> {% endcomment %}
-                        <img style="width:47px;height:47px;" src="/static/assets/images/logo/khooshe_logo.jpg" alt="لوگوی اصلی" class="logo" />
+                        <img style="width:87px;height:87px;" src="/static/assets/images/logo/khooshe_logo.jpg" alt="لوگوی اصلی" class="logo" />
                     </a>
                     <div class="category-search-wrapper">
                         {% comment %} <div class="category-btn category-hover-header">
@@ -185,15 +185,15 @@
                             </ul>
                         </div> {% endcomment %}
                         <form action="#" class="search-header">
-                            <input type="text" placeholder="محصولات، دسته&zwnj;ها یا برندها را جستجو کنید" required="" />
-                            <a href="#" class="rts-btn btn-primary radious-sm with-icon">
-                                <div class="btn-text">جستجو</div>
+                            <input type="text" placeholder=" جستجو" />
+                            <a href="#" class="rts-btn btn-primary with-icon">
+                                {% comment %} <div class="btn-text">جستجو</div> {% endcomment %}
                                 <div class="arrow-icon">
                                     <i class="fa-light fa-magnifying-glass"></i>
                                 </div>
-                                <div class="arrow-icon">
+                                {% comment %} <div class="arrow-icon">
                                     <i class="fa-light fa-magnifying-glass"></i>
-                                </div>
+                                </div> {% endcomment %}
                             </a>
                         </form>
                     </div>

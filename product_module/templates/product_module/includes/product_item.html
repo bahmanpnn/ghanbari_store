@@ -1,54 +1,71 @@
+{% load thumbnail %}
+{% load poll_extras %}
+
 <div class="single-shopping-card-one">
-    <!-- iamge and sction area start -->
+    <!-- Image and action area start -->
     <div class="image-and-action-area-wrapper">
-        <a href="{% url "product_module:product-detail" pk=product.pk slug=product.slug %}" class="thumbnail-preview">
+        <a href="{% url 'product_module:product-detail' pk=product.pk slug=product.slug %}" class="thumbnail-preview">
             {% if product.discount_percent %}
                 <div class="badge">
-                    <span>{{product.discount_percent}}% <br> 
+                    <span>
+                        {{ product.discount_percent }}%<br />
                         تخفیف
                     </span>
                     <i class="fa-solid fa-bookmark"></i>
                 </div>
             {% endif %}
-            <img src="{{ product.image.url }}">
+            {% thumbnail product.image "257x223" quality=85 crop=center as im %}
+                <img src="{{ im.url }}" alt="{{ product.title }}" />
+            {% endthumbnail %}
         </a>
         <div class="action-share-option">
-            <div class="single-action openuptip message-show-action" data-flow="up" title="افزودن به علاقمندي ها">
-                <i class="fa-light fa-heart"></i>
-            </div>
-            <div class="single-action openuptip cta-quickview product-details-popup-btn" data-flow="up" title="مشاهده سریع">
+            <a onclick="addProductToFavoriteList({{ product.id }})">
+                <div class="single-action openuptip message-show-action" data-flow="up" title="افزودن به علاقمندی ها">
+                    <i id="product_{{product.id}}" {% if product.id|is_favorite_product:request.user.id %}class="fa-light fa-heart favorite-heart" {% else %}class="fa-light fa-heart" {% endif %}>
+                    </i>
+                </div>
+            </a> 
+            <div 
+                class="single-action openuptip cta-quickview product-details-popup-btn"
+                data-flow="up"
+                title="مشاهده سریع"
+                data-title="{{ product.title }}"
+                data-image="{{ product.image.url }}"
+                data-price="{{ product.price_with_discount }}"
+                data-old-price="{{ product.price }}"
+                data-description="{{ product.short_description }}"
+                data-stock="{% if product.quantity > 0 %}موجود{% else %}ناموجود{% endif %}"
+                data-rating="{{ product.rating }}"
+                data-extra-images='[{% for img in product.images.all %}"{{ img.image.url }}"{% if not forloop.last %}, {% endif %}{% endfor %}]'
+            >
                 <i class="fa-regular fa-eye"></i>
             </div>
         </div>
     </div>
-    <!-- iamge and sction area start -->
+    <!-- Image and action area end -->
 
+    <!-- Body content -->
     <div class="body-content">
-        
         <a href="shop-details.html">
-            <h4 class="title">{{product.title}}</h4>
+            <h4 class="title">{{ product.title }}</h4>
         </a>
-        <span class="availability">بسته {{product.weight}} گرمی  </span>
+        <span class="availability">بسته {{ product.weight }} گرمی</span>
         <div class="price-area">
-            {% if product.price_with_discount %}
-                <span class="current">{{product.price_with_discount}} تومان</span>
-                <div class="previous">{{product.price}} تومان</div>
-                {% else %}
-                <span class="current">{{product.price}} تومان</span>
-            {% endif %}
+            <span class="current">{{ product.price_with_discount }} تومان</span>
+            <div class="previous">{{ product.price }} تومان</div>
         </div>
         <div class="cart-counter-action">
             <div class="quantity-edit">
-                <input type="text" class="input" value="1">
+                <input id="productCount_{{product.id}}" type="text" min="1" class="input" value="1"/>
                 <div class="button-wrapper-action">
                     <button class="button"><i class="fa-regular fa-chevron-down"></i></button>
                     <button class="button plus">+<i class="fa-regular fa-chevron-up"></i></button>
                 </div>
             </div>
-            <a href="#" class="rts-btn btn-primary radious-sm with-icon">
-                <div class="btn-text">افزودن به سبد</div>
-                <div class="arrow-icon">
-                    <i class="fa-regular fa-cart-shopping"></i>
+            
+            <a onclick="addProductToBasket({{product.id}})" class="rts-btn btn-primary radious-sm with-icon">
+                <div class="btn-text">
+                    اضافه کردن
                 </div>
                 <div class="arrow-icon">
                     <i class="fa-regular fa-cart-shopping"></i>
@@ -56,4 +73,5 @@
             </a>
         </div>
     </div>
+    <!-- Body content end -->
 </div>

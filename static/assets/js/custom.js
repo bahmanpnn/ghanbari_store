@@ -1,6 +1,7 @@
 // Done
 function addProductToBasket(productId){
-    var count=$('#productCount').val();
+    // var count=$('#productCount').val();
+    var count = $(`#productCount_${productId}`).val();
 
     $.get('/orders/add-product-to-basket-orders/?product_id=' + productId + '&count='+ count,{
         // count:count,
@@ -132,5 +133,12 @@ function addProductToFavoriteList(productId) {
     })
 }
 
+// function mainAddProductToBasket(productId){
+//     var productId=productId
+//     console.log(productId);
+//     var count = $(`#productCount_${productId}`).val();
+
+    
+// }
 
 
