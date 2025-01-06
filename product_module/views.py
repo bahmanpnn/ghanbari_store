@@ -63,10 +63,10 @@ def add_remove_product_to_favorite_list(request):
                 check_product.delete()
                 return JsonResponse({
                         'status':'success',
-                        'title':'alert',
-                        'text':'product removed successfully',
+                        'title':'هشدار',
+                        'text':'از لیست مورد علاقه ها حذف شد',
                         'icon':'success',
-                        'confirm_button_text':'OK',
+                        'confirm_button_text':'باشه',
                         'product_id':product_id,
                         'action':'removing'
                     })
@@ -76,10 +76,10 @@ def add_remove_product_to_favorite_list(request):
 
                 return JsonResponse({
                         'status':'success',
-                        'title':'alert',
-                        'text':'product added successfully',
+                        'title':'هشدار',
+                        'text':'به لیست مورد علاقه ها اضافه شد',
                         'icon':'success',
-                        'confirm_button_text':'OK',
+                        'confirm_button_text':'باشه',
                         'product_id':product_id,
                         'action':'adding'
                     })
@@ -87,17 +87,17 @@ def add_remove_product_to_favorite_list(request):
         else:
             return JsonResponse({
                 'status':'invalid-product-id',
-                'title':'alert',
-                'text':'invalid product id',
+                'title':'خطا',
+                'text':'اطلاعات نامعتبر',
                 'icon':'error',
-                'confirm_button_text':'OK'
+                'confirm_button_text':'باشه'
             })
     else:
         return JsonResponse({
             'status':'not-authenticated',
-            'title':'alert',
-            'text':'if you want to add this product to your favorite,first must login or register',
+            'title':'هشدار',
+            'text':'برای اضافه کردن محصول به لیست مورد علاقه های خود باتدا باید وارد حساب کاربری خود شوید',
             'icon':'error',
-            'confirm_button_text':'OK'
+            'confirm_button_text':'ورود به حساب'
             })
     

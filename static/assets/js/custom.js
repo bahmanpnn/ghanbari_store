@@ -27,7 +27,7 @@ function addProductToBasket(productId){
                 icon: res.icon,
                 showConfirmButton: false,
                 showCancelButton: true,
-                cancelButtonColor: "#d33",
+                cancelButtonColor: "#dd8533",
                 cancelButtonText:'باشه',
             });
         };
@@ -105,7 +105,7 @@ function addProductToFavoriteList(productId) {
                 showConfirmButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                cancelButtonText:'OK',
+                cancelButtonText:'نه',
                 confirmButtonText:res.confirm_button_text,
               }).then((result) => {
                 if (result.isConfirmed && res.status === 'not-authenticated') {
@@ -123,22 +123,15 @@ function addProductToFavoriteList(productId) {
                 title: res.title,
                 text:res.text,
                 icon: res.icon,
-                showConfirmButton: false,
-                showCancelButton: true,
-                cancelButtonColor: "#d33",
-                cancelButtonText:'OK',
+                showConfirmButton: true,
+                confirmButtonColor:"#dd8533",
+                confirmButtonText:res.confirm_button_text,
+                showCancelButton: false,
+                // cancelButtonColor: "#d33",
+                // cancelButtonText:'باشه',
             });
         };
 
     })
 }
-
-// function mainAddProductToBasket(productId){
-//     var productId=productId
-//     console.log(productId);
-//     var count = $(`#productCount_${productId}`).val();
-
-    
-// }
-
 
