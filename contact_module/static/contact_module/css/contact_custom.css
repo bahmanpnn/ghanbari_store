@@ -5,3 +5,9 @@
     color: rgb(247, 66, 66);
     list-style:none;
 }
+
+#map2 {
+    height: 540px;
+    width: 100%;
+    /* width: 890px; */
+}

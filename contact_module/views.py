@@ -29,3 +29,7 @@ class ContactUsView(View):
             'form':self.form_class(request.POST),
             'main_site_setting':self.main_site_setting
         })
+    
+    
+def test_map(request):
+    return render(request,'contact_module/test_map.html')
