@@ -37,4 +37,9 @@
     -webkit-line-clamp: 2; /* Limit to 2 lines */
     -webkit-box-orient: vertical; /* Required for line-clamp */
   }
-  
+
+
+/* .custom-select { list-style: none; padding: 0; margin: 0; border: 1px solid #ccc; border-radius: 4px; width: 100%; }
+.custom-select option{
+    width: 100%;
+} */

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'order_module.apps.OrderModuleConfig',
     'polls.apps.PollsConfig',
     'user_profile_module.apps.UserProfileModuleConfig',
+    'site_settings_module.apps.SiteSettingsModuleConfig',
 
     # third party packages
     'django_render_partial',
