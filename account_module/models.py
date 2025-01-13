@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import random
 
 
 class User(AbstractUser):
@@ -29,3 +30,11 @@ class UserAddress(models.Model):
     def __str__(self):
         return f'{self.province} - {self.city} - {self.main_address} - {self.user}'
     
+
+class UserOTP(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    otp = models.CharField(max_length=6)
+
+    def generate_otp(self):
+        self.otp = str(random.randint(100000, 999999)).zfill(6)
+        self.save()

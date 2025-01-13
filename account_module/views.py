@@ -4,7 +4,8 @@ from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.contrib.auth import login,logout
 from account_module.models import User
-from .forms import UserRegisterForm,UserLoginForm
+from .forms import UserRegisterForm,UserLoginForm,UserOtpCodeForm
+from .models import UserOTP
 
 
 class UserRegisterView(View):
@@ -26,17 +27,39 @@ class UserRegisterView(View):
                 new_user=User(username=cd['email'],phone_number=cd['phone_number'],email=cd['email'])
             new_user.set_password(cd['password'])
             new_user.save()
+            otp_instance, created = UserOTP.objects.get_or_create(user=new_user)
+            otp_instance.generate_otp()
+            # todo:send otp to phone number
+            # print(otp_instance.otp)
 
-            # todo:add sms/email service to send code for authorization user and phone number
-            # messages.success(request,'ثبت نام با موفقیت انجام شد  لطفا ایمیل خود را چک کنید یا کد ارسال شده به شماره همراه خود را وارد کنید')
-
-            messages.success(request,'ثبت نام با موفقیت انجام شد لطفا وارد حساب کاربری خود شوید')
             # todo:send this message with js
-            return redirect("account_module:user-login")
+            messages.success(request,'ثبت نام با موفقیت انجام شد  لطفا کد ارسال شده به شماره همراه خود را وارد کنید')
+
+            return redirect("account_module:user-otp-code")
         return render(request,self.template_name,{
             'form':self.form_class(request.POST)
         })
     
+
+class UserOtpCode(View):
+    template_name='account_module/test_user_otp.html'
+    form_class=UserOtpCodeForm
+
+    def get(self,request):
+        return render(request,self.template_name,{
+            'form':self.form_class()
+        })
+    
+    def post(self,request):
+        form=self.form_class(request.POST)
+        if form.is_valid():
+            cd=form.cleaned_data
+            otp_code=cd['input1']+cd['input2']+cd['input3']+cd['input4']+cd['input5']+cd['input6']
+            print(otp_code)
+        return render(request,self.template_name,{
+            'form':self.form_class()
+        })
+
 
 class UserLoginView(View):
     template_name='account_module/login.html'

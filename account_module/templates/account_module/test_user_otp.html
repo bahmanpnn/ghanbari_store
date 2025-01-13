@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block header_references %}
+    <link rel="stylesheet" href="{% static "account_module/css/otp_code.css" %}">
+{% endblock header_references %}
+
+{% block content %}
+    <div class="otp-body">
+        <div class="otp-container">
+            <div class="otp-title">کد ارسال شده را وارد کنید</div>
+            <form method="post" action="">
+                {% csrf_token %}
+                {{form.input1}}
+                {{form.input2}}
+                {{form.input3}}
+                {{form.input4}}
+                {{form.input5}}
+                {{form.input6}}
+                <div>
+                    <button type="submit" class="submit-btn">تائیید</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+{% endblock content %}
+{% block footer_references %}
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const inputs = document.querySelectorAll('.otp-input');
+            inputs.forEach((input, index) => {
+                input.addEventListener('input', () => {
+                    if (input.value.length === 1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock footer_references %}

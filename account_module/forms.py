@@ -95,6 +95,26 @@ class UserLoginForm(forms.Form):
     #             raise ValidationError('این شماره تلفن یا ایمیل ثبت نشده است')
 
 
+class UserOtpCodeForm(forms.Form):
+    input1=forms.CharField(max_length=1,widget=forms.TextInput(attrs={
+        'class':'otp-input'
+    }))
+    input2=forms.CharField(max_length=1,widget=forms.TextInput(attrs={
+        'class':'otp-input'
+    }))
+    input3=forms.CharField(max_length=1,widget=forms.TextInput(attrs={
+        'class':'otp-input'
+    }))
+    input4=forms.CharField(max_length=1,widget=forms.TextInput(attrs={
+        'class':'otp-input'
+    }))
+    input5=forms.CharField(max_length=1,widget=forms.TextInput(attrs={
+        'class':'otp-input'
+    }))
+    input6=forms.CharField(max_length=1,widget=forms.TextInput(attrs={
+        'class':'otp-input'
+    }))
+    
         
 
     
