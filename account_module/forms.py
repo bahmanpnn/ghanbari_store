@@ -67,9 +67,9 @@ class UserRegisterForm(forms.Form):
     
 class UserLoginForm(forms.Form):
 
-    email_or_phone_number=forms.CharField(widget=forms.TextInput(attrs={
+    phone_number=forms.CharField(widget=forms.TextInput(attrs={
         'class':'form-control text-center',
-        'placeholder':'ایمیل یا رمز عبور خود را وارد کنید'
+        'placeholder':' شماره همراه خود را وارد کنید'
     }))
 
     password=forms.CharField(widget=forms.PasswordInput(attrs={

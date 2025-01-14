@@ -192,35 +192,13 @@ CKEDITOR_5_CONFIGS = {
     },
 }
 
-
-# CKEDITOR_5_CONFIGS = {
-#     'default': {
-#         'toolbar': [
-#             'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|',
-#             'alignment', '|', 'numberedList', 'bulletedList', 'blockQuote', '|',
-#             'link', 'imageUpload', 'mediaEmbed', '|', 'undo', 'redo', '|', 'removeFormat'
-#         ],
-#         'height': 300,
-#         'width': '100%',
-#         'image': {
-#             'upload': 'ck_editor_5_upload_image',  # Ensure this matches the URL included above
-#         },
-#     },
-# }
-
-# CKEDITOR_CONFIGS = {
-#     "default": {
-#         "toolbar": "full",
-#         "height": 300,
-#         "width": "100%",
-#     },
-# }
-# CKEDITOR_CONFIGS = {
-#     'default': {
-#         'toolbar': 'full',
-#         'height': 300,
-#         'width': '100%',
-#         'removePlugins': 'stylesheetparser',
-#         'allowedContent': True,  # Allows inline styles
-#     },
-# }
+# redis and cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',  # Adjust according to your Redis setup
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
