@@ -92,31 +92,34 @@
                                 <!-- Single Slide -->
                                 <div class="swiper-slide">
                                     <div alt="{{ slider.title }}"
-                                        class="banner-bg-image bg_image ptb--120 ptb_md--80 ptb_sm--60 slider-image"
+                                        class="banner-bg-image bg_image slider-image"
                                         style="background-image: url('{{ slider.image.url }}');"
                                     >
-                                        <div class="banner-one-inner-content">
-                                            <p>{{ slider.text|safe }}</p>
-                                            <a href="{{ slider.link_url }}" class="rts-btn btn-primary radious-sm with-icon">
-                                                <div class="btn-text">{{ slider.btn_text }}</div>
-                                                <div class="arrow-icon">
-                                                    <i class="fa-light fa-arrow-left"></i>
-                                                </div>
-                                                <div class="arrow-icon">
-                                                    <i class="fa-light fa-arrow-left"></i>
-                                                </div>
-                                            </a>
-                                        </div>
+                                    <div class="banner-one-inner-content">
+                                        <p>{{ slider.text|safe}}</p>
+                                        {% if slider.link_url %}
+                                        <a href="{{ slider.link_url }}" class="rts-btn btn-primary radious-sm with-icon">
+                                            <div class="btn-text">{{ slider.btn_text|default:"برو به صفحه" }}</div>
+                                            <div class="arrow-icon">
+                                                <i class="fa-light fa-arrow-left"></i>
+                                            </div>
+                                            <div class="arrow-icon">
+                                                <i class="fa-light fa-arrow-left"></i>
+                                            </div>
+                                        </a>
+                                        {% endif %}
+                                    </div>
                                     </div>
                                 </div>
+                                
                                 <!-- Single Slide End -->
                             {% endfor %}
                         </div>
-                        
-                        <button class="swiper-button-next">
+
+                        <button class="swiper-button-next" aria-label="Next slide">
                             <i class="fa-regular fa-arrow-left"></i>
                         </button>
-                        <button class="swiper-button-prev">
+                        <button class="swiper-button-prev" aria-label="Previous slide">
                             <i class="fa-regular fa-arrow-right"></i>
                         </button>
                     </div>

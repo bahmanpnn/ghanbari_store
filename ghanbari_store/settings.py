@@ -157,40 +157,85 @@ AUTH_USER_MODEL='account_module.User'
 CKEDITOR_5_CONFIGS = {
     'default': {
         'toolbar': [
-            'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|',
-            'alignment', 'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', '|',
-            'numberedList', 'bulletedList', 'blockQuote', '|',
-            'link', 'imageUpload', 'mediaEmbed', '|', 'undo', 'redo', '|', 'removeFormat'
+            'heading', '|', 'bold', 'italic', 'underline', '|', 
+            'alignment', 'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', '|', 
+            'numberedList', 'bulletedList', '|', 
+            'link', 'imageUpload', 'mediaEmbed', '|', 
+            'undo', 'redo', '|', 'removeFormat', 'htmlEmbed','sourceEditing'
         ],
-        'fontSize': {
-            'options': [
-                'tiny',
-                'small',
-                'default',
-                'big',
-                'huge'
+        'htmlSupport': {
+            'allow': [
+                {
+                    'name': 'div',
+                    'attributes': {
+                        'class': True,  # Allow "class" attribute
+                        'style': True,  # Allow "style" attribute
+                    },
+                    'styles': {
+                        'color': True,  # Allow inline color styles
+                        'background-color': True,
+                    },
+                },
+                {
+                    'name': 'span',
+                    'attributes': {
+                        'class': True,
+                        'style': True,
+                    },
+                },
             ],
-        },
-        'fontFamily': {
-            'options': [
-                'default',
-                'Arial, Helvetica, sans-serif',
-                'Courier New, Courier, monospace',
-                'Georgia, serif',
-                'Lucida Sans Unicode, Lucida Grande, sans-serif',
-                'Tahoma, Geneva, sans-serif',
-                'Times New Roman, Times, serif',
-                'Trebuchet MS, Helvetica, sans-serif',
-                'Verdana, Geneva, sans-serif'
+            'disallow': [
+                {
+                    'name': 'script',  # Disallow <script> tags for security
+                },
             ],
         },
         'height': 300,
         'width': '100%',
-        'image': {
-            'upload': 'ck_editor_5_upload_image',
-        },
+        
     },
 }
+
+
+# CKEDITOR_5_CONFIGS = {
+#     'default': {
+#         'toolbar': [
+#             'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|',
+#             'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells'
+#             'alignment', 'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+#             'numberedList', 'bulletedList', 'blockQuote', '|',
+#             'link', 'imageUpload', 'mediaEmbed', '|', 'undo', 'redo', '|', 'removeFormat'
+#         ],
+#         'fontSize': {
+#             'options': [
+#                 'tiny',
+#                 'small',
+#                 'default',
+#                 'big',
+#                 'huge'
+#             ],
+#         },
+#         'fontFamily': {
+#             'options': [
+#                 'default',
+#                 'Arial, Helvetica, sans-serif',
+#                 'Courier New, Courier, monospace',
+#                 'Georgia, serif',
+#                 'Lucida Sans Unicode, Lucida Grande, sans-serif',
+#                 'Tahoma, Geneva, sans-serif',
+#                 'Times New Roman, Times, serif',
+#                 'Trebuchet MS, Helvetica, sans-serif',
+#                 'Verdana, Geneva, sans-serif'
+#             ],
+#         },
+#         'height': 300,
+#         'width': '100%',
+#         'image': {
+#             'upload': 'ck_editor_5_upload_image',
+#         },
+#     },
+# }
+
 
 # redis and cache
 CACHES = {

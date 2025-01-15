@@ -39,7 +39,7 @@ class UserOTP(models.Model):
     otp = models.CharField(max_length=6, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def is_valid(self, expiration_minutes=5):
+    def is_valid(self, expiration_minutes=15):
         """
         Checks if the OTP is still valid.
         :param expiration_minutes: OTP validity duration in minutes.
