@@ -45,3 +45,18 @@ def is_favorite_product(product_id, user_id):
         return False
     return UserFavoriteProduct.objects.filter(product_id=product_id, user_id=user_id).exists()
 
+
+@register.simple_tag
+def query_update(request, **kwargs):
+    """
+    Updates query parameters in the URL.
+    Removes a parameter if its value is None.
+    """
+    query_params = request.GET.copy()
+    for key, value in kwargs.items():
+        if value is None:
+            query_params.pop(key, None)
+        else:
+            query_params[key] = value
+    return query_params.urlencode()
+

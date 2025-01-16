@@ -15,7 +15,7 @@
                     <i class="fa-solid fa-bookmark"></i>
                 </div>
             {% endif %}
-            {% thumbnail product.image "257x223" quality=85 crop=center as im %}
+            {% thumbnail product.image "257x223" quality=100 crop="center" as im %}
                 <img src="{{ im.url }}" alt="{{ product.title }}" />
             {% endthumbnail %}
         </a>
@@ -50,10 +50,16 @@
         <a href="shop-details.html">
             <h4 class="title card-text">{{ product.title|truncatechars:40}}</h4>
         </a>
-        <span class="availability">بسته {{ product.weight }} گرمی</span>
+        {% if product.weight %}
+            <span class="availability">بسته {{ product.weight }} گرمی</span>
+        {% endif %}
         <div class="price-area">
-            <span class="current">{{ product.price_with_discount }} تومان</span>
-            <div class="previous">{{ product.price }} تومان</div>
+            {% if product.price_with_discount %}
+                <span class="current">{{ product.price_with_discount }} تومان</span>
+                <div class="previous">{{ product.price }} تومان</div>
+                {% else %}
+                <div class="current">{{ product.price }} تومان</div>
+            {% endif %}
         </div>
         <div class="cart-counter-action">
             <div class="quantity-edit">

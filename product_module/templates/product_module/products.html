@@ -1,17 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
-{% comment %} {% load thumbnail %} {% endcomment %}
+{% load poll_extras %}
+
 
 {% block header_references %}
-    <meta charset="UTF-8">
-    <meta name="description" content="Ekomart-Grocery-Store(e-Commerce) HTML Template: A sleek, responsive, and user-friendly HTML template designed for online grocery stores.">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="Grocery, Store, stores">
-    <title>grid-top-filter</title>
-    <link rel="shortcut icon" type="image/x-icon" href="/static/assets/images/fav.png">
-    <!-- plugins css -->
-    <link rel="stylesheet preload" href="/static/assets/css/plugins.css" as="style">
-    <link rel="stylesheet preload" href="/static/assets/css/style.css" as="style">
     <link rel="stylesheet" href="{% static "product_module/css/product_custom.css" %}">
 {% endblock header_references %}
 {% block content %}
@@ -22,9 +14,9 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="navigator-breadcrumb-wrapper">
-                        <a href="index.html">صفحه اصلی</a>
+                        <a href="{% url "home_module:home-page" %}">صفحه اصلی</a>
                         <i class="fa-regular fa-chevron-left"></i>
-                        <a class="current" href="index.html">فروشگاه گريد سايدبار</a>
+                        <a class="current">فروشگاه</a>
                     </div>
                 </div>
             </div>
@@ -43,79 +35,18 @@
             <div class="row g-0">
                 <div class="col-xl-12 col-lg-12">
                     <div class="filter-select-area">
-                        <div class="top-filter">
-                            <span>نمایش 1 تا 20 از 57 نتیجه</span>
-                            <div class="left-end">
-                                <span>مرتب سازی: کوتاه بر آخرین</span>
-                                <div class="button-tab-area">
-                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                          <button class="nav-link single-button active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <rect x="0.5" y="0.5" width="6" height="6" rx="1.5" stroke="#2C3B28"></rect>
-                                                <rect x="0.5" y="9.5" width="6" height="6" rx="1.5" stroke="#2C3B28"></rect>
-                                                <rect x="9.5" y="0.5" width="6" height="6" rx="1.5" stroke="#2C3B28"></rect>
-                                                <rect x="9.5" y="9.5" width="6" height="6" rx="1.5" stroke="#2C3B28"></rect>
-                                                </svg>  
-                                          </button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                          <button class="nav-link single-button" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <rect x="0.5" y="0.5" width="6" height="6" rx="1.5" stroke="#2C3C28"></rect>
-                                                <rect x="0.5" y="9.5" width="6" height="6" rx="1.5" stroke="#2C3C28"></rect>
-                                                <rect x="9" y="3" width="7" height="1" fill="#2C3C28"></rect>
-                                                <rect x="9" y="12" width="7" height="1" fill="#2C3C28"></rect>
-                                                </svg>
-                                          </button>
-                                        </li>
-                                    </ul>
-
-                                </div>
-                            </div>
-                        </div>
                         <div class="nice-select-area-wrapper-and-button">
                             <div class="nice-select-wrapper-1">
                                 <div class="single-select">
-                                    <select>
-                                        <option data-display="همه دسته ها">همه دسته بندی ها</option>
-                                        <option value="1">برخی از گزینه ها</option>
-                                        <option value="2">گزینه ای دیگر</option>
-                                        <option value="3" disabled="">یک گزینه غیرفعال</option>
-                                        <option value="4">سیب زمینی</option>
-                                      </select> 
+                                    <form method="get" action="" id='filter-form'>
+                                        <div>
+                                            {{filter_form}}
+                                        </div>
+                                        {% comment %} <div class="button-area">
+                                            <button class="rts-btn">فیلتر کنید</button>
+                                        </div> {% endcomment %}
+                                    </form>
                                 </div>
-                                <div class="single-select">
-                                    <select>
-                                        <option data-display="همه برند ها">همه برندها</option>
-                                        <option value="1">برخی از گزینه ها</option>
-                                        <option value="2">گزینه ای دیگر</option>
-                                        <option value="3" disabled="">یک گزینه غیرفعال</option>
-                                        <option value="4">سیب زمینی</option>
-                                      </select> 
-                                </div>
-                                <div class="single-select">
-                                    <select>
-                                        <option data-display="همه سايز ها">همه سایز</option>
-                                        <option value="1">برخی از گزینه ها</option>
-                                        <option value="2">گزینه ای دیگر</option>
-                                        <option value="3" disabled="">یک گزینه غیرفعال</option>
-                                        <option value="4">سیب زمینی</option>
-                                      </select> 
-                                </div>
-                                <div class="single-select">
-                                    <select>
-                                        <option data-display="همه وزن ها">تمام وزن</option>
-                                        <option value="1">برخی از گزینه ها</option>
-                                        <option value="2">گزینه ای دیگر</option>
-                                        <option value="3" disabled="">یک گزینه غیرفعال</option>
-                                        <option value="4">سیب زمینی</option>
-                                      </select> 
-                                </div>
-                            </div>
-                            <div class="button-area">
-                                <button class="rts-btn">فیلتر کنید</button>
-                                <button class="rts-btn">بازنشانی فیلتر</button>
                             </div>
                         </div>
                     </div>
@@ -210,22 +141,64 @@
         </div>
     </div>
     <!-- shop[ grid sidebar wrapper end -->
+    
+    
+    <!-- pagination -->
+
     <div class="pagination">
         <ul class="pagination post-pagination">
             {% if page_obj.has_previous %}
-            <li><a class="prev btn rts-btn" href="?page={{page_obj.previous_page_number}}">قبلی</a></li>
+                <li>
+                    <a class="prev btn rts-btn" href="?{% query_update request page=page_obj.previous_page_number %}">
+                        قبلی
+                    </a>
+                </li>
             {% endif %}
-
-            {% if page_obj.has_next or page_obj.has_previous %}
-                {% for page in paginator.page_range %}
-                    <li><a {% if page_obj.number == page %}class='btn rts-btn active'{% else %}class="btn rts-btn"{% endif %} href="?page={{page}}">{{page}}</a></li>
-                {% endfor %}
-            {% endif %}
-
+    
+            {% for page in paginator.page_range %}
+                <li>
+                    <a 
+                        {% if page_obj.number == page %}
+                            class="btn rts-btn active"
+                        {% else %}
+                            class="btn rts-btn"
+                        {% endif %}
+                        href="?{% query_update request page=page %}"
+                    >
+                        {{ page }}
+                    </a>
+                </li>
+            {% endfor %}
+    
             {% if page_obj.has_next %}
-                <li><a class="next btn rts-btn" href="?page={{page_obj.next_page_number}}">بعدی</a></li>
+                <li>
+                    <a class="next btn rts-btn" href="?{% query_update request page=page_obj.next_page_number %}">
+                        بعدی
+                    </a>
+                </li>
             {% endif %}
         </ul>
     </div>
+    
+    <!-- end pagination -->
 
 {% endblock content %}
+{% block footer_references %}
+    <script>
+        function updateSorting() {
+            const form = document.getElementById('filter-form');
+            const sortSelect = document.getElementById('sort');
+            const selectedSort = sortSelect.value;
+
+            // Create a URLSearchParams object to manage query parameters
+            const params = new URLSearchParams(new FormData(form));
+
+            // Update the sort parameter
+            params.set('product_filter', selectedSort);
+
+            // Redirect to the updated URL
+            window.location.search = params.toString();
+        }
+    </script>
+{% endblock footer_references %}
+

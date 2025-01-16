@@ -3,6 +3,7 @@ from django.views.generic import ListView,DetailView
 from .models import Product
 from user_profile_module.models import UserFavoriteProduct
 from django.http import JsonResponse
+from .forms import ProductFilterForm
 
 
 class ProductListView(ListView):
@@ -10,16 +11,19 @@ class ProductListView(ListView):
     model=Product
     context_object_name='products'
     ordering=['-added_date']
-    paginate_by=5
+    paginate_by=3
 
 
     def get_queryset(self):        
         query=super().get_queryset().filter(is_active=True)
-        
-        # if self.kwargs:
-        #     category=self.kwargs.get('category')
-        #     if category is not None:
-        #         query=query.filter(category__url_title__iexact=category,is_active=True)
+        product_filter = self.request.GET.get('product_filter')
+
+        if product_filter == "discounted":
+            query=query.filter(discount_percent__gte=1)
+
+        if product_filter == "no-discount":
+            query=query.filter(discount_percent__lte=0)
+            # query=query.filter(product__discount_percent__gte=1,is_active=True)
 
         return query
     
@@ -29,10 +33,9 @@ class ProductListView(ListView):
             this is not product model must send with this method and override this
         '''
         context = super(ProductListView, self).get_context_data(**kwargs)
+        context['filter_form']=ProductFilterForm(self.request.GET or None)
         return context
     
-    def post(self,request):
-        pass
 
 
 class ProductDetailView(DetailView):
