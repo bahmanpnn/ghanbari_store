@@ -2,11 +2,14 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import ListView,DetailView
 from .models import Article,ArticleComment
+from django.db.models import Q
+from .forms import SearchForm
 
 
 class ArticleListView(ListView):
     template_name="blog_module/articles.html"
     model=Article
+    form_class=SearchForm
     context_object_name='articles'
     ordering=['-created_date']
     paginate_by=6
@@ -15,11 +18,10 @@ class ArticleListView(ListView):
     def get_queryset(self):        
         query=super().get_queryset()
         # query=super().get_queryset().filter(is_active=True)
-        
-        # if self.kwargs:
-        #     category=self.kwargs.get('category')
-        #     if category is not None:
-        #         query=query.filter(category__url_title__iexact=category,is_active=True)
+
+        search_blog = self.request.GET.get('search_blog', '')
+        if search_blog:
+            query = query.filter(Q(title__icontains=search_blog) | Q(short_description__icontains=search_blog))
 
         return query
     
@@ -29,6 +31,9 @@ class ArticleListView(ListView):
             this is not product model must send with this method and override this
         '''
         context = super(ArticleListView, self).get_context_data(**kwargs)
+        context['latest_posts']=Article.objects.all().order_by('-created_date')[:5]
+        context['SearchForm']=self.form_class()
+        # context['SearchForm']=self.form_class(self.request.GET or None)
         return context
     
     def post(self,request):
