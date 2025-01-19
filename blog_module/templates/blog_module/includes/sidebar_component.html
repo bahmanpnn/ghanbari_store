@@ -1,0 +1,85 @@
+{% load thumbnail %}
+{% load poll_extras %}
+
+<div class="theiaStickySidebar">
+    <div class="blog-sidebar-single-wized">
+        <form action="{% url "blog_module:articles" %}" method='get' novalidate>
+            {{SearchForm.search_blog}}
+            <button><i class="fa-regular fa-magnifying-glass"></i></button>
+        </form>
+    </div>
+    <div class="blog-sidebar-single-wized with-title">
+        <h4 class="title">آخرین پست</h4>
+        <div class="latest-post-small-area-wrapper">
+            {% for latest_post in latest_posts %}
+            <!-- single latest post -->
+                <div class="single-latest-post-area">
+                    <a href="{% url "blog_module:article-detail" pk=latest_post.pk slug=latest_post.slug %}" class="thumbnail">
+                        {% thumbnail latest_post.image "80x80" quality=100 crop="center" as im %}
+                            <img src="{{im.url}}" alt="{{latest_post.title}}">
+                        {% endthumbnail %}
+                    </a>
+                    <div class="inner-content-area">
+                        <div class="icon-top-area">
+                            <i class="fa-light fa-clock"></i>
+                            <span>{{latest_post.created_date|jalal_date}}</span>
+                        </div>
+                        <a href="{% url "blog_module:article-detail" pk=latest_post.pk slug=latest_post.slug %}">
+                            <h5 class="title-sm-blog">
+                                {{latest_post.title|truncatewords:50}}
+                            </h5>
+                        </a>
+                    </div>
+                </div>
+            <!-- single latest post end -->
+            {% endfor %}
+        </div>
+    </div>
+    {% comment %} <div class="blog-sidebar-single-wized with-title">
+        <h4 class="title">برچسب ها</h4>
+        <div class="tags-area-blog-short-main">
+            <!-- single -->
+            <button class="single-category">شامپو</button>
+            <!-- single end -->
+            <!-- single -->
+            <button class="single-category">کره</button>
+            <!-- single end -->
+            <!-- single -->
+            <button class="single-category">روز تولد</button>
+            <!-- single end -->
+            <!-- single -->
+            <button class="single-category">هدایا</button>
+            <!-- single end -->
+            <!-- single -->
+            <button class="single-category">صورت</button>
+            <!-- single end -->
+            <!-- single -->
+            <button class="single-category">سبز</button>
+            <!-- single end -->
+            <!-- single -->
+            <button class="single-category">لوسیون</button>
+            <!-- single end -->
+            <!-- single -->
+            <button class="single-category">اسکراب</button>
+            <!-- single end -->
+        </div>
+    </div> {% endcomment %}
+    <div class="blog-sidebar-single-wized with-add bg_image">
+        <div class="add-are-content">
+            <span class="pre">تخفیف آخر هفته</span>
+            <h5 class="title"><span>طعم های گیاهی</span> 
+                واقعی ارگانیک را کشف کنید<br>
+                <span></span>
+            </h5>
+            <a href="#" class="shop-now-goshop-btn">
+                <span class="text">اکنون فروشگاه</span>
+                <div class="plus-icon">
+                    <i class="fa-sharp fa-regular fa-plus"></i>
+                </div>
+                <div class="plus-icon">
+                    <i class="fa-sharp fa-regular fa-plus"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

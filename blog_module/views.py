@@ -9,7 +9,6 @@ from .forms import SearchForm
 class ArticleListView(ListView):
     template_name="blog_module/articles.html"
     model=Article
-    form_class=SearchForm
     context_object_name='articles'
     ordering=['-created_date']
     paginate_by=6
@@ -31,8 +30,6 @@ class ArticleListView(ListView):
             this is not product model must send with this method and override this
         '''
         context = super(ArticleListView, self).get_context_data(**kwargs)
-        context['latest_posts']=Article.objects.all().order_by('-created_date')[:5]
-        context['SearchForm']=self.form_class()
         # context['SearchForm']=self.form_class(self.request.GET or None)
         return context
     
@@ -79,3 +76,10 @@ def add_article_comment(request):
         'comments_count':comments_count
     })
 
+def article_component(request):
+
+    latest_posts=Article.objects.all().order_by('-created_date')[:5]
+    return render(request,'blog_module/includes/sidebar_component.html',{
+        'latest_posts':latest_posts,
+        'SearchForm':SearchForm()
+    })
