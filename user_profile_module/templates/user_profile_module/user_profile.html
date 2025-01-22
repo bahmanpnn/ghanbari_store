@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 {% load poll_extras %}
-{% load tz %}
-
+{% load static %}
 
 
 {% block title %}{% endblock title %}
+
+{% block header_references %}
+    <link rel="stylesheet" href="{% static "user_profile_module/css/user_profile.css" %}">
+{% endblock header_references %}
+
 
 {% block content %}
 
@@ -41,6 +45,8 @@
                 </div>
                 <div class="col-lg-9 pl--50 pl_md--10 pl_sm--10 pt_md--30 pt_sm--30">
                     <div class="tab-content" id="v-pills-tabContent">
+                        
+                        <!--dashboard tab-->
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
                             <div class="dashboard-account-area">
                                 {% if request.user.firstname %}
@@ -51,6 +57,9 @@
                                 </h5>
                             </div>
                         </div>
+                        <!--end dashboard tab-->
+
+                        <!--order tab-->
                         <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
                             <div class="order-table-account">
                                 {% if user_orders %}
@@ -88,6 +97,9 @@
                                 {% endif %}
                             </div>
                         </div>
+                        <!--end order tab-->
+
+                        <!--address tab-->
                         <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
                             <h2 class="title text-center">آدرس </h2>
                             <form action="" method="post" class="account-details-area" novalidate>
@@ -103,11 +115,16 @@
                                 <div class="single-input">
                                     {{address_form.main_address}}
                                 </div>
+                                {% for field in address_form %}
+                                    {{field.errors}}
+                                {% endfor %}
                                 
-                                <button name='user-address'>ویرایش کنید</button>
+                                <button class="rts-btn" name='user-address'>ویرایش کنید</button>
                             </form>
                         </div>
-                        
+                        <!--address tab-->
+
+                        <!--user information tab-->
                         <div class="tab-pane fade" id="v-pills-settingsa" role="tabpanel" aria-labelledby="v-pills-settingsa-tab" tabindex="0">
                             <form action="" method='post' class="account-details-area" novalidate>
                                 {% csrf_token %}
@@ -122,9 +139,13 @@
                                 </div>
                                 {{user_information_form.phone_number}}
                                 {{user_information_form.email}}
+                                {% for field in user_information_form %}
+                                    {{field.errors}}
+                                {% endfor %}
                                 <button class="rts-btn btn-primary" name='user-information'>ذخیره تغییرات</button>
                             </form>
                         </div>
+                        <!--end user information tab-->
                         <div class="tab-pane fade" id="v-pills-settingsb" role="tabpanel" aria-labelledby="v-pills-settingsb-tab" tabindex="0">
                             <form action="" method='post' class="account-details-area" novalidate>
                                 {% csrf_token %}

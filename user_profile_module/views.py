@@ -1,13 +1,13 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
+from django.contrib import messages
 from django.db.models import Count
-from order_module.models import OrderBasket
+from django.contrib.auth import login
 from account_module.models import User,UserAddress
+from order_module.models import OrderBasket
 from .forms import EditUserAddressForm,EditUserInformationForm,ChangePasswordForm
 from .models import UserFavoriteProduct
-from django.contrib import messages
-from django.contrib.auth import login
 # from permissions import is_authenticated_permission
 # from django.utils.decorators import method_decorator
 
@@ -26,12 +26,75 @@ class UserProfileView(View):
             'user_orders': user_orders,
             'address_form': self.address_form(instance=user_address),
             'user_information_form': self.user_information_form(instance=request.user),
-            'user_password_form':self.user_password_form(),
+            'user_password_form': self.user_password_form(),
         })
 
     def post(self, request):
-        print(request.POST)
+        if 'user-address' in request.POST:
+            # for new user that has no useraddress it is None and it set for instance.
+            user_address = UserAddress.objects.filter(user=request.user).first() 
+            address_form = self.address_form(request.POST, instance=user_address)
+
+            if address_form.is_valid():
+                address = address_form.save(commit=False)
+                if not address.user:
+                    # for new user that had no address yet its neccessary to set address.user for useraddress obj.
+                    address.user = request.user 
+                address.save()
+                messages.success(request, "آدرس شما با موفقیت به‌روزرسانی شد.")
+            else:
+                messages.warning(request, "خطا در ذخیره سازی اطلاعات کاربری.لطفااطلاعات را مجدد بررسی فرمایید")
+                user_orders = OrderBasket.objects.annotate(items=Count('order_detail')).filter(is_paid=True, user_id=request.user.id)
+                user_information_form = self.user_information_form(instance=request.user)
+
+                # Pass the forms with validation errors back to the template
+                return render(request, self.template_name, {
+                    'user_orders': user_orders,
+                    'address_form': self.address_form(request.POST,instance=user_address),
+                    'user_information_form': user_information_form,  # Pass the form with errors
+                    'user_password_form': self.user_password_form(),
+                })
+            
+        elif 'user-information' in request.POST:
+            user_information_form = self.user_information_form(request.POST, instance=request.user)
+            if user_information_form.is_valid():
+                user_information_form.save()
+                messages.success(request, "اطلاعات کاربری شما با موفقیت به‌روزرسانی شد.")
+            else:
+                messages.warning(request, "خطا در ذخیره اطلاعات کاربری. لطفاً اطلاعات را مجدد بررسی کنید.")
+                user_orders = OrderBasket.objects.annotate(items=Count('order_detail')).filter(is_paid=True, user_id=request.user.id)
+                user_address = UserAddress.objects.filter(user=request.user).first()
+
+                # Pass the forms with validation errors back to the template
+                return render(request, self.template_name, {
+                    'user_orders': user_orders,
+                    'address_form': self.address_form(instance=user_address),
+                    'user_information_form': user_information_form,  # Pass the form with errors
+                    'user_password_form': self.user_password_form(),
+                })
+
+        elif 'user-password' in request.POST:
+            user_password_form = self.user_password_form(request.POST)
+
+            if user_password_form.is_valid():
+                request.user.set_password(user_password_form.cleaned_data["new_password"])
+                request.user.save()
+                messages.success(request, "رمز عبور شما با موفقیت تغییر کرد.")
+                return redirect(reverse('account_module:user-login'))  # Redirect to login after password change
+            else:
+                messages.error(request, "خطا در تغییر رمز عبور. لطفاً اطلاعات را بررسی کنید.")
+
         return redirect(reverse('user_profile_module:user-profile'))
+
+
+# @is_authenticated_permission
+def user_favorite_products(request):
+    user_favorite_products=UserFavoriteProduct.objects.filter(user_id=request.user.id).order_by('product__added_date')
+
+    return render(request,'user_profile_module/user_favorite_list.html',{
+        'user_favorite_products':user_favorite_products
+    })
+
 
 
 # @method_decorator(is_authenticated_permission,name='dispatch')
@@ -64,10 +127,7 @@ class UserProfileView(View):
 #                 messages.success(request, 'Address updated successfully.')
 #             else:
 #                 messages.error(request, 'Invalid address form data.')
-
-#         # todo:check user wants to change phone number or not if phone number changed send sms for new phone number to authenticate it.
 #         elif 'user-information' in request.POST:
-
 #             user = request.user 
 #             form = EditUserInformationForm(request.POST, instance=user)
 
@@ -101,7 +161,8 @@ class UserProfileView(View):
 #                 messages.error(request, 'فرم دارای خطا است. لطفاً دوباره تلاش کنید.')
 
 #         return redirect(reverse('user_profile_module:user-profile'))
-    
+
+
 # class UserProfileView(View):
 #     template_name = 'user_profile_module/user_profile.html'
 #     user_information_form = EditUserInformationForm
@@ -151,11 +212,3 @@ class UserProfileView(View):
 
 #         return redirect(reverse('user_profile_module:user-profile'))
 
-
-# @is_authenticated_permission
-def user_favorite_products(request):
-    user_favorite_products=UserFavoriteProduct.objects.filter(user_id=request.user.id).order_by('product__added_date')
-
-    return render(request,'user_profile_module/user_favorite_list.html',{
-        'user_favorite_products':user_favorite_products
-    })

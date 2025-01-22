@@ -7,7 +7,6 @@ import random
 
 class User(AbstractUser):
     phone_number=models.CharField(max_length=11,unique=True,null=True,blank=False)
-    email_active_code=models.CharField(max_length=100,null=True,blank=True)
     image=models.ImageField(upload_to='images/authors',null=True,blank=True)
     is_verified=models.BooleanField(default=False)
     

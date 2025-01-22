@@ -10,31 +10,40 @@ class EditUserAddressForm(forms.ModelForm):
         widgets={
             'province':forms.TextInput(attrs={
                 'class':'form-control',
-                'placeholder':' استان خود را وارد کنید'
+                'placeholder':' استان خود را وارد کنید',
             }),
             'city':forms.TextInput(attrs={
                 'class':'form-control',
                 'placeholder':' شهر خود را وارد کنید'
             }),
             'main_address':forms.Textarea(attrs={
-                'class':'form-control',
-                'placeholder':'آدرس محل سکونت خود را وارد کنید'
+                'class':'form-control textarea-style ',
+                'placeholder':'آدرس محل سکونت خود را وارد کنید',
+                'rows':5
             }),
             }
 
         error_messages={
             'province':{
                 'max_length':"این فیلد بیشتر از 63 کارکتر را نمی پذیرد!!",
-                'required':'این فیلد اجباری می باشد'
+                'required':'فیلد استان اجباری می باشد'
             },
             'city':{
                 'max_length':"این فیلد بیشتر از 63 کارکتر را نمی پذیرد!!",
-                'required':'این فیلد اجباری می باشد'
+                'required':'فیلد شهر اجباری می باشد'
             },
             'main_address':{
-                'required':'این فیلد اجباری می باشد'
+                'required':'فیلد آدرس اجباری می باشد'
             }
         }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Make all fields required
+        self.fields['province'].required = True
+        self.fields['city'].required = True
+        self.fields['main_address'].required = True
 
 
 class EditUserInformationForm(forms.ModelForm):
@@ -52,35 +61,54 @@ class EditUserInformationForm(forms.ModelForm):
             }),
             'phone_number': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'شماره همراه*'
+                'placeholder': 'شماره همراه*',
+                # 'readonly':'readonly',
             }),
             'email': forms.EmailInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'ایمیل*'
             })
         }
+
         error_messages = {
             'first_name': {
                 'max_length': "این فیلد بیشتر از 63 کارکتر را نمی پذیرد!!",
+                'required':"فیلد  نام اجباری می باشد"
             },
             'last_name': {
                 'max_length': "این فیلد بیشتر از 63 کارکتر را نمی پذیرد!!",
+                'required':"فیلد نام خانوادگی اجباری می باشد"
             },
             'phone_number': {
                 'max_length': "این فیلد بیشتر از 11 کارکتر را نمی پذیرد!!",
+                'required':"فیلد شماره تلفن اجباری می باشد"
             },
             'email': {
                 'max_length': "این فیلد بیشتر از 63 کارکتر را نمی پذیرد!!",
+                'required':"فیلد  ایمیل اجباری می باشد"
             }
         }
 
-    def clean_phone_number(self):
-        phone_number = self.cleaned_data.get('phone_number')
-        user_id = self.instance.id  # Get the current instance's ID
-        check_phone_number = User.objects.filter(phone_number__iexact=phone_number).exclude(id=user_id)
-        if check_phone_number.exists():
-            raise ValidationError('این شماره تلفن قبلا استفاده شده است')
-        return phone_number
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Make all fields required
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+        self.fields['phone_number'].required = True
+        self.fields['email'].required = True
+
+        # disabled the phone_number field to user cant change it
+        self.fields['phone_number'].disabled = True  
+
+    def clean_email(self):
+            email = self.cleaned_data.get('email')
+            user_id = self.instance.id 
+            check_email = User.objects.filter(email__iexact=email).exclude(id=user_id)
+            if check_email.exists():
+                # self.add_error('email', 'این ایمیل قبلاً استفاده شده است')
+                raise ValidationError('این ایمیل متعلق به حساب دیگری می باشد')
+            return email
 
 
 class ChangePasswordForm(forms.Form):
@@ -119,8 +147,8 @@ class ChangePasswordForm(forms.Form):
 
     def clean_password(self):
         password = self.cleaned_data.get('password')
-        if not self.instance.check_password(password):
-            raise forms.ValidationError('رمز عبور فعلی نادرست است.')
+        # if not self.instance.check_password(password):
+        #     raise forms.ValidationError('رمز عبور فعلی نادرست است.')
         return password
 
 
