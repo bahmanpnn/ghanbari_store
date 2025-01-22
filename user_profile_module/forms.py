@@ -114,7 +114,7 @@ class EditUserInformationForm(forms.ModelForm):
 class ChangePasswordForm(forms.Form):
     password = forms.CharField(
         max_length=63,
-        required=False,
+        required=True,
         widget=forms.PasswordInput(attrs={
             'placeholder': "رمز عبور قبلی"
         })
@@ -122,7 +122,7 @@ class ChangePasswordForm(forms.Form):
 
     new_password = forms.CharField(
         max_length=63,
-        required=False,
+        required=True,
         widget=forms.PasswordInput(attrs={
             'placeholder': "رمز عبور جدید"
         })
@@ -130,25 +130,37 @@ class ChangePasswordForm(forms.Form):
 
     confirm_new_password = forms.CharField(
         max_length=63,
-        required=False,
+        required=True,
         widget=forms.PasswordInput(attrs={
             'placeholder': "تکرار رمز عبور جدید"
         })
     )
-   
-    def clean_new_password(self):
-        new_password = self.cleaned_data.get('new_password')
-        confirm_new_password = self.cleaned_data.get('confirm_new_password')
 
-        if new_password and confirm_new_password:
-            if new_password != confirm_new_password:
-                raise ValidationError({'confirm_new_password': 'رمز عبور جدید با تکرار آن مطابقت ندارد'})
-        return new_password
+    # def __init__(self, *args, **kwargs):
+    #     self.instance = kwargs.pop('instance', None)  # Expect instance from the view
+    #     if not self.instance:
+    #         raise ValueError("User instance is required for ChangePasswordForm")
+    #     super().__init__(*args, **kwargs)
+
+
+    def __init__(self, *args, **kwargs):
+        self.instance = kwargs.pop('instance', None)  # Pass the user instance
+        super().__init__(*args, **kwargs)
 
     def clean_password(self):
         password = self.cleaned_data.get('password')
-        # if not self.instance.check_password(password):
-        #     raise forms.ValidationError('رمز عبور فعلی نادرست است.')
+        if not self.instance.check_password(password):
+            raise forms.ValidationError('اطلاعات وارد شده صحیح نیست.')
         return password
 
+    def clean_confirm_new_password(self):
+
+        new_password = self.cleaned_data.get('new_password')
+        confirm_new_password = self.cleaned_data.get('confirm_new_password')
+
+        if new_password and confirm_new_password and new_password==confirm_new_password :
+            return new_password
+        
+        raise ValidationError('رمز عبور جدید با تایید رمز عبور جدید مطابقت ندارد. لطفا مجدد تلاش کنید!!')
+    
 
