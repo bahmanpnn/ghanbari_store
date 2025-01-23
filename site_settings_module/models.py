@@ -36,3 +36,43 @@ class BranchLocation(models.Model):
         return f'{self.branch_name} '
 
 
+class FooterLinkBox(models.Model):
+    title=models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title    
+
+
+class FooterLinkItem(models.Model):
+    title=models.CharField(max_length=150)
+    url_title=models.URLField(max_length=200)
+    parent=models.ForeignKey(FooterLinkBox,on_delete=models.CASCADE,related_name='footer_link_items')
+
+
+    def __str__(self):
+        return self.title
+
+
+class SiteBanner(models.Model):
+    class SiteBannerPosition(models.TextChoices):
+        articles_detail='article-detail','صفحه جزئیات مقالات'
+        articles='articles','صفحه مقالات'
+        profile_dashboard='dashboard','صفحه پروفایل کاربر (داشبورد)'
+
+
+    title=models.CharField(max_length=200)
+    url=models.URLField(max_length=400,blank=True,null=True)
+    image=models.ImageField(upload_to='images/banners')
+    is_active=models.BooleanField(default=True)
+
+    position=models.CharField(max_length=150,choices=SiteBannerPosition.choices)
+
+    def __str__(self):
+        return self.title
+
+
+class TeamMember(models.Model):
+    image=models.ImageField(upload_to='images/team_members',blank=True,null=True)
+    full_name=models.CharField(max_length=127)
+    position=models.CharField(max_length=127)
+

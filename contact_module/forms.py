@@ -1,5 +1,5 @@
 from django import forms
-from .models import ContactModel, ContactSubjectItem
+from .models import ContactModel, ContactSubjectItem,UserEmailForNews
 
 
 class ContactForm(forms.ModelForm):
@@ -38,3 +38,23 @@ class ContactForm(forms.ModelForm):
     # def __init__(self, *args, **kwargs):
     #     super().__init__(*args, **kwargs)
     #     self.fields['subject'].widget.attrs.update({'class': 'form-select'})
+    
+
+class NewsEmailForm(forms.ModelForm):
+    class Meta:
+        model = UserEmailForNews
+        fields = ['email']
+        widgets = {
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'ایمیل خود را وارد کنید',
+                'required': 'required',
+            }),
+        }
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        # Check if the email is already registered
+        if UserEmailForNews.objects.filter(email=email).exists():
+            raise forms.ValidationError('این ایمیل قبلاً ثبت شده است.')
+        return email
