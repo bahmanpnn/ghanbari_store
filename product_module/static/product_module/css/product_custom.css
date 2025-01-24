@@ -28,3 +28,21 @@
 .pagination a.prev, .pagination a.next {
     font-weight: bold;
 }
+
+.product-thumb {
+    width: 449px !important; /* Set the same width as the thumbnail dimensions */
+    height: 390px !important; /* Set the same height as the thumbnail dimensions */
+    background-size: cover !important; /* Ensure the background image covers the container */
+    background-position: center !important; /* Center the image */
+    position: relative !important; /* Ensure the zoom effect works properly */
+    overflow: hidden !important; /* Prevent any overflow from zoom */
+}
+
+.product-thumb img {
+    width: 100% !important; /* Make the image fill the container */
+    height: 100% !important; /* Maintain consistent dimensions */
+    object-fit: cover !important; /* Crop the image to fit the container */
+    position: absolute !important; /* Ensure it aligns correctly */
+    top: 0 !important;
+    left: 0 !important;
+}

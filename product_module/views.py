@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView,DetailView
-from .models import Product
+from .models import Product,ProductImage
 from user_profile_module.models import UserFavoriteProduct
 from django.http import JsonResponse
 from .forms import ProductFilterForm
@@ -37,7 +37,6 @@ class ProductListView(ListView):
         return context
     
 
-
 class ProductDetailView(DetailView):
     template_name='product_module/product_detail.html'
     model=Product
@@ -47,8 +46,11 @@ class ProductDetailView(DetailView):
         return super().get_queryset()
     
     def get_context_data(self, **kwargs):
-
         context = super().get_context_data(**kwargs)
+        loaded_product=self.object
+        product_images=list(ProductImage.objects.filter(product_id=loaded_product.id).all())
+        product_images.insert(0,loaded_product)
+        context['product_images']=product_images
         return context
 
     def get_object(self, queryset = None):

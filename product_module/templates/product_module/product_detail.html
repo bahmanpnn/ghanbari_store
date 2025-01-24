@@ -1,7 +1,10 @@
 {% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
 
 
 {% block header_references %}
+    <link rel="stylesheet" href="{% static "product_module/css/product_custom.css" %}">
 {% endblock header_references %}
 
 {% block content %}
@@ -38,37 +41,30 @@
                                     <div class="details-product-area">
                                         <div class="product-thumb-area">
                                             <div class="cursor"></div>
-                                            <div class="thumb-wrapper one filterd-items figure">
-                                                <div class="product-thumb zoom" onmousemove="zoom(event)" style="background-image: url({{product.image.url}})"><img src="{{product.image.url}}" alt="محصول-شست">
+                                            {% for product_image in product_images %}
+                                                <div class="thumb-wrapper one filterd-items {% if forloop.first %}figure {% else %}hide{% endif %}">
+                                                    {% thumbnail product_image.image "449x390" quality=100 crop="center" as im %}
+                                                        <div class="product-thumb zoom" onmousemove="zoom(event)" style="background-image: url({{ im.url }})">
+                                                            <img id="mainImage" src="{{ im.url }}" alt="عکس محصول">
+                                                        </div>
+                                                    {% endthumbnail %}
                                                 </div>
-                                            </div>
-                                            {% comment %} todo:add loop for other images of product {% endcomment %}
-                                            <div class="thumb-wrapper two filterd-items hide">
-                                                <div class="product-thumb zoom" onmousemove="zoom(event)" style="background-image: url(/static/assets/images/shop/02.jpg)"><img src="/static/assets/images/shop/02.jpg" alt="محصول-شست">
-                                                </div>
-                                            </div>
-                                            <div class="thumb-wrapper three filterd-items hide">
-                                                <div class="product-thumb zoom" onmousemove="zoom(event)" style="background-image: url(/static/assets/images/shop/03.jpg)"><img src="/static/assets/images/shop/03.jpg" alt="محصول-شست">
-                                                </div>
-                                            </div>
-                                            <div class="thumb-wrapper four filterd-items hide">
-                                                <div class="product-thumb zoom" onmousemove="zoom(event)" style="background-image: url(/static/assets/images/shop/04.jpg)"><img src="/static/assets/images/shop/04.jpg" alt="محصول-شست">
-                                                </div>
-                                            </div>
-                                            <div class="thumb-wrapper five filterd-items hide">
-                                                <div class="product-thumb zoom" onmousemove="zoom(event)" style="background-image: url(/static/assets/images/shop/05.jpg)"><img src="/static/assets/images/shop/05.jpg" alt="محصول-شست">
-                                                </div>
-                                            </div>
-                                            
+                                            {% endfor %}
+                                        
+                                        
                                             <div class="product-thumb-filter-group">
-                                                <div class="thumb-filter filter-btn active" data-show=".one"><img src="{{product.image.url}}" alt="محصول-شست-فیلتر"></div>
-                                                {% comment %} todo:add loop for other images of product {% endcomment %}
-                                                <div class="thumb-filter filter-btn" data-show=".two"><img src="/static/assets/images/shop/02.jpg" alt="محصول-شست-فیلتر"></div>
-                                                <div class="thumb-filter filter-btn" data-show=".three"><img src="/static/assets/images/shop/03.jpg" alt="محصول-شست-فیلتر"></div>
-                                                <div class="thumb-filter filter-btn" data-show=".four"><img src="/static/assets/images/shop/04.jpg" alt="محصول-شست-فیلتر"></div>
-                                                <div class="thumb-filter filter-btn" data-show=".five"><img src="/static/assets/images/shop/05.jpg" alt="محصول-شست-فیلتر"></div>
+                                                {% for product_image in product_images %}
+                                                    <div class="thumb-filter filter-btn {% if forloop.first %}active{% endif %}" data-show="{{forloop.counter}}">
+                                                        {% thumbnail product_image.image "80x80" quality=85 crop="center" as im %}
+                                                            <a onclick="showLargeImage('{{ product_image.image.url }}')">
+                                                                <img src="{{im.url}}" alt="عکس محصول">
+                                                            </a>
+                                                        {% endthumbnail %}
+                                                    </div>
+                                                {% endfor %}
                                             </div>
                                         </div>
+                                        
                                         <div class="contents">
                                             <div class="product-status">
                                                 {% comment %} <span class="product-catagory">لباس</span> {% endcomment %}

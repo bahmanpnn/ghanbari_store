@@ -135,3 +135,10 @@ function addProductToFavoriteList(productId) {
     })
 }
 
+function showLargeImage(imageSrc) {
+    // Update the `src` of the main image
+    $("#mainImage").attr('src', imageSrc);
+
+    // Update the `background-image` style of the `.product-thumb` div
+    $(".product-thumb.zoom").css('background-image', `url(${imageSrc})`);
+}
