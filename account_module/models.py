@@ -15,7 +15,7 @@ class User(AbstractUser):
 
     def __str__(self):
         if self.email:
-            return self.email
+            return f'{self.email} - {self.phone_number}'
         elif self.phone_number:
             return self.phone_number
         

@@ -1,25 +1,44 @@
+from datetime import datetime, timedelta
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
-from blog_module.models import Article
-from product_module.models import Product
 from django.template.loader import render_to_string
-from .models import Slider
+from django.contrib import messages
+from django.db.models import Sum,Count
+from product_module.models import Product
 from site_settings_module.models import SiteSetting,FooterLinkBox
 from contact_module.forms import NewsEmailForm
-from django.contrib import messages
+from blog_module.models import Article
+from product_module.models import ProductOfTheWeek
+from .models import Slider
 
 
 class homePageView(View):
     def get(self,request):
         latest_articles=Article.objects.filter(is_active=True).order_by('-created_date')[:4]
-        latest_discounted_products=Product.objects.filter(is_active=True,discount_percent__gte=1).prefetch_related('images').order_by('-added_date')[:10]
+
+        product_of_the_week = ProductOfTheWeek.objects.filter(start_date__lte=datetime.now(),end_date__gte=datetime.now(),is_active_bool=True).first()
+        most_bought_products=Product.objects.annotate(buy_count=Sum('orderdetail__count')).filter(is_active=True,is_delete=False,orderdetail__order_basket__is_paid=True).order_by('-buy_count')[:2]
+        if product_of_the_week:
+            most_bought_products=most_bought_products[:1]
         
         return render(request,'home_module/home.html',{
             'latest_articles':latest_articles,
-            'latest_discounted_products':latest_discounted_products
+            'product_of_the_week':product_of_the_week,
+            'most_bought_products':most_bought_products
         })
+    
+
+# class homePageView(View):
+#     def get(self,request):
+#         latest_discounted_products=Product.objects.filter(is_active=True,discount_percent__gte=1).prefetch_related('images').order_by('-added_date')[:10]
+#         latest_articles=Article.objects.filter(is_active=True).order_by('-created_date')[:4]
+        
+#         return render(request,'home_module/home.html',{
+#             'latest_articles':latest_articles,
+#             'latest_discounted_products':latest_discounted_products
+#         })
     
 
 def header_component(request):

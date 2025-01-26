@@ -162,7 +162,86 @@
     </div>
     <!-- rts featrure area end -->
 
+    <!-- rts discounted products area start -->
+    <div class="rts-grocery-feature-area rts-section-gapBottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title-area-between">
+                        <h2 class="title-right">
+                            محصولات تخفیف خورده                        </h2>
+                        <div class="next-prev-swiper-wrapper">
+                            <div class="swiper-button-prev"><i class="fa-regular fa-chevron-right"></i></div>
+                            <div class="swiper-button-next"><i class="fa-regular fa-chevron-left"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="category-area-main-wrapper-one">
+                        <div
+                            class="swiper mySwiper-category-1 swiper-data"
+                            data-swiper='{
+                        "spaceBetween":16,
+                        "slidesPerView":6,
+                        "loop": false,
+                        "speed": 700,
+                        "navigation":{
+                            "nextEl":".swiper-button-next",
+                            "prevEl":".swiper-button-prev"
+                        },
+                        "breakpoints":{
+                        "0":{
+                            "slidesPerView":1,
+                            "spaceBetween": 12},
+                        "320":{
+                            "slidesPerView":1,
+                            "spaceBetween":12},
+                        "480":{
+                            "slidesPerView":2,
+                            "spaceBetween":12},
+                        "640":{
+                            "slidesPerView":2,
+                            "spaceBetween":16},
+                        "840":{
+                            "slidesPerView":3,
+                            "spaceBetween":16},
+                        "1140":{
+                            "slidesPerView":5,
+                            "spaceBetween":16},
+                        "1540":{
+                            "slidesPerView":5,
+                            "spaceBetween":16},
+                        "1840":{
+                            "slidesPerView":6,
+                            "spaceBetween":16}
+                        }
+                    }'
+                        >
+                        
+                            <div class="swiper-wrapper">
+                                {% for discounted_product in latest_discounted_products %}
+                                <!-- Single swiper slide -->
+                                    <div class="swiper-slide">
+                                        <!-- todo:move single-shoping-card-one div element to seperated html file to use as product item from product module-->
+                                        
+                                        {% include "product_module/includes/product_item.html" with product=discounted_product %}
 
+                                    </div>
+                                <!-- Single swiper slide end -->
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- rts discounted products area end -->
 
     <!-- rts grocery feature area start -->
     <div class="rts-grocery-feature-area rts-section-gapBottom">
@@ -173,86 +252,34 @@
                     <div class="product-with-discount">
                         <div class="row g-5">
                             <div class="col-xl-4 col-lg-12">
-                                {% if product_of_the_week %}
-                                    <a href="{% url 'product_module:product-detail' pk=product_of_the_week.product.pk slug=product_of_the_week.product.slug %}" class="single-discount-with-bg">
-                                        <div class="inner-content">
+                                <a href="shop-details.html" class="single-discount-with-bg">
+                                    <div class="inner-content">
+                                        <h4 class="title">
+                                            <br />
+                                            آب میوه تازه با طعم ارگانیک آلپرو
+                                        </h4>
+                                        <div class="price-area">
+                                            <span>فقط</span>
                                             <h4 class="title">
-                                                <br />
-                                                {{product_of_the_week.title}}
+                                                15.00 تومان
                                             </h4>
-                                            <div class="price-area">
-                                                <span>فقط</span>
-                                                <h4 class="title">
-                                                    {{product_of_the_week.product.price_with_discount}} تومان
-                                                </h4>
-                                            </div>
                                         </div>
-                                    </a>                                   
-                                    
-                                    <!--most bought content-->
-                                    <a href="{% url "product_module:product-detail" pk=most_bought_products.first.pk slug=most_bought_products.first.slug %}" class="single-discount-with-bg bg-2">
-                                        <div class="inner-content">
+                                    </div>
+                                </a>
+                                <a href="shop-details.html" class="single-discount-with-bg bg-2">
+                                    <div class="inner-content">
+                                        <h4 class="title">
+                                            <br />
+                                            آب میوه تازه با طعم ارگانیک آلپرو
+                                        </h4>
+                                        <div class="price-area">
+                                            <span>فقط</span>
                                             <h4 class="title">
-                                                <br />
-                                                {{most_bought_products.first.title}}
+                                                15.00 تومان
                                             </h4>
-                                            <div class="price-area">
-                                                <span>فقط</span>
-                                                <h4 class="title">
-                                                    {% if most_bought_products.first.price_with_discount %}
-                                                        {{most_bought_products.first.price_with_discount}} تومان
-                                                    {% else %}
-                                                        {{most_bought_products.first.price}} تومان
-                                                    {% endif %}
-                                                </h4>
-                                            </div>
                                         </div>
-                                    </a>
-                                    <!--end most bought content-->
-                                    
-                                {% else %}
-                                    {% for most_bought_product in most_bought_products %}
-                                        {% if forloop.first %}
-                                            <a href="{% url "product_module:product-detail" pk=most_bought_product.pk slug=most_bought_product.slug %}" class="single-discount-with-bg">
-                                                <div class="inner-content">
-                                                    <h4 class="title">
-                                                        <br />
-                                                        {{most_bought_product.title}}
-                                                    </h4>
-                                                    <div class="price-area">
-                                                        <span>فقط</span>
-                                                        <h4 class="title">
-                                                            {% if most_bought_product.price_with_discount %}
-                                                            {{most_bought_product.price_with_discount}} تومان
-                                                            {% else %}
-                                                            {{most_bought_product.price}} تومان
-                                                            {% endif %}
-                                                        </h4>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            {% else %}
-                                            <a href="{% url "product_module:product-detail" pk=most_bought_product.pk slug=most_bought_product.slug %}" class="single-discount-with-bg bg-2">
-                                                <div class="inner-content">
-                                                    <h4 class="title">
-                                                        <br />
-                                                        {{most_bought_product.title}}
-                                                    </h4>
-                                                    <div class="price-area">
-                                                        <span>فقط</span>
-                                                        <h4 class="title">
-                                                            {% if most_bought_product.price_with_discount %}
-                                                                {{most_bought_product.price_with_discount}} تومان
-                                                            {% else %}
-                                                                {{most_bought_product.price}} تومان
-                                                            {% endif %}
-                                                        </h4>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            {% endif %}
-                                    {% endfor %}
-                                {% endif %}
+                                    </div>
+                                </a>
                             </div>
                             <div class="col-xl-8 col-lg-12">
                                 <div class="row">

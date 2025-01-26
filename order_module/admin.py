@@ -1,6 +1,24 @@
 from django.contrib import admin
 from .models import OrderBasket,OrderDetail
 
+# class OrderBasketAdmin(admin.ModelAdmin):
+#     list_display=['user','is_paid','payment_date','discount']
 
-admin.site.register(OrderBasket)
-admin.site.register(OrderDetail)
+# class OrderDetailAdmin(admin.ModelAdmin):
+#     list_display=['product','order_basket','count','final_price']
+
+# admin.site.register(OrderBasket,OrderBasketAdmin)
+# admin.site.register(OrderDetail,OrderDetailAdmin)
+
+
+
+class OrderDetailAdminInline(admin.TabularInline):
+    model = OrderDetail
+    list_display=['product','order_basket','count','final_price']
+
+
+class OrderBasketAdmin(admin.ModelAdmin):
+    list_display=['user','is_paid','payment_date','discount']
+    inlines=[OrderDetailAdminInline]
+
+admin.site.register(OrderBasket,OrderBasketAdmin)
