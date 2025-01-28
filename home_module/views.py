@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from django.utils.timezone import now
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -19,14 +20,30 @@ class homePageView(View):
         latest_articles=Article.objects.filter(is_active=True).order_by('-created_date')[:4]
 
         product_of_the_week = ProductOfTheWeek.objects.filter(start_date__lte=datetime.now(),end_date__gte=datetime.now(),is_active_bool=True).first()
+        # product_of_the_week = ProductOfTheWeek.objects.filter(start_date__lte=now(),end_date__gte=now(),is_active_bool=True).first()
         most_bought_products=Product.objects.annotate(buy_count=Sum('orderdetail__count')).filter(is_active=True,is_delete=False,orderdetail__order_basket__is_paid=True).order_by('-buy_count')[:2]
         if product_of_the_week:
             most_bought_products=most_bought_products[:1]
+
+        # Fetch 4 random products excluding "Product of the Week" and "Most Bought Products"
+        excluded_ids = list(most_bought_products.values_list('id', flat=True))
+        if product_of_the_week:
+            excluded_ids.append(product_of_the_week.product.id)
         
+        other_products = Product.objects.filter(
+            is_active=True,
+            is_delete=False
+        ).exclude(id__in=excluded_ids)[:4]
+
+        # Randomize and limit to 4 products
+        # other_products = list(other_products)
+        # random.shuffle(other_products)
+
         return render(request,'home_module/home.html',{
             'latest_articles':latest_articles,
             'product_of_the_week':product_of_the_week,
-            'most_bought_products':most_bought_products
+            'most_bought_products':most_bought_products,
+            'other_products':other_products
         })
     
 

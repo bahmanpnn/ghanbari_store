@@ -53,11 +53,11 @@ def default_end_date():
 class ProductOfTheWeek(models.Model):
     product = models.ForeignKey("Product", on_delete=models.CASCADE, related_name="weekly_highlight")
     title = models.CharField(max_length=127)
-    image = models.ImageField(upload_to="images/products", null=True, blank=True)
     start_date = models.DateTimeField(default=datetime.now)
     end_date = models.DateTimeField(default=default_end_date)  # Refer to the static method here
     is_active_bool = models.BooleanField(default=False)
     discount_percentage = models.DecimalField(max_digits=5, decimal_places=2)
+    background_image=models.ImageField(upload_to="images/product_of_the_week/",null=True,blank=True)
 
     @staticmethod
     def default_end_date():
