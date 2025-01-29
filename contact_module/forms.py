@@ -21,7 +21,10 @@ class ContactForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام شما'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'ایمیل شما'}),
-            'text': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'پیام شما'})
+            'text': forms.Textarea(attrs={
+                'class': 'form-control', 'placeholder': 'پیام شما',
+                'style':'font-size:16px;'
+                })
         }
         error_messages = {
             'name': {

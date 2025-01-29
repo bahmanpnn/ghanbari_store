@@ -47,17 +47,6 @@ class homePageView(View):
         })
     
 
-# class homePageView(View):
-#     def get(self,request):
-#         latest_discounted_products=Product.objects.filter(is_active=True,discount_percent__gte=1).prefetch_related('images').order_by('-added_date')[:10]
-#         latest_articles=Article.objects.filter(is_active=True).order_by('-created_date')[:4]
-        
-#         return render(request,'home_module/home.html',{
-#             'latest_articles':latest_articles,
-#             'latest_discounted_products':latest_discounted_products
-#         })
-    
-
 def header_component(request):
     return render(request,'header_component.html')
 

@@ -14817,7 +14817,6 @@ body.sal-disabled [data-sal|=flip] {
   top: -10px;
   height: 16px;
   width: 16px;
-  content: "2";
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14839,7 +14838,8 @@ body.sal-disabled [data-sal|=flip] {
   top: -10px;
   height: 16px;
   width: 16px;
-  content: "5";
+  content: var(--basket-count, "0");
+  /* content: "0"; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18665,7 +18665,7 @@ li.with-megamenu:hover .rts-megamenu {
   color: #74787C;
 }
 .single-footer-wized .call-area .info .number {
-  color: #629D23;
+  color: #dd8533;
   font-size: 24px;
   font-weight: 600;
 }
@@ -20980,9 +20980,12 @@ body.modal-open {
 .nice-select.small .option {
   line-height: 34px;
   min-height: 34px;
+  
 }
 
 .nice-select .list {
+  width: 100% !important; /* Ensures the dropdown is as wide as the select box */
+  min-width: 100% !important; /* Prevents it from being smaller */
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 0 0 1px rgba(68, 68, 68, 0.11);
@@ -21477,14 +21480,16 @@ body.modal-open {
 }
 
 .cart-total-area-start-left {
-  border: 2px solid #629D23;
+  border: 2px solid rgb(184, 92, 6);
   border-radius: 6px;
 }
+
 .cart-total-area-start-left .title {
   padding: 21px 28px;
   border-bottom: 1px solid #E2E2E2;
   margin-bottom: 0;
 }
+
 .cart-total-area-start-left .subtotal {
   display: flex;
   align-items: center;
@@ -21492,15 +21497,18 @@ body.modal-open {
   padding: 26px 28px;
   border-bottom: 1px solid #E2E2E2;
 }
+
 .cart-total-area-start-left .subtotal span {
   font-weight: 500;
   font-size: 14px;
 }
+
 .cart-total-area-start-left .subtotal .price {
   margin: 0;
   font-size: 14px;
   font-weight: 700;
 }
+
 .cart-total-area-start-left .shipping {
   display: flex;
   align-items: flex-start;
@@ -21508,6 +21516,7 @@ body.modal-open {
   padding: 26px 28px;
   border-bottom: 1px solid #E2E2E2;
 }
+
 @media only screen and (min-width: 1200px) and (max-width: 1599px) {
   .cart-total-area-start-left .shipping {
     flex-direction: column;
@@ -21555,7 +21564,7 @@ body.modal-open {
   width: 15px;
   height: 15px;
   background-color: #ffffff;
-  border: 1px solid #2C3C28;
+  border: 1px solid rgb(184, 92, 6);
   border-radius: 50%;
   transition: all 0.3s;
   border-radius: 50%;
@@ -21564,7 +21573,7 @@ body.modal-open {
   width: 8px;
   height: 8px;
   right: 3.2px;
-  background: #2C3C28;
+  background: rgb(184, 92, 6);
   border-radius: 50%;
   border: none;
   top: 22%;

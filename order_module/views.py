@@ -19,7 +19,7 @@ from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 
 
-# Done
+
 def add_product_to_basket(request):
     if request.user.is_authenticated:
         
@@ -78,24 +78,25 @@ class UserOrderBasket(View,LoginRequiredMixin):
         current_basket,is_created=OrderBasket.objects.prefetch_related('order_detail').get_or_create(is_paid=False,user_id=request.user.id)
 
         return render(request,self.template_name,{
-            'basket':current_basket,
-            'need_for_free_transportation':current_basket.get_total_amount()
+            'user_basket':current_basket,
+            'need_for_free_transportation':150
             })
     
 
 @login_required
-def remove_order_detail_user_basket(request):
+def remove_user_basket_card_order_detail(request):
     detail_id=request.GET.get('detail_id')
     if detail_id == "all":
-        current_basket,is_created=OrderBasket.objects.prefetch_related('order_detail').get_or_create(is_paid=False,user_id=request.user.id)
+        current_basket,_=OrderBasket.objects.prefetch_related('order_detail').get_or_create(is_paid=False,user_id=request.user.id)
         current_basket.order_detail.all().delete()
         context={
-            'basket':current_basket,
+            'user_basket':current_basket,
             'need_for_free_transportation':150
             }
         return JsonResponse({
             'status':'success',
-            'body':render_to_string("order_module/includes/remove_order_detail_ajax.html",context)
+            'body':render_to_string("order_module/includes/basket_cart.html",context),
+            'mbody':render_to_string("order_module/includes/remove_order_detail_ajax.html",context)
         })
 
     elif detail_id is None:
@@ -111,42 +112,16 @@ def remove_order_detail_user_basket(request):
     
     current_basket,is_created=OrderBasket.objects.prefetch_related('order_detail').get_or_create(is_paid=False,user_id=request.user.id)
 
-    # total=total_price+tax 
-    context={
-        'basket':current_basket,
-        'need_for_free_transportation':current_basket.get_total_amount()
-        }
-
-    return JsonResponse({
-        'status':'success',
-        'body':render_to_string("order_module/includes/remove_order_detail_ajax.html",context)
-    })
-
-@login_required
-def remove_user_basket_card_order_detail(request):
-    detail_id=request.GET.get('detail_id')
-
-    if detail_id is None:
-        return JsonResponse({
-            'status':'detail-not-found'
-        })
-
-    count,target_order_detail=OrderDetail.objects.filter(id=detail_id,order_basket__is_paid=False,order_basket__user_id=request.user.id).delete()
-    if count == 0:
-        return JsonResponse({
-            'status':'detail_not_found'
-        })
-    
-    current_basket,is_created=OrderBasket.objects.prefetch_related('order_detail').get_or_create(is_paid=False,user_id=request.user.id)
-
+    # total=total_price+tax    
     context={
         'user_basket':current_basket,
-        'need_for_free_transportation':current_basket.get_total_amount()
+        'need_for_free_transportation':150
         }
 
     return JsonResponse({
         'status':'success',
-        'body':render_to_string("order_module/includes/basket_cart.html",context)
+        'body':render_to_string("order_module/includes/basket_cart.html",context),
+        'mbody':render_to_string("order_module/includes/remove_order_detail_ajax.html",context)
     })
 
 
@@ -185,8 +160,8 @@ def change_order_detail_count(request):
     # tax=total_price/10
     # total=total_price+tax 
     context={
-        'basket':current_basket,
-        'need_for_free_transportation':current_basket.get_total_amount()
+        'user_basket':current_basket,
+        'need_for_free_transportation':150
         # 'tax':tax,
         # 'total':total
         }
@@ -195,6 +170,5 @@ def change_order_detail_count(request):
         'status':'success',
         'body':render_to_string("order_module/includes/remove_order_detail_ajax.html",context)
     })
-
 
 

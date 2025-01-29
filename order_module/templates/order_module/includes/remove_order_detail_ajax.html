@@ -1,9 +1,9 @@
 {% load poll_extras %}
-{% if basket.order_detail.all %}
+{% if user_basket.order_detail.exists %}
     <div class="col-xl-9 col-lg-12 col-md-12 col-12 order-2 order-xl-1 order-lg-2 order-md-2 order-sm-2">
         <div class="cart-area-main-wrapper">
             <div class="cart-top-area-note">
-                {% if basket.get_total_amount > 150 %}
+                {% if user_basket.get_total_amount > 150 %}
                 <p><span></span> خرید شما بیشتر از 150 هزار تومان میباشد.بنا براین میتوانید از گزینه ارسال رایگان استفاده کنید</p>
                 <div class="bottom-content-deals mt--10">
                     <div class="single-progress-area-incard">
@@ -14,7 +14,7 @@
                 </div>
                 {% else %}  
                 <p>
-                    <span> {{need_for_free_transportation}}تومان</span> به سبد خرید اضافه کنید و ارسال رایگان دریافت کنید
+                    <span> {{user_basket.get_free_transportation}}تومان</span> به سبد خرید اضافه کنید و ارسال رایگان دریافت کنید
                 </p>
                 <div class="bottom-content-deals mt--10">
                     <div class="single-progress-area-incard">
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <!-- single product cart area -->
-            {% for order in basket.order_detail.all %}
+            {% for order in user_basket.order_detail.all %}
                 <div class="single-cart-area-list main  item-parent">
                     <div class="product-main-cart">
                         <div class="close section-activation">
@@ -92,12 +92,12 @@
             <h5 class="title">مجموع سبد خرید</h5>
             <div class="subtotal">
                 <span>مجموع بدون هزینه ارسال</span>
-                <h6 class="price">{{basket.get_total_amount|three_digits}} تومان</h6>
+                <h6 class="price">{{user_basket.get_total_amount|three_digits}} تومان</h6>
             </div>
             <div class="shipping">
                 <span>هزينه ارسال</span>
                 <ul>
-                    {% if basket.get_total_amount > 150 %}
+                    {% if user_basket.get_total_amount > 150 %}
                     <li>
                         <input type="radio" id="f-option" name="selector" >
                         <label for="f-option">ارسال رایگان</label>

@@ -35,20 +35,42 @@ function addProductToBasket(productId){
     })
 }
 
-// Done 
+
 function orderDetail(detailId) {
-    $.get('/orders/remove_order_detail/?detail_id=' + detailId).then(res=>{
+    $.get('/orders/remove_basket_card_order_detail/?detail_id=' + detailId).then(res=> {
         if (res.status === "success") {
-            $('#order-detail-content').html(res.body);
+            // Update Mini-Basket
+            $('#basket-card').html(res.body);
+            
+            // Update Full Basket Page (if visible)
+            $('#order-detail-content').html(res.mbody);
+
+            // Extract updated count from the new HTML
+            let newBasketCount = $("#basket-card .fa-cart-shopping").attr("data-basket-count");
+
+            if (newBasketCount !== undefined) {
+                $(".fa-cart-shopping").attr("data-basket-count", newBasketCount);
+                $(".fa-cart-shopping").css("--basket-count", `"${newBasketCount}"`);
+            }
         }
     });
 }
 
+
 function removeOrderBasket(detailId) {
-    console.log(detailId);
     $.get('/orders/remove_basket_card_order_detail/?detail_id=' + detailId).then(res=>{
         if (res.status === "success") {
             $('#basket-card').html(res.body);
+
+            $('#order-detail-content').html(res.mbody);
+            
+            // Extract updated count from the new HTML
+            let newBasketCount = $("#basket-card .fa-cart-shopping").attr("data-basket-count");
+
+            if (newBasketCount !== undefined) {
+                $(".fa-cart-shopping").attr("data-basket-count", newBasketCount);
+                $(".fa-cart-shopping").css("--basket-count", `"${newBasketCount}"`);
+            }
         }
     });
 }

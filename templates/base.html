@@ -330,6 +330,16 @@
         <!-- progress area end -->
 
         {% include "includes/footer_links.html" %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                let cartIcon = document.querySelector(".fa-cart-shopping");
+                if (cartIcon) {
+                    let basketCount = cartIcon.getAttribute("data-basket-count") || "0";
+                    cartIcon.style.setProperty("--basket-count", `"${basketCount}"`);
+                }
+            });
+        </script>
+        
         {% block footer_references %}{% endblock footer_references %}
     </body>
 </html>

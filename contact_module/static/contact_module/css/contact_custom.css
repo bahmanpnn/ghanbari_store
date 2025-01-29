@@ -11,3 +11,8 @@
     width: 100%;
     /* width: 890px; */
 }
+
+/* input.form-control[type="text"],
+textarea.form-control {
+    font-size: 14px !important;
+} */

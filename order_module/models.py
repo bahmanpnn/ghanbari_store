@@ -43,6 +43,9 @@ class OrderBasket(models.Model):
                         
         return total_amount
     
+    def get_free_transportation(self):
+        total=self.get_total_amount()
+        return max(0,150-total)
 
 class OrderDetail(models.Model):
     product=models.ForeignKey(Product,on_delete=models.PROTECT)

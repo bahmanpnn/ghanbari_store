@@ -2,7 +2,7 @@
 card doesnt cover all the mobile screen!! -->
 <div id="basket-card">
     {% if user_basket.order_detail.all %}
-    <i class="fa-sharp fa-regular fa-cart-shopping"></i>
+    <i class="fa-sharp fa-regular fa-cart-shopping" data-basket-count="{{user_basket.order_detail.count}}"></i>
     <span class="text">سبد خرید من</span>
     <div class="category-sub-menu card-number-show">
         <h5 class="shopping-cart-number">سبد خرید (True)</h5>
