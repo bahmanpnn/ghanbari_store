@@ -117,6 +117,8 @@
     border: 1px solid #d469045e !important; /* Override any other rules */
 }
 
+/* articles of homepage btn style */
+
 .shop-now-goshop-btn .plus-icon {
     background-color: #cf670579 !important; /* Light orange background with !important */
     border-radius: 50%; /* Optional: Make it circular */
@@ -129,3 +131,4 @@
 .shop-now-goshop-btn .plus-icon:hover {
     background-color: #cf6705ab !important; /* Slightly darker orange on hover */
 }
+
