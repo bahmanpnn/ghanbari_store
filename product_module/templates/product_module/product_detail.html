@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{% load thumbnail %}
 {% load static %}
+{% load thumbnail %}
+{% load poll_extras %}
 
 
 {% block header_references %}
@@ -68,6 +69,8 @@
                                                 <div class="rating-stars-group">
                                                     <div class="rating-star"><i class="fas fa-star"></i></div>
                                                     <div class="rating-star"><i class="fas fa-star"></i></div>
+                                                    <div class="rating-star"><i class="fas fa-star"></i></div>
+                                                    <div class="rating-star"><i class="fas fa-star"></i></div>
                                                     <div class="rating-star"><i class="fas fa-star-half-alt"></i></div>
                                                     <span>10 بررسی</span>
                                                 </div>
@@ -76,10 +79,12 @@
                                             <p class="mt--20 mb--20">
                                                {{product.short_description}}
                                             </p>
-                                            <span class="product-price mb--15 d-block" style="color: #DC2626; font-weight: 600;">
-                                                {{product.price}} تومان 
-                                                {% if product.price_with_discoubt %}
-                                                    <span class="old-price ml--15">{{product.price_with_discount}}</span>
+                                            <span class="product-price mb--15 d-block price-style" >
+                                                {% if product.price_with_discount %}
+                                                    {{product.price_with_discount}} تومان 
+                                                    <span class="old-price ml--15">{{product.price}} تومان</span>
+                                                    {% else %}
+                                                    {{product.price}} تومان 
                                                 {% endif %}
                                             </span>
 
@@ -101,36 +106,30 @@
                                                         <i class="fa-regular fa-cart-shopping"></i>
                                                     </div>
                                                 </button>
-                                                <a href="javascript:void(0);" class="rts-btn btn-primary ml--10"><i class="fa-light fa-heart"></i></a>
                                             </div>
                                             <div class="product-uniques">
-                                                <span class="sku product-unipue mb--10"><span style="font-weight: 400; margin-left: 10px;">شناسه محصول:</span> BO1D0MX8SJ </span>
-                                                <span class="catagorys product-unipue mb--10"><span style="font-weight: 400; margin-left: 10px;">دسته بندی ها:</span> تی شرت، تاپ، مردانه </span>
-                                                <span class="tags product-unipue mb--10"><span style="font-weight: 400; margin-left: 10px;">برچسب ها:</span> مد، تی شرت، مردانه </span>
-                                                <span class="tags product-unipue mb--10"><span style="font-weight: 400; margin-left: 10px;">زندگی::</span>   6 ماهه </span>
-                                                <span class="tags product-unipue mb--10"><span style="font-weight: 400; margin-left: 10px;">نوع:</span> اصلی </span>
-                                                <span class="tags product-unipue mb--10"><span style="font-weight: 400; margin-left: 10px;">رده:</span> نوشیدنی، لبنیات و نانوایی</span>
+                                                <span class="sku product-unipue mb--10"><span style="font-weight: 400; margin-left: 10px;">شناسه محصول:</span> {{product.id}} </span>
+                                                <span class="sku product-unipue mb--10"><span style="font-weight: 400; margin-left: 10px;">وزن محصول:</span> {{product.weight}} </span>
+                                                <span class="sku product-unipue mb--10 {% if product.quantity > 0 and product.quantity < 10 %}price-style{% endif %}"><span>موجود:</span> 
+                                                {% if product.quantity > 0 and product.quantity < 10 %}فقط {{product.quantity}} عدد باقی مانده است{% elif product.quantity > 0 and product.quantity > 10 %}موجود است {% else %}موجود نمی باشد{% endif %}
+                                                </span>
                                             </div>
-                                            {% comment %} <div class="share-option-shop-details">
+                                            <div class="share-option-shop-details">
                                                 <div class="single-share-option">
                                                     <div class="icon">
-                                                        <i class="fa-regular fa-heart"></i>
+                                                        <a onclick="addProductToFavoriteList({{ product.id }})">
+                                                            <div class="single-action openuptip message-show-action" data-flow="up" title="افزودن به علاقمندی ها">
+                                                                <i id="product_{{product.id}}" 
+                                                                    {% if product.id|is_favorite_product:request.user.id %}class="fa-light fa-heart favorite-heart" 
+                                                                    {% else %}class="fa-regular fa-heart" 
+                                                                    {% endif %}>
+                                                                </i>
+                                                            </div>
+                                                        </a> 
                                                     </div>
                                                     <span>افزودن به علاقمندي ها</span>
                                                 </div>
-                                                <div class="single-share-option">
-                                                    <div class="icon">
-                                                        <i class="fa-solid fa-share"></i>
-                                                    </div>
-                                                    <span>به اشتراک گذاري</span>
-                                                </div>
-                                                <div class="single-share-option">
-                                                    <div class="icon">
-                                                        <i class="fa-light fa-code-compare"></i>
-                                                    </div>
-                                                    <span>مقایسه کنید</span>
-                                                </div>
-                                            </div> {% endcomment %}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -152,7 +151,7 @@
                                 <div class="tab-pane fade   show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                                     <div class="single-tab-content-shop-details">
                                         <p class="disc">
-                                            {{product.content}}
+                                            {{product.content|safe}}
                                         </p>
                                     </div>
                                 </div>
@@ -165,30 +164,14 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th>آشپزخانه Fade Defy</th>
-                                                        <th>5 کیلوگرم</th>
+                                                        <th>کد محصول</th>
+                                                        <th>{{product.id}}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>پودر شیر خامه کامل PRAN</td>
-                                                        <td>3 کیلوگرم</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>وزن خالص</td>
-                                                        <td>8 کیلوگرم</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>نام تجاری</td>
-                                                        <td>Reactheme</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>کد مورد</td>
-                                                        <td>4000000005</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>نوع محصول</td>
-                                                        <td>پودر شیر</td>
+                                                        <td>وزن محصول</td>
+                                                        <td>{{product.weight}}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
