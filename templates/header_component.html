@@ -184,17 +184,13 @@
                                 </li>
                             </ul>
                         </div> {% endcomment %}
-                        <form action="#" class="search-header">
-                            <input type="text" placeholder=" جستجو" />
-                            <a href="#" class="rts-btn btn-primary with-icon">
-                                {% comment %} <div class="btn-text">جستجو</div> {% endcomment %}
+                        <form action="{% url "product_module:products" %}" class="search-header" novalidate>
+                            <input type="text" name="product-search" placeholder=" جستجو" />
+                            <button class="rts-btn btn-primary with-icon">
                                 <div class="arrow-icon">
                                     <i class="fa-light fa-magnifying-glass"></i>
                                 </div>
-                                {% comment %} <div class="arrow-icon">
-                                    <i class="fa-light fa-magnifying-glass"></i>
-                                </div> {% endcomment %}
-                            </a>
+                            </button>
                         </form>
                     </div>
                     <div class="actions-area">

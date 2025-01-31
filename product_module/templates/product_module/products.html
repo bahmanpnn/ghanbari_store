@@ -38,13 +38,10 @@
                         <div class="nice-select-area-wrapper-and-button">
                             <div class="nice-select-wrapper-1">
                                 <div class="single-select">
-                                    <form method="get" action="" id='filter-form'>
+                                    <form method="get" action="" id='filter-form' novalidate>
                                         <div>
                                             {{filter_form}}
                                         </div>
-                                        {% comment %} <div class="button-area">
-                                            <button class="rts-btn">فیلتر کنید</button>
-                                        </div> {% endcomment %}
                                     </form>
                                 </div>
                             </div>
@@ -53,7 +50,7 @@
 
                     <div class="tab-content" id="myTabContent">
                         <div class="product-area-wrapper-shopgrid-list mt--20 tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-                            <div class="row g-4">
+                            <div class="row g-4 swiper-wrapper">
                                 {% for product in products %}
                                     <div class="col-lg-20 col-lg-4 col-md-6 col-sm-12 col-12">
                                         {% include "product_module/includes/product_item.html" with product=product %}
@@ -182,8 +179,79 @@
     
     <!-- end pagination -->
 
+    <!-- fast review modal-->
+        {% include "product_module/includes/product_modal.html" %}
+    <!-- end fast review modal-->
+     
 {% endblock content %}
 {% block footer_references %}
+    <script>
+        $(document).ready(function () {          
+            // Function to reset the modal content
+            function resetModalContent() {
+                $(".product-title").text(""); // Clear the title
+                $(".product-thumb").css("background-image", ""); // Clear the background image
+                $(".product-thumb img").attr("src", ""); // Clear the main image
+                $(".product-price").html(""); // Clear the price
+                $(".contents p").text(""); // Clear the description
+                $(".stock").text(""); // Clear the stock status
+                $(".rating-stars-group").html(""); // Clear the stars
+                $(".product-thumb-filter-group").html(""); // Clear the thumbnails
+            }
+        
+            // Delegate click event to dynamically added elements
+            $(".swiper-wrapper").on("click", ".product-details-popup-btn", function (event) {
+                event.preventDefault(); // Prevent default behavior
+        
+                // Reset the modal content
+                resetModalContent();
+        
+                // Extract product details from data attributes
+                const title = $(this).data("title");
+                const image = $(this).data("image");
+                const price = $(this).data("price");
+                const oldPrice = $(this).data("old-price");
+                const description = $(this).data("description");
+                const stock = $(this).data("stock");
+                const rating = $(this).data("rating");
+                const extraImages = $(this).data("extra-images");
+        
+                // Update modal content with new data
+                $(".product-title").text(title);
+                $(".product-thumb").css("background-image", `url(${image})`);
+                $(".product-thumb img").attr("src", image);
+                $(".product-price").html(`<span class="old-price">${oldPrice} تومان</span> ${price} تومان`);
+                $(".contents p").text(description);
+                $(".stock").text(stock);
+        
+                // Add stars based on rating
+                for (let i = 0; i < 5; i++) {
+                    if (i < rating) {
+                        $(".rating-stars-group").append('<div class="rating-star"><i class="fas fa-star"></i></div>');
+                    } else {
+                        $(".rating-stars-group").append('<div class="rating-star"><i class="far fa-star"></i></div>');
+                    }
+                }
+        
+                // Update thumbnails
+                const thumbnailsContainer = $(".product-thumb-filter-group");
+                thumbnailsContainer.append(`
+                    <div class="thumb-filter filter-btn active" data-show=".one">
+                        <img src="${image}" alt="Main Product Image" />
+                    </div>
+                `);
+        
+                // Show modal
+                $(".product-details-popup-wrapper").fadeIn();
+                console.log("Button clicked:", $(this).data("title"));
+            });
+        
+            // Close modal
+            $(".product-details-close-btn").click(function () {
+                $(".product-details-popup-wrapper").fadeOut();
+            });
+        });
+    </script>   
     <script>
         function updateSorting() {
             const form = document.getElementById('filter-form');

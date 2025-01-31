@@ -1,8 +1,10 @@
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView,DetailView
-from .models import Product,ProductImage
-from user_profile_module.models import UserFavoriteProduct
+from django.db.models import Sum,Count
+from django.db.models import Q
 from django.http import JsonResponse
+from user_profile_module.models import UserFavoriteProduct
+from .models import Product,ProductImage
 from .forms import ProductFilterForm
 
 
@@ -11,19 +13,34 @@ class ProductListView(ListView):
     model=Product
     context_object_name='products'
     ordering=['-added_date']
-    paginate_by=10
+    paginate_by=5
 
 
     def get_queryset(self):        
         query=super().get_queryset().filter(is_active=True)
+
+        search_query = self.request.GET.get('product-search', '')
         product_filter = self.request.GET.get('product_filter')
+
+        if search_query:
+            query = query.filter(
+                Q(title__icontains=search_query) |  # Search in title
+                Q(short_description__icontains=search_query)  # Search in short_description
+            )
 
         if product_filter == "discounted":
             query=query.filter(discount_percent__gte=1)
 
-        if product_filter == "no-discount":
+        elif product_filter == "no-discount":
             query=query.filter(discount_percent__lte=0)
             # query=query.filter(product__discount_percent__gte=1,is_active=True)
+
+        elif product_filter == "most-bought":
+            # query = query.annotate(buy_count=Count('orderitem')).order_by('-buy_count')
+            query = query.annotate(
+                total_sold=Sum('orderdetail__count', filter=Q(orderdetail__order_basket__is_paid=True))
+            ).order_by('-total_sold')
+
 
         return query
     

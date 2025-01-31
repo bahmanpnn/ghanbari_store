@@ -57,3 +57,28 @@
     color:rgb(128, 28, 2) !important;
     font-weight: 600 !important;
 }
+
+/* filter form style */
+@media only screen and (min-width: 767px){
+    .nice-select-area-wrapper-and-button .nice-select-wrapper-1 .single-select .nice-select {
+        width: 270px !important;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .filter-select-area,
+    .nice-select-area-wrapper-and-button,
+    .nice-select-wrapper-1,
+    .single-select,
+    #filter-form,
+    .nice-select {
+        width: 100% !important;  /* Make everything take full width */
+        max-width: 100% !important; /* Prevent overflow */
+    }
+
+    .nice-select {
+        height: 40px !important; /* Adjust height for better mobile appearance */
+        font-size: 14px !important; /* Make text more readable */
+        text-align: center !important; /* Center text inside select */
+    }
+}
