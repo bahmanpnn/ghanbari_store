@@ -116,8 +116,42 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 pr--30  pr_md--10 pr_sm--10 rts-sticky-column-item">
-                    {%render_partial 'blog_module.views.article_component' %}
+                <div class="col-lg-4 pr--30 pr_md--10 pr_sm--10 rts-sticky-column-item">
+                    <div class="theiaStickySidebar">
+                        {%render_partial 'blog_module.views.article_component' %} 
+                        {% comment %} <div class="blog-sidebar-single-wized with-title">
+                            <h4 class="title">برچسب ها</h4>
+                            <div class="tags-area-blog-short-main">
+                                <!-- single -->
+                                <button class="single-category">شامپو</button>
+                                <!-- single end -->
+                                <!-- single -->
+                                <button class="single-category">کره</button>
+                                <!-- single end -->
+                                <!-- single -->
+                                <button class="single-category">روز تولد</button>
+                                <!-- single end -->
+                                <!-- single -->
+                                <button class="single-category">هدایا</button>
+                                <!-- single end -->
+                                <!-- single -->
+                                <button class="single-category">صورت</button>
+                                <!-- single end -->
+                                <!-- single -->
+                                <button class="single-category">سبز</button>
+                                <!-- single end -->
+                                <!-- single -->
+                                <button class="single-category">لوسیون</button>
+                                <!-- single end -->
+                                <!-- single -->
+                                <button class="single-category">اسکراب</button>
+                                <!-- single end -->
+                            </div>
+                        </div> {% endcomment %}
+                        {% for banner in banners %}
+                            {% include "blog_module/includes/banner_content.html" with banner=banner %}
+                        {% endfor %}
+                    </div>                 
                 </div>
             </div>
         </div>

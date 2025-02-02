@@ -1,0 +1,25 @@
+<div class="blog-sidebar-single-wized with-add bg_image" {% if banner.image %} style="background-image: url('{{ banner.image.url }}')"{% endif %}>
+    <div class="add-are-content">
+        {% if banner.title %}
+            <span class="pre">{{banner.title}}</span>
+            {% else %}
+            <span class="pre"> </span>
+        {% endif %}
+        {% if banner.description %}
+        <h5 class="title">{{banner.description}}</h5>
+        {% endif %}
+        <a href="{{banner.url}}" class="shop-now-goshop-btn">
+            {% if banner.btn_text %}
+                <span class="text">{{banner.btn_text}}</span>
+            {% else %}
+            <span class="text">رفتن به صفحه مورد نظر</span>
+            {% endif %}
+            <div class="plus-icon">
+                <i class="fa-sharp fa-regular fa-plus"></i>
+            </div>
+            <div class="plus-icon">
+                <i class="fa-sharp fa-regular fa-plus"></i>
+            </div>
+        </a>
+    </div>
+</div>

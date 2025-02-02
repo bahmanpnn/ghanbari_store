@@ -8,6 +8,7 @@
 
 {% block header_references %}
     <link rel="stylesheet preload" href="{% static "assets/css/custom.css" %}" as="style">
+    <link rel="stylesheet" href="{% static "blog_module/css/blog_custom.css" %}">
 {% endblock header_references %}
 
 {% block title %}مقالات{% endblock title %}
@@ -43,7 +44,12 @@
             <div class="row">
                 <!-- blog sidebar -->
                 <div class="col-lg-4 pr--30  pr_md--10 pr_sm--10 rts-sticky-column-item">
-                    {%render_partial 'blog_module.views.article_component' %}                        
+                    <div class="theiaStickySidebar">
+                        {%render_partial 'blog_module.views.article_component' %} 
+                        {% for banner in banners %}
+                            {% include "blog_module/includes/banner_content.html" with banner=banner %}
+                        {% endfor %}
+                    </div>                 
                 </div>
                 <!-- end blog sidebar -->
 

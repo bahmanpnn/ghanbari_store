@@ -18257,6 +18257,8 @@ li.with-megamenu:hover .rts-megamenu {
   color: #fff;
   transform: scale(1.02) translateY(-3px);
 }
+/* blog banner area style */
+
 .blog-sidebar-single-wized.with-add {
   position: relative;
   background-image: url(../images/blog/thumb/12.jpg);
@@ -18290,6 +18292,8 @@ li.with-megamenu:hover .rts-megamenu {
   color: #fff;
   font-weight: 600;
 }
+
+/* end blog banner area style */
 .blog-sidebar-single-wized .instagram-post-main-wrapper {
   display: flex;
   align-items: center;

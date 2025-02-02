@@ -55,14 +55,15 @@ class FooterLinkItem(models.Model):
 
 class SiteBanner(models.Model):
     class SiteBannerPosition(models.TextChoices):
-        articles_detail='article-detail','صفحه جزئیات مقالات'
+        article_detail='article_detail','صفحه جزئیات مقالات'
         articles='articles','صفحه مقالات'
-        profile_dashboard='dashboard','صفحه پروفایل کاربر (داشبورد)'
+        # profile_dashboard='dashboard','صفحه پروفایل کاربر (داشبورد)'
 
-
-    title=models.CharField(max_length=200)
+    title=models.CharField(max_length=200,null=True,blank=True)
+    description=models.CharField(max_length=62,default="")
     url=models.URLField(max_length=400,blank=True,null=True)
-    image=models.ImageField(upload_to='images/banners')
+    btn_text=models.CharField(max_length=20,null=True,blank=True)
+    image=models.ImageField(upload_to='images/banners',null=True,blank=True)
     is_active=models.BooleanField(default=True)
 
     position=models.CharField(max_length=150,choices=SiteBannerPosition.choices)

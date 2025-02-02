@@ -4,6 +4,7 @@ from django.views.generic import ListView,DetailView
 from .models import Article,ArticleComment
 from django.db.models import Q
 from .forms import SearchForm
+from site_settings_module.models import SiteBanner
 
 
 class ArticleListView(ListView):
@@ -30,7 +31,7 @@ class ArticleListView(ListView):
             this is not product model must send with this method and override this
         '''
         context = super(ArticleListView, self).get_context_data(**kwargs)
-        # context['SearchForm']=self.form_class(self.request.GET or None)
+        context['banners']=SiteBanner.objects.filter(is_active=True,position__exact=SiteBanner.SiteBannerPosition.articles)
         return context
     
     def post(self,request):
@@ -51,6 +52,8 @@ class ArticleDetailView(DetailView):
         comments=ArticleComment.objects.filter(parent_id=None,article_id=article.id).order_by('-created_date').prefetch_related('articlecomment_set')
         context['comments']=comments
         context['comments_count']=comments.count()
+        context['banners']=SiteBanner.objects.filter(is_active=True,position__exact=SiteBanner.SiteBannerPosition.article_detail)
+        
         return context
 
     def get_object(self, queryset = None):
