@@ -36,6 +36,7 @@ class UserAddress(models.Model):
 class UserOTP(models.Model):
     user = models.OneToOneField('User', on_delete=models.CASCADE)
     otp = models.CharField(max_length=6, blank=True, null=True)
+    # otp = models.CharField(max_length=6, default=lambda: str(random.randint(100000, 999999)), blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def is_valid(self, expiration_minutes=15):
@@ -51,38 +52,14 @@ class UserOTP(models.Model):
         :param save: If True, saves the OTP to the database.
         """
         self.otp = str(random.randint(100000, 999999)).zfill(6)
+        self.created_at=now()
         if save:
             self.save()
 
     def __str__(self):
-        return f"OTP for {self.user.phone_number} (valid until {self.created_at + timedelta(minutes=5)})"
+        return f"OTP for {self.user.phone_number} (valid until {self.created_at + timedelta(minutes=15)})"
   
+    # def send_otp(phone_number, otp):
+    #     # todo:send otp code with sms provider or seprate send otp and make it in utils services
+    #     print(f"Sending OTP {otp} to {phone_number}") 
 
-    # from django.contrib.auth.hashers import make_password, check_password
-
-    # def generate_otp(self, save=True):
-    #     raw_otp = str(random.randint(100000, 999999)).zfill(6)
-    #     self.otp = make_password(raw_otp)
-    #     if save:
-    #         self.save()
-    #     return raw_otp
-
-    # def verify_otp(self, raw_otp):
-    #     return check_password(raw_otp, self.otp)
-
-
-# class UserOTP(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     otp = models.CharField(max_length=6)
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-#     def is_valid(self):
-#         return now() <= self.created_at + timedelta(minutes=5)
-    
-#     def generate_otp(self):
-#         self.otp = str(random.randint(100000, 999999)).zfill(6)
-#         self.save()
-
-#     def send_otp(phone_number, otp):
-#         # todo:send otp code with sms provider or seprate send otp and make it in utils services
-#         print(f"Sending OTP {otp} to {phone_number}") 

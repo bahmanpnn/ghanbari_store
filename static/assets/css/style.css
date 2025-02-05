@@ -24760,6 +24760,8 @@ header.header-three .sub-dropdown .submenu.third-lvl.base {
   color: #000;
 }
 
+/* product fast review modal */
+
 .product-details-popup-wrapper {
   width: 100%;
   position: fixed;
@@ -24805,7 +24807,7 @@ header.header-three .sub-dropdown .submenu.third-lvl.base {
   }
   .rts-product-details-section.product-details-popup-section .details-product-area .contents {
     max-height: 450px;
-    /* overflow-y: scroll; */
+    overflow-y: scroll;
   }
 }
 @media (max-width: 768px) {
@@ -24981,6 +24983,8 @@ header.header-three .sub-dropdown .submenu.third-lvl.base {
     width: 90%;
   }
 }
+
+/* end product fast review modal */
 
 .successfully-addedin-wishlist {
   position: fixed;

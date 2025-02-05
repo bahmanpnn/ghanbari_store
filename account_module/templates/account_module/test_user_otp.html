@@ -8,6 +8,7 @@
 {% block content %}
     <div class="otp-body">
         <div class="otp-container">
+            <h5>{% if flow_type == "signup" %}کد تایید برای ثبت نام {% else %}کد تایید برای فراموشی رمز عبور{% endif %}</h5>
             <div class="otp-title">کد ارسال شده را وارد کنید</div>
             <form method="post" action="">
                 {% csrf_token %}

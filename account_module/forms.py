@@ -31,12 +31,16 @@ class UserRegisterForm(forms.Form):
     
     def clean_phone_number(self):
         phone_number=self.cleaned_data.get('phone_number')
+        if not phone_number.isdigit():
+            raise ValidationError('این شماره تلفن نامعتبر می باشد')
+        
         check_phone_number=User.objects.filter(phone_number__iexact=phone_number)
         if check_phone_number:
             # print('این شماره تلفن قبلا استفاده شده است')
             raise ValidationError('این شماره تلفن قبلا استفاده شده است')
 
         return phone_number
+
     
     def clean_confirm_password(self):
         password=self.cleaned_data.get('password')
@@ -116,5 +120,39 @@ class UserOtpCodeForm(forms.Form):
     }))
     
         
+class UserForgetPasswordForm(forms.Form):
+    phone_number=forms.CharField(max_length=63,widget=forms.TextInput(attrs=
+                                    {'placeholder':" شماره تلفن خود را وارد کنید"}))
 
+    def clean_phone_number(self):
+        phone_number=self.cleaned_data.get('phone_number')
+        if not phone_number.isdigit():
+            raise ValidationError('این شماره تلفن نامعتبر می باشد')
+        
+        # check_phone_number=User.objects.filter(phone_number__iexact=phone_number)
+        # if not check_phone_number:
+        #     raise ValidationError('این شماره تلفن در خوشه وجود ندارد')
+
+        return phone_number
+
+
+class UserChangePasswordForm(forms.Form):
+    password=forms.CharField(max_length=63,widget=forms.PasswordInput(attrs=
+                                        {'placeholder':"رمز عبور خود را وارد کنید"})
+                                    )
+    confirm_password=forms.CharField(max_length=63,widget=forms.PasswordInput(attrs=
+                                        {'placeholder':"تکرار رمز عبور خود را وارد کنید"})
+                                    )
+    def clean_confirm_password(self):
+        password=self.cleaned_data.get('password')
+        confirm_password=self.cleaned_data.get('confirm_password')
+        if password != confirm_password:
+            print('رمز عبور با تکرار آن مطابقت ندارد')
+            raise ValidationError('رمز عبور با تکرار آن مطابقت ندارد')
+        
+        # elif not self.is_strong_password(password):
+        #     raise ValidationError('رمز عبور شما قوی نمی باشد\
+        #                           .لطفا ازحروف کوچک و بزرگ به همراه اعداد و سمبل ها استفاده کنید')
+        # # print('this is password',password)
+        return confirm_password
     

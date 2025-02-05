@@ -190,13 +190,16 @@
             // Function to reset the modal content
             function resetModalContent() {
                 $(".product-title").text(""); // Clear the title
+                $("#modalProductCount").val(1);
                 $(".product-thumb").css("background-image", ""); // Clear the background image
                 $(".product-thumb img").attr("src", ""); // Clear the main image
                 $(".product-price").html(""); // Clear the price
                 $(".contents p").text(""); // Clear the description
                 $(".stock").text(""); // Clear the stock status
-                $(".rating-stars-group").html(""); // Clear the stars
-                $(".product-thumb-filter-group").html(""); // Clear the thumbnails
+                $(".rating-stars-group").empty(); 
+                $(".product-thumb-filter-group").empty(); 
+                //$(".rating-stars-group").html(""); // Clear the stars
+                //$(".product-thumb-filter-group").html(""); // Clear the thumbnails
             }
         
             // Delegate click event to dynamically added elements
@@ -208,21 +211,55 @@
         
                 // Extract product details from data attributes
                 const title = $(this).data("title");
+                const productId = $(this).data("product-id");
                 const image = $(this).data("image");
+                const weight = $(this).data("product-weight");
                 const price = $(this).data("price");
                 const oldPrice = $(this).data("old-price");
                 const description = $(this).data("description");
                 const stock = $(this).data("stock");
                 const rating = $(this).data("rating");
                 const extraImages = $(this).data("extra-images");
-        
+
+                // Dynamically set the unique ID for the input field
+                let quantityInputId = `modalProductCount_${productId}`;
+                $("#modalProductCount").attr("id", quantityInputId);  // Change ID dynamically
+
+                $(".add-to-basket-btn").data("product-id", productId);
+                $(".add-to-basket-btn").data("quantity-id", quantityInputId); // Store quantity input
+
+                // Price Handling: Check if price and oldPrice are valid
+                let priceHTML = "";
+                if (price && price !== "None") {
+                    priceHTML = `<span class="old-price">${oldPrice} تومان</span> ${price} تومان`;
+                }else {
+                    priceHTML=`<span>${oldPrice} تومان</span>`
+                }
+
+                let stockSpan = document.querySelector(".stock");
+                if (stock){
+                    if (stock == "ناموجود") {
+                        stockSpan.classList.add("out-of-stock","alert","alert-danger","text-danger");
+                    } else {
+                        stockSpan.classList.remove("out-of-stock","alert","alert-danger","text-danger");
+                    }
+                }
+
+                // Set the product ID in the onclick attribute of the Add to Basket button
+                //$(".add-to-basket-btn").attr("onclick", `addModalProductToBasket(${productId})`);
+                
+
                 // Update modal content with new data
                 $(".product-title").text(title);
                 $(".product-thumb").css("background-image", `url(${image})`);
                 $(".product-thumb img").attr("src", image);
-                $(".product-price").html(`<span class="old-price">${oldPrice} تومان</span> ${price} تومان`);
-                $(".contents p").text(description);
+                $(".product-price").html(priceHTML);
                 $(".stock").text(stock);
+                if (weight && weight !== "None") {
+                    $(".product-weight").text(product-weight);
+                }
+                $(".product-id").text(productId);
+                $(".contents p").text(description);
         
                 // Add stars based on rating
                 for (let i = 0; i < 5; i++) {
@@ -245,6 +282,12 @@
                 $(".product-details-popup-wrapper").fadeIn();
                 console.log("Button clicked:", $(this).data("title"));
             });
+
+            $(document).on("click", ".add-to-basket-btn", function () {
+                let productId = $(this).data("product-id");
+                addModalProductToBasket(productId);
+            });
+
         
             // Close modal
             $(".product-details-close-btn").click(function () {
@@ -270,3 +313,7 @@
     </script>
 {% endblock footer_references %}
 
+$(document).on("click", ".add-to-basket-btn", function () {
+    var productId = $(this).data("product-id");
+    addModalProductToBasket(productId);
+});

@@ -35,6 +35,51 @@ function addProductToBasket(productId){
     })
 }
 
+function addModalProductToBasket(productId) {
+    var quantityInputId = $(".add-to-basket-btn").data("quantity-id");
+    var count = $("#" + quantityInputId).val();  
+    
+    if (!count || isNaN(count) || count <= 0) {
+        Swal.fire({
+            title: "خطا",
+            text: "لطفاً تعداد معتبر وارد کنید",
+            icon: "error",
+            confirmButtonColor: "#d33",
+            confirmButtonText: "باشه",
+        });
+        return;
+    }
+
+    $.get('/orders/add-product-to-basket-orders/?product_id=' + productId + '&count=' + count)
+    .then(res => {
+        if (res.status === 'not-authenticated') {
+            Swal.fire({
+                title: res.title,
+                text: res.text,
+                icon: res.icon,
+                showConfirmButton: true,
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "صفحه ورود",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/account/login/';
+                }
+            });
+        } else {
+            Swal.fire({
+                title: res.title,
+                text: res.text,
+                icon: res.icon,
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonColor: "#dd8533",
+                cancelButtonText: 'باشه',
+            });
+        }
+    });
+}
+
+
 
 function orderDetail(detailId) {
     $.get('/orders/remove_basket_card_order_detail/?detail_id=' + detailId).then(res=> {

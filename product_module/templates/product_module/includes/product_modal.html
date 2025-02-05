@@ -1,3 +1,6 @@
+{% load poll_extras %}
+
+
 <!-- modal -->
     <div class="product-details-popup-wrapper">
         <div class="rts-product-details-section rts-product-details-section2 product-details-popup-section">
@@ -8,7 +11,7 @@
                         <div class="cursor"></div>
                         <div class="thumb-wrapper one filterd-items figure">
                             <div class="product-thumb zoom" onmousemove="zoom(event)" style="background-image: url();">
-                                <img src="" alt="محصول-شست" />
+                                <img src="" alt="" />
                             </div>
                         </div>
                         {% comment %} <div class="product-thumb-filter-group">
@@ -19,8 +22,6 @@
                         <div class="product-status">
                             <div class="rating-stars-group">
                                 <div class="rating-star"><i class="fas fa-star"></i></div>
-                                <div class="rating-star"><i class="fas fa-star"></i></div>
-                                <div class="rating-star"><i class="fas fa-star-half-alt"></i></div>
                                 <span>10 بررسی</span>
                             </div>
                         </div>
@@ -35,27 +36,24 @@
                             <div class="cart-edit">
                                 <div class="quantity-edit action-item">
                                     <button class="button"><i class="fal fa-minus minus"></i></button>
-                                    <input type="text" class="input" value="01" />
+                                    <input id="modalProductCount" type="text" min="1" class="input" value="1"/>
                                     <button class="button plus">+<i class="fal fa-plus plus"></i></button>
                                 </div>
                             </div>
-                            <a href="#" class="rts-btn btn-primary radious-sm with-icon">
+                            <a onclick="addModalProductToBasket()" class="rts-btn radious-sm with-icon cursor-pointer add-to-basket-btn">
                                 <div class="btn-text">
-                                    افزودن به سبد خرید
-                                </div>
-                                <div class="arrow-icon">
-                                    <i class="fa-regular fa-cart-shopping"></i>
+                                    اضافه کردن
                                 </div>
                                 <div class="arrow-icon">
                                     <i class="fa-regular fa-cart-shopping"></i>
                                 </div>
                             </a>
-                            <a href="javascript:void(0);" class="rts-btn btn-primary ml--20"><i class="fa-light fa-heart"></i></a>
+                            {% comment %} <a href="javascript:void(0);" class="rts-btn btn-primary ml--20"><i class="fa-light fa-heart"></i></a> {% endcomment %}
                         </div>
                         <div class="product-uniques">
-                            <span class="sku product-unipue"><span>شناسه محصول:</span> BO1D0MX8SJ </span>
-                            <span class="catagorys product-unipue"><span>دسته بندی ها:</span> تی شرت، تاپ، مردانه </span>
-                            <span class="tags product-unipue"><span>برچسب ها:</span> مد، تی شرت، مردانه</span>
+                            <span class="sku product-unipue mb--10"><span class="product-id" style="font-weight: 400; margin-left: 10px;">شناسه محصول:</span> </span>
+                            <span class="sku product-unipue mb--10"><span class="product-weight" style="font-weight: 400; margin-left: 10px;">وزن محصول:</span> </span>
+                            <span class="sku product-unipue mb--10"><span class="stock">موجودی</span></span>
                         </div>
                     </div>
                 </div>

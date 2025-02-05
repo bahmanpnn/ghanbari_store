@@ -30,6 +30,8 @@
                 class="single-action openuptip cta-quickview product-details-popup-btn"
                 data-flow="up"
                 title="مشاهده سریع"
+                data-product-id={{product.id}}
+                data-product-weight={% if product.weight %}{{product.weight}}{% else %}""{% endif %}
                 data-title="{{ product.title }}"
                 data-image="{{ product.image.url }}"
                 data-price="{{ product.price_with_discount }}"

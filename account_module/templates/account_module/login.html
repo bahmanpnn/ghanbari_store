@@ -2,16 +2,6 @@
 {% load static %}
 
 {% block header_references %}
-    <meta charset="UTF-8">
-    <meta name="description" content="Ekomart-Grocery-Store(e-Commerce) HTML Template: A sleek, responsive, and user-friendly HTML template designed for online grocery stores.">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="Grocery, Store, stores">
-    <title>اکومارت</title>
-    <link rel="shortcut icon" type="image/x-icon" href="/static/assets/images/fav.png">
-    <!-- plugins css -->
-    <link rel="stylesheet preload" href="/static/assets/css/plugins.css" as="style">
-    <link rel="stylesheet preload" href="/static/assets/css/style.css" as="style">
-
     <link rel="stylesheet" href="{% static "account_module/css/account_custom.css" %}">
 {% endblock header_references %}
 
@@ -61,7 +51,7 @@
                             <button class="rts-btn btn-primary">ورود به حساب کاربری</button>
                             <div class="another-way-to-registration">
                                 <p>حساب کاربری ندارید؟ <a href="{% url "account_module:user-register" %}">ثبت نام</a></p>
-                                <p>رمز عبور خود را فراموش کرده اید؟<a href=""> بازیابی کلمه عبور</a></p>
+                                <p>رمز عبور خود را فراموش کرده اید؟<a href="{% url "account_module:user-forget-password" %}"> بازیابی کلمه عبور</a></p>
                             </div>
                         </form>
                     </div>
