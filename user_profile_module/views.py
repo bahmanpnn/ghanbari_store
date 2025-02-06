@@ -11,6 +11,7 @@ from .models import UserFavoriteProduct
 # from permissions import is_authenticated_permission
 # from django.utils.decorators import method_decorator
 
+
 # @method_decorator(is_authenticated_permission,name='dispatch')
 class UserProfileView(View):
     template_name = 'user_profile_module/user_profile.html'
@@ -95,3 +96,12 @@ def user_favorite_products(request):
     return render(request,'user_profile_module/user_favorite_list.html',{
         'user_favorite_products':user_favorite_products
     })
+
+def user_order_detail(request,order_id):
+    target_order_basket=OrderBasket.objects.prefetch_related('order_detail').filter(id=order_id).first()
+    
+    return render(request,'user_profile_module/user_profile_order_detail.html',{
+        'order':target_order_basket
+    })
+
+

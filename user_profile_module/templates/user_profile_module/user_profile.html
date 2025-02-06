@@ -49,8 +49,8 @@
                         <!--dashboard tab-->
                         <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
                             <div class="dashboard-account-area">
-                                {% if request.user.firstname %}
-                                    <h2 class="title text-center" >سلام {{request.user.firstname}}!</h2>
+                                {% if request.user.first_name %}
+                                    <h2 class="title text-center" >سلام {{request.user.first_name}}!</h2>
                                 {% endif %}
                                 <h5 class="disc text-center">
                                     از داشبورد حساب خود می&zwnj;توانید سفارش&zwnj;های اخیر خود را مشاهده کنید، آدرس&zwnj;های ارسال و صورت&zwnj;حساب خود را مدیریت کنید و رمز عبور و جزئیات حساب خود را ویرایش کنید.
@@ -71,7 +71,7 @@
                                                 <th>سفارش</th>
                                                 <th>تاریخ</th>
                                                 <th>وضعیت</th>
-                                                <th>جمع</th>
+                                                <th>مجموع پرداختی</th>
                                                 <th>اقدامات</th>
                                             </tr>
                                         </thead>
@@ -82,8 +82,8 @@
                                                     <td>{{order.payment_date|jalal_date}}
                                                     </td>
                                                     <td>تکمیل شده</td>
-                                                    <td>{{order.get_total_amount}}</td>
-                                                    <td><a href="#" class="btn-small d-block">جزئیات</a></td>
+                                                    <td>{{order.get_total_amount|three_digits}} هزار تومان</td>
+                                                    <td><a href="{% url "user_profile_module:user-order-detail" order_id=order.id %}" class="btn-small d-block">جزئیات</a></td>
                                                 </tr>
                                             {% endfor %}
                                         </tbody>
