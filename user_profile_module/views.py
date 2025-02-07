@@ -1,9 +1,11 @@
 from django.shortcuts import redirect, render
+from django.http import JsonResponse
 from django.urls import reverse
 from django.views import View
 from django.contrib import messages
 from django.db.models import Count
 from django.contrib.auth import login,logout
+from django.template.loader import render_to_string
 from account_module.models import User,UserAddress
 from order_module.models import OrderBasket
 from .forms import EditUserAddressForm,EditUserInformationForm,ChangePasswordForm
@@ -104,4 +106,22 @@ def user_order_detail(request,order_id):
         'order':target_order_basket
     })
 
+# done
+def remove_user_favorite_product(request):
+    product_id=request.GET.get('favorite_product_id')
+    print(product_id)
+    user_favorite_product=UserFavoriteProduct.objects.filter(user_id=request.user.id,product_id=product_id)
+    user_favorite_product.delete()
 
+    context={
+        'user_favorite_products':UserFavoriteProduct.objects.filter(user_id=request.user.id).order_by('product__added_date')
+    }
+
+    return JsonResponse({
+            'status':'success',
+            'body':render_to_string("user_profile_module/includes/user_favorite_component.html",context)
+        })
+
+
+def change_user_favorite_product_count(request):
+    pass

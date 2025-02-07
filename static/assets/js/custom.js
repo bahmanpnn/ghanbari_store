@@ -209,3 +209,15 @@ function showLargeImage(imageSrc) {
     // Update the `background-image` style of the `.product-thumb` div
     $(".product-thumb.zoom").css('background-image', `url(${imageSrc})`);
 }
+
+// done
+function removeUserFavoriteProduct(favoriteProductId) {
+    $.get('/profile/remove_user_favorite_product/?favorite_product_id=' + favoriteProductId).then(res=> {
+        if (res.status === "success") {
+            // Update User Favorite List
+            $('#user-favorite-list').html(res.body);
+        }
+    });
+}
+
+

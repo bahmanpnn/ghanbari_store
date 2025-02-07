@@ -57,6 +57,8 @@ class OrderDetail(models.Model):
         return str(self.order_basket)
     
     def get_total_price(self):
+        if self.product.price_with_discount and self.product.discount_percent:
+            return self.product.price_with_discount * self.count
         return self.product.price * self.count
 
 

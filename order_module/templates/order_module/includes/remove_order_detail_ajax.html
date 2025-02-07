@@ -60,7 +60,11 @@
                         </div>
                     </div>
                     <div class="price">
-                        <p>{{order.product.price|three_digits}} تومان</p>
+                        {% if order.product.price_with_discount %}
+                            <p>{{order.product.price_with_discount|three_digits}} تومان</p>
+                        {% else %}
+                            <p>{{order.product.price|three_digits}} تومان</p>
+                        {% endif %}
                     </div>
                     <div class="quantity">
                         <!-- user cant change count with keyboard!! input is for siplaying count -->
