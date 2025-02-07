@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.urls import reverse
 from django.views import View
 from django.contrib import messages
@@ -109,8 +109,12 @@ def user_order_detail(request,order_id):
 # done
 def remove_user_favorite_product(request):
     product_id=request.GET.get('favorite_product_id')
-    print(product_id)
-    user_favorite_product=UserFavoriteProduct.objects.filter(user_id=request.user.id,product_id=product_id)
+
+    user_favorite_product=UserFavoriteProduct.objects.filter(user_id=request.user.id,product_id=product_id).first()
+    if user_favorite_product is None:
+        return JsonResponse({
+            'status':'error'
+        })
     user_favorite_product.delete()
 
     context={
@@ -123,5 +127,24 @@ def remove_user_favorite_product(request):
         })
 
 
-def change_user_favorite_product_count(request):
-    pass
+# def change_user_favorite_product_count(request):
+    # product_id=request.GET.get('favorite_product_id')
+    # state=request.GET.get('state')
+    
+    # if product_id is None or state is None:
+    #     return JsonResponse({
+    #         'status':'invalid-request'
+    #     })
+
+    # user_favorite_product=UserFavoriteProduct.objects.filter(user_id=request.user.id,product_id=product_id).first()
+    # if user_favorite_product is None:
+    #     return JsonResponse({
+    #         'status':'not-found'
+    #     })
+    
+    
+    # context={
+    #     'user_favorite_products':UserFavoriteProduct.objects.filter(user_id=request.user.id).order_by('product__added_date')
+    # }
+
+    # return HttpResponse('view done')

@@ -220,4 +220,10 @@ function removeUserFavoriteProduct(favoriteProductId) {
     });
 }
 
-
+function changeUserFavoriteProductCount(favoriteProductId,state) {
+    $.get('/profile/change_user_favorite_product_count/?favorite_product_id=' + favoriteProductId+'&state='+state).then(res=>{
+        if (res.status === "success") {
+            $('#user-favorite-list').html(res.body);
+        }
+    });
+}

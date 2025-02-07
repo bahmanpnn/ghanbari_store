@@ -1,7 +1,14 @@
 {% extends "base.html" %}
 {% load thumbnail %}
+{% load static %}
 
 {% block title %}{% endblock title %}
+
+{% block header_references %}
+    <link rel="stylesheet" href="{% static "user_profile_module/css/user_profile.css" %}">
+{% endblock header_references %}
+
+
 
 {% block content %}
 
