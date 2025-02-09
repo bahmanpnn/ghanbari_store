@@ -5,6 +5,8 @@ from django.core.validators import MaxValueValidator,MinValueValidator
 from django.urls import reverse
 from account_module.models import User
 from django_ckeditor_5.fields import CKEditor5Field
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Product(models.Model):
@@ -13,9 +15,9 @@ class Product(models.Model):
     image=models.ImageField(upload_to="images/products",null=True,blank=True)
     short_description=models.CharField(max_length=510,db_index=True,null=True,blank=True)
     content = CKEditor5Field('Text', config_name='default',null=True,blank=True) 
-    # content=models.TextField(null=True,blank=True)
     price=models.PositiveIntegerField()
     weight=models.PositiveIntegerField()
+    avg_rate=models.FloatField(default=0.0)
     discount_percent=models.PositiveIntegerField(default=0,validators=[MaxValueValidator(100),MinValueValidator(0)],blank=True,null=True)
     price_with_discount=models.PositiveIntegerField(null=True,blank=True)
     slug=models.SlugField(blank=True,unique=True,null=True,db_index=True,max_length=127,allow_unicode=True)
@@ -23,7 +25,6 @@ class Product(models.Model):
     is_delete=models.BooleanField(default=False)
     added_date=models.DateTimeField(auto_now_add=True)
     updated_date=models.DateTimeField(auto_now=True)
-    rating=models.PositiveSmallIntegerField(default=0,validators=[MaxValueValidator(5),MinValueValidator(0)],blank=True,null=True)
 
 
     def __str__(self):
@@ -43,7 +44,6 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.product.title}"
-
 
 
 def default_end_date():
@@ -70,3 +70,23 @@ class ProductOfTheWeek(models.Model):
     # def __str__(self):
     #     return f"{self.product.title} {self.discount_percentage}"
 
+
+class CommentReviewStatusType(models.IntegerChoices):
+    pending=1,'در انتظار تایید'
+    accepted=2,'پذیرش شده'
+    rejected=3,'رد شده'
+
+
+class ProductCommentReview(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    product=models.ForeignKey(Product,on_delete=models.CASCADE)
+    description=models.TextField()
+    rating=models.IntegerField(default=5,validators=[MaxValueValidator(5),MinValueValidator(0)],blank=True,null=True)
+    status=models.IntegerField(choices=CommentReviewStatusType.choices,default=CommentReviewStatusType.pending.value)
+    created_date=models.DateTimeField(auto_now_add=True)
+    updated_date=models.DateTimeField(auto_now=True)
+
+
+@receiver(post_save, sender=ProductCommentReview)
+def _post_save_receiver(sender, **kwargs):
+    pass
