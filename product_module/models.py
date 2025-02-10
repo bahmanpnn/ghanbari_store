@@ -5,8 +5,7 @@ from django.core.validators import MaxValueValidator,MinValueValidator
 from django.urls import reverse
 from account_module.models import User
 from django_ckeditor_5.fields import CKEditor5Field
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+
 
 
 class Product(models.Model):
@@ -17,6 +16,7 @@ class Product(models.Model):
     content = CKEditor5Field('Text', config_name='default',null=True,blank=True) 
     price=models.PositiveIntegerField()
     weight=models.PositiveIntegerField()
+    # calorie=models.FloatField(default=0.0,null=True,blank=True)
     avg_rate=models.FloatField(default=0.0)
     discount_percent=models.PositiveIntegerField(default=0,validators=[MaxValueValidator(100),MinValueValidator(0)],blank=True,null=True)
     price_with_discount=models.PositiveIntegerField(null=True,blank=True)
@@ -87,6 +87,3 @@ class ProductCommentReview(models.Model):
     updated_date=models.DateTimeField(auto_now=True)
 
 
-@receiver(post_save, sender=ProductCommentReview)
-def _post_save_receiver(sender, **kwargs):
-    pass

@@ -80,7 +80,6 @@ function addModalProductToBasket(productId) {
 }
 
 
-
 function orderDetail(detailId) {
     $.get('/orders/remove_basket_card_order_detail/?detail_id=' + detailId).then(res=> {
         if (res.status === "success") {
@@ -225,5 +224,61 @@ function changeUserFavoriteProductCount(favoriteProductId,state) {
         if (res.status === "success") {
             $('#user-favorite-list').html(res.body);
         }
+    });
+}
+
+function SendProductReviewComment(productId) {
+    var comment = $('#id_description').val();
+    var csrfToken = $('input[name=csrfmiddlewaretoken]').val();  // Get CSRF token
+    var product_rating=$('#rating').val()
+
+    $.post('/products/add-product-comment/', {
+        comment: comment,
+        product_id: productId,
+        product_rating:product_rating,
+        csrfmiddlewaretoken: csrfToken  // Include CSRF token
+
+    }).done(function(res) {
+        if (res.status === 'not-authenticated') {
+            Swal.fire({
+                title: res.title,
+                text:res.message,
+                icon: res.icon,
+                showConfirmButton: true,
+                confirmButtonColor: "#3085d6",
+                confirmButtonText:"صفحه ورود",
+              }).then((result) => {
+                if (result.isConfirmed && res.status === 'not-authenticated') {
+                    window.location.href= '/account/login/'
+                }
+              });
+        } else {
+            if (res.status === 'success') {
+                Swal.fire({
+                    title: res.title,
+                    text:res.message,
+                    icon: res.icon,
+                    showConfirmButton: false,
+                    showCancelButton: true,
+                    cancelButtonColor: "#dd8533",
+                    cancelButtonText:'باشه',
+                });
+                $('#id_description').val('');  // Clear textarea
+            } else{
+                    Swal.fire({
+                        title: res.title,
+                        text:res.message,
+                        icon: res.icon,
+                        showConfirmButton: false,
+                        showCancelButton: true,
+                        cancelButtonColor: "#dd8533",
+                        cancelButtonText:'باشه',
+                    });
+                };
+        }
+        
+    }).fail(function(xhr) {
+        console.error('AJAX Error:', xhr);
+        alert('خطایی رخ داد!');
     });
 }

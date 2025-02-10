@@ -65,7 +65,6 @@ def add_article_comment(request):
     article_id=request.GET.get('article_id')
     parent_id=request.GET.get('parent_id')
     comment_text=request.GET.get('comment')
-    print(article_id,parent_id,comment_text)
 
     new_comment=ArticleComment(parent_id=parent_id,article_id=article_id,text=comment_text,author_id=request.user.id)
     new_comment.save()

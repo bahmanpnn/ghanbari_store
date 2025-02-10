@@ -189,18 +189,21 @@
                                         <div class="product-details-review-product-style">
                                             <div class="average-stars-area-right">
                                                 <div class="top-stars-wrapper">
-                                                    <h4 class="review">{{ avg_rate|default:"0.0" }}</h4>
+                                                    <h4 class="review">
+                                                        5.0
+                                                    </h4>
                                                     <div class="rating-disc">
                                                         <span>میانگین امتیاز</span>
                                                         <div class="stars">
-                                                            {% for i in "12345" %}
-                                                                <i class="fa-solid fa-star {% if forloop.counter > avg_rate %} fa-regular {% endif %}"></i>
-                                                            {% endfor %}
-                                                            <span>({{ accepted_comments.count }} نظر و 0 رتبه بندی)</span>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <span>(1 نظر و 0 رتبه بندی)</span>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
                                                 <div class="average-stars-area">
                                                     <h4 class="average">66.7٪</h4>
                                                     <span>توصیه شده (2 از 3)</span>
@@ -283,26 +286,31 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="product-reviews">
-                                                {% include "product_module/includes/product_comments.html" %}
-                                            </div>
-                                            <div class="submit-review-area" id='comment_area_form'>
-                                                <form method="post" action="" novalidate id="form">
-                                                    {% csrf_token %}
+                                            <div class="submit-review-area">
+                                                <form action="#" class="submit-review-area">
                                                     <h5 class="title">نظر خود را ارسال کنید</h5>
                                                     <div class="your-rating">
                                                         <span>امتیاز شما به این محصول:</span>
                                                         <div class="stars">
-                                                            {{form.product_rating}}
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
                                                         </div>
                                                     </div>
-                                                    <div>
-                                                        {{ form.description }}
-                                                    <div>
-                                                    <a onclick="SendProductReviewComment({{product.id}})" class="rts-btn btn-primary cursor-pointer" type="submit">ارسال </a>
+                                                    <div class="half-input-wrapper">
+                                                        <div class="half-input">
+                                                            <input type="text" placeholder="اسم شما*">
+                                                        </div>
+                                                        <div class="half-input">
+                                                            <input type="text" placeholder="ایمیل شما *">
+                                                        </div>
+                                                    </div>
+                                                    <textarea name="#" id="#" placeholder="نظر خود را بنویسید" required=""></textarea>
+                                                    <button class="rts-btn btn-primary">ارسال بررسی</button>
                                                 </form>
                                             </div>
-                                            
                                         </div>
                                     </div>
                                 </div>

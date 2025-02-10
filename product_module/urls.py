@@ -11,4 +11,5 @@ urlpatterns = [
     re_path(r'^(?P<pk>[0-9]+)/(?P<slug>[\w-]+)/\Z$', views.ProductDetailView.as_view(), name='product-detail'),
     # add product to user fav list
     path('add-to-user-favorite-list/',views.add_remove_product_to_favorite_list,name='add-product-to-favorite-list'),
+    path('add-product-comment/',views.add_product_comment,name="add-product-comment")
 ]

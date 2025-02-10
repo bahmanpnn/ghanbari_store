@@ -1,11 +1,15 @@
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import ListView,DetailView
+from django.views.generic import ListView,DetailView, FormView
 from django.db.models import Sum,Count
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
+from django.template.loader import render_to_string
+from django.views.decorators.csrf import csrf_exempt
 from user_profile_module.models import UserFavoriteProduct
-from .models import Product,ProductImage
-from .forms import ProductFilterForm
+from account_module.models import User
+from .models import Product,ProductImage, ProductCommentReview
+from .forms import ProductFilterForm,ProductCommentReviewForm
+from .models import Product, ProductCommentReview
 
 
 class ProductListView(ListView):
@@ -54,25 +58,71 @@ class ProductListView(ListView):
         return context
     
 
-class ProductDetailView(DetailView):
+class ProductDetailView(DetailView,FormView):
     template_name='product_module/product_detail.html'
     model=Product
     context_object_name='product'
-    
+    form_class=ProductCommentReviewForm
+
     def get_queryset(self):
         return super().get_queryset()
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         loaded_product=self.object
+        
+        # product images
         product_images=list(ProductImage.objects.filter(product_id=loaded_product.id).all())
         product_images.insert(0,loaded_product)
         context['product_images']=product_images
-        return context
 
+        # accepted product comments
+        # context['avg_rate']=loaded_product.avg_rate,  # Pass average rating
+        accepted_comments = ProductCommentReview.objects.filter(product=loaded_product, status=2).order_by('-created_date')
+        context.update({
+            "accepted_comments": accepted_comments,
+            "avg_rate": loaded_product.avg_rate,
+            # "form": self.form_class(),
+            "form": self.get_form(),
+        })
+
+        return context
+    
     def get_object(self, queryset = None):
         queryset=Product.objects.get(pk=self.kwargs['pk'],slug=self.kwargs['slug'])
         return queryset 
+
+    # def get_form_kwargs(self):
+    #     kwargs = super().get_form_kwargs()
+    #     kwargs["user"] = self.request.user  # Pass the logged-in user to the form
+    #     return kwargs
+    
+    # def form_valid(self, form):
+    #     product = self.get_object()
+    #     comment = form.save(commit=False)
+    #     comment.product = product
+    #     comment.user = self.request.user  # Assuming the user is logged in
+    #     comment.save()
+    #     return super().form_valid(form)
+    
+    # def get_success_url(self):
+    #     return self.get_object().get_absolute_url()  # Reload product page
+
+    # def get_success_url(self):
+    #     return self.request.path  # Redirect to the same product detail page after form submission
+
+    
+
+    # def post(self, request, *args, **kwargs):
+    #     print(request.POST)
+    #     """Handle form submission."""
+    #     self.object = self.get_object()  # Load product instance
+    #     form = self.get_form()
+
+    #     if form.is_valid():
+    #         return self.form_valid(form)
+    #     else:
+    #         return self.form_invalid(form)
 
 
 def add_remove_product_to_favorite_list(request):
@@ -122,4 +172,70 @@ def add_remove_product_to_favorite_list(request):
             'icon':'error',
             'confirm_button_text':'ورود به حساب'
             })
+
+
+def add_product_comment(request):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            product_id = request.POST.get('product_id')
+            comment_text = request.POST.get('comment')
+            product_rating = request.POST.get('product_rating')
+
+            # Check if product exists
+            if not Product.objects.filter(id=product_id).exists():
+                return JsonResponse({'status': 'invalid-product',
+                                     'icon':'error',
+                                     'title':'خطا',
+                                        'message': 'محصول پیدا نشد'})
+            
+            user=request.user.id
+            check_user=User.objects.get(id=user)
+            if not check_user:
+                return JsonResponse({'status': 'user-not-found',
+                                     'icon':'error',
+                                     'title':'خطا',
+                                        'message': 'حساب کاربری پیدا نشد'})
+            
+            # Create and save comment (assuming you have a user system)
+            ProductCommentReview.objects.create(
+                product_id=product_id,
+                user=request.user,  # Assuming the user is authenticated
+                description=comment_text,
+                rating=product_rating,
+                status="0"  # Assuming "0" means pending review
+            )
+
+            return JsonResponse({'status': 'success',
+                                 'icon':'success',
+                                  'message': 'نظر شما با موفقیت ثبت شد'})
+
+        return JsonResponse({'status': 'not-authenticated',
+                             'icon':'warning',
+                             'title':'هشدار',
+                              'message': 'کاربر احراز هویت لازم دارد!'})
+    return JsonResponse({'status': 'error',
+                         'icon':'error',
+                         'title':'خطا',
+                          'message': 'درخواست نامعتبر!!'})
+
+
+
+# class ProductDetailView(DetailView):
+#     template_name='product_module/product_detail.html'
+#     model=Product
+#     context_object_name='product'
     
+#     def get_queryset(self):
+#         return super().get_queryset()
+    
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         loaded_product=self.object
+#         product_images=list(ProductImage.objects.filter(product_id=loaded_product.id).all())
+#         product_images.insert(0,loaded_product)
+#         context['product_images']=product_images
+#         return context
+
+#     def get_object(self, queryset = None):
+#         queryset=Product.objects.get(pk=self.kwargs['pk'],slug=self.kwargs['slug'])
+#         return queryset 

@@ -1,0 +1,13 @@
+{% for comment in accepted_comments %}
+    <div class="single-review">
+        <h5>{{ comment.user }}</h5>
+        <div class="stars">
+            {% for i in "12345" %}
+                <i class="fa-solid fa-star"></i>
+            {% endfor %}
+        </div>
+        <p>{{ comment.description }}</p>
+    </div>
+{% empty %}
+    <p>اولین نفری باشید که نظر خود را ثبت میکند</p>
+{% endfor %}

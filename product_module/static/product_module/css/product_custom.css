@@ -84,4 +84,38 @@
 }
 
 
+.submit-review-area ul{
+    display: inline;
+    padding-bottom: 1px !important;
+    padding-top: 1px !important;
+}
 
+
+/* textarea {
+    width: 100% !important;
+    min-height: 150px !important;
+    resize: vertical !important;
+}
+
+.submit-review-area textarea {
+    width: 100% !important;
+}
+@media (max-width: 768px) {
+    textarea {
+        width: 100% !important;
+        min-height: 200px !important;
+    }
+} */
+
+
+/* @media only screen and (min-width: 767px){
+    textarea {
+        width: 100% !important;
+        min-height: 150px !important;
+        padding: 10px !important;
+        font-size: 16px !important;
+        border: 1px solid #ccc !important;
+        border-radius: 5px !important;
+        resize: vertical !important;
+    }
+} */
