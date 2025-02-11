@@ -6,7 +6,7 @@ class ProductFilterForm(forms.Form):
     PRODUCT_FILTERING_CHOICES = [
         ('all', 'همه محصولات'),
         ('discounted', 'محصولات تخفیف خورده'),
-        ('no-discount', 'محصولات بدون تخفیف'),
+        # ('no-discount', 'محصولات بدون تخفیف'),
         ('most-bought', 'محصولات پرطرفدار'),
     ]
     product_filter = forms.ChoiceField(choices=PRODUCT_FILTERING_CHOICES,

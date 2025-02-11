@@ -21365,14 +21365,16 @@ body.modal-open {
 .single-cart-area-list.main .product-main-cart .close {
   cursor: pointer;
 }
-@media only screen and (max-width: 575px) {
+
+/* @media only screen and (max-width: 575px) {
   .single-cart-area-list.main .product-main-cart .close {
     cursor: pointer;
     position: absolute;
     left: -13px;
     top: -14px;
   }
-}
+} */
+
 .single-cart-area-list.main .product-main-cart .close i {
   height: 30px;
   width: 30px;
