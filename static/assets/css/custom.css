@@ -38,6 +38,13 @@
     -webkit-box-orient: vertical; /* Required for line-clamp */
 }
 
+.main-card-text {
+    height: 65px; /* Reserve space for up to 3 lines of text */
+    line-height: 30px; /* Match line height to text size */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limit to 3 lines */
+    -webkit-box-orient: vertical; /* Required for line-clamp */
+}
 
 
 /* slider styles */
