@@ -7,17 +7,42 @@ from account_module.models import User
 from django_ckeditor_5.fields import CKEditor5Field
 
 
+# class Product(models.Model):
+#     title = models.CharField(max_length=127, db_index=True, unique=True)
+#     quantity = models.PositiveIntegerField(default=0)
+#     image = models.ImageField(upload_to="images/products", null=True, blank=True)
+#     short_description = models.CharField(max_length=510, db_index=True, null=True, blank=True)
+#     content = CKEditor5Field('Text', config_name='default', null=True, blank=True)
+#     price = models.DecimalField(max_digits=10, decimal_places=2)
+#     weight = models.DecimalField(max_digits=10, decimal_places=2)
+#     calorie = models.PositiveIntegerField(null=True, blank=True)
+#     avg_rate = models.DecimalField(max_digits=3, decimal_places=2, default=0.0)
+#     discount_percent = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(100), MinValueValidator(0)], blank=True, null=True)
+#     slug = models.SlugField(blank=True, unique=True, null=True, db_index=True, max_length=127, allow_unicode=True)
+#     is_active = models.BooleanField(default=True)
+#     is_deleted = models.BooleanField(default=False)
+#     added_date = models.DateTimeField(auto_now_add=True)
+#     updated_date = models.DateTimeField(auto_now=True)
+
+#     def __str__(self):
+#         return self.title
+
+#     def save(self, *args, **kwargs):
+#         if not self.slug:
+#             self.slug = slugify(self.title, allow_unicode=True)
+#         super().save(*args, **kwargs)
 
 class Product(models.Model):
     title=models.CharField(max_length=127,db_index=True,unique=True)
-    quantity=models.PositiveIntegerField(default=0,null=True)
+    quantity=models.PositiveIntegerField(default=0)
     image=models.ImageField(upload_to="images/products",null=True,blank=True)
     short_description=models.CharField(max_length=510,db_index=True,null=True,blank=True)
     content = CKEditor5Field('Text', config_name='default',null=True,blank=True) 
     price=models.PositiveIntegerField()
     weight=models.PositiveIntegerField()
-    # calorie=models.FloatField(default=0.0,null=True,blank=True)
-    avg_rate=models.FloatField(default=0.0)
+    calorie=models.IntegerField(null=True,blank=True)
+    # avg_rate=models.FloatField(default=0.0)
+    avg_rate = models.DecimalField(max_digits=2, decimal_places=1, default=0.0)
     discount_percent=models.PositiveIntegerField(default=0,validators=[MaxValueValidator(100),MinValueValidator(0)],blank=True,null=True)
     price_with_discount=models.PositiveIntegerField(null=True,blank=True)
     slug=models.SlugField(blank=True,unique=True,null=True,db_index=True,max_length=127,allow_unicode=True)

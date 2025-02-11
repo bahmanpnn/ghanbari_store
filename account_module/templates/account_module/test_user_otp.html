@@ -12,8 +12,8 @@
             <div class="logo-area mb--0">
                 <img class="mb--10" src="/static/assets/images/logo/khooshe.png" alt="لوگو">
             </div>
-            <h5>{% if flow_type == "signup" %}کد تایید برای ثبت نام {% else %}کد تایید برای فراموشی رمز عبور{% endif %}</h5>
-            <div class="otp-title">کد ارسال شده را وارد کنید</div>
+            <h5 class="gulzar-regular">{% if flow_type == "signup" %}کد تایید برای ثبت نام {% else %}کد تایید برای فراموشی رمز عبور{% endif %}</h5>
+            <div class="otp-title gulzar-regular">لطفا کد ارسال شده را از چپ به راست وارد کنید</div>
             <form method="post" action="">
                 {% csrf_token %}
                 {{form.input1}}

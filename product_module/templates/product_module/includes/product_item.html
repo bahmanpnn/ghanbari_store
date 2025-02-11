@@ -57,10 +57,10 @@
         {% endif %}
         <div class="price-area">
             {% if product.price_with_discount %}
-                <span class="current">{{ product.price_with_discount }} تومان</span>
+                <span class="current price-style">{{ product.price_with_discount }} تومان</span>
                 <div class="previous">{{ product.price }} تومان</div>
                 {% else %}
-                <div class="current">{{ product.price }} تومان</div>
+                <div class="current price-style">{{ product.price }} تومان</div>
             {% endif %}
         </div>
         <div class="cart-counter-action">

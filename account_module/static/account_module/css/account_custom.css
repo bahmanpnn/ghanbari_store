@@ -5,3 +5,10 @@
     color: rgb(247, 66, 66);
     list-style:none;
 }
+.gulzar-regular {
+    font-family: "Gulzar", serif;
+    font-weight: 500;
+    font-size: 38px;
+    font-style: normal;
+  }
+  

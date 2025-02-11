@@ -65,14 +65,15 @@
                                         </div>
                                         <div class="contents">
                                             <div class="product-status">
-                                                {% comment %} <span class="product-catagory">لباس</span> {% endcomment %}
-                                                <div class="rating-stars-group">
-                                                    <div class="rating-star"><i class="fas fa-star"></i></div>
-                                                    <div class="rating-star"><i class="fas fa-star"></i></div>
-                                                    <div class="rating-star"><i class="fas fa-star"></i></div>
-                                                    <div class="rating-star"><i class="fas fa-star"></i></div>
-                                                    <div class="rating-star"><i class="fas fa-star-half-alt"></i></div>
-                                                    <span>10 بررسی</span>
+                                                <div class="top-stars-wrapper">
+                                                    <div class="rating-disc">
+                                                        <div class="stars">
+                                                            {% for i in "12345" %}
+                                                                <i class="fa {% if avg_rate >= forloop.counter %}fa-solid fa-star{% elif avg_rate > forloop.counter0 and avg_rate < forloop.counter %}fa-solid fa-star-half-alt{% else %}fa-regular fa-star{% endif %}"></i>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <span class="star-count-style">({{ accepted_comments.count }})</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <h2 class="product-title">{{product.title}}</h2>
@@ -144,10 +145,12 @@
                                     <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">اطلاعات تکمیلی</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="profile-tabt" data-bs-toggle="tab" data-bs-target="#profile-tab-panes" type="button" role="tab" aria-controls="profile-tab-panes" aria-selected="false">نظرات مشتریان (01)</button>
+                                    <button class="nav-link" id="profile-tabt" data-bs-toggle="tab" data-bs-target="#profile-tab-panes" type="button" role="tab" aria-controls="profile-tab-panes" aria-selected="false">نظرات مشتریان ({{accepted_comments.count}})</button>
                                 </li>
-                                </ul>
-                                <div class="tab-content" id="myTabContent">
+
+                            </ul>
+
+                            <div class="tab-content" id="myTabContent">
                                 <div class="tab-pane fade   show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                                     <div class="single-tab-content-shop-details">
                                         <p class="disc">
@@ -173,6 +176,12 @@
                                                         <td>وزن محصول</td>
                                                         <td>{{product.weight}}</td>
                                                     </tr>
+                                                    {% if product.calorie %}
+                                                    <tr>
+                                                        <td>کالری محصول</td>
+                                                        <td>{{product.calorie}}</td>
+                                                    </tr>
+                                                    {% endif %}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -194,119 +203,40 @@
                                                         <span>میانگین امتیاز</span>
                                                         <div class="stars">
                                                             {% for i in "12345" %}
-                                                                <i class="fa-solid fa-star {% if forloop.counter > avg_rate %} fa-regular {% endif %}"></i>
+                                                                <i class="fa {% if avg_rate >= forloop.counter %}fa-solid fa-star{% elif avg_rate > forloop.counter0 and avg_rate < forloop.counter %}fa-solid fa-star-half-alt{% else %}fa-regular fa-star{% endif %}"></i>
                                                             {% endfor %}
-                                                            <span>({{ accepted_comments.count }} نظر و 0 رتبه بندی)</span>
+                                                            <span>({{ accepted_comments.count }} نظر)</span>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="average-stars-area">
-                                                    <h4 class="average">66.7٪</h4>
-                                                    <span>توصیه شده (2 از 3)</span>
-                                                </div>
-                                                <div class="review-charts-details">
-                                                    <div class="single-review">
-                                                        <div class="stars">
-                                                            <i class="fa-solid fa-star"></i>
-                                                            <i class="fa-solid fa-star"></i>
-                                                            <i class="fa-solid fa-star"></i>
-                                                            <i class="fa-solid fa-star"></i>
-                                                            <i class="fa-solid fa-star"></i>
-                                                        </div>
-                                                        <div class="single-progress-area-incard">
-                                                            <div class="progress">
-                                                                <div class="progress-bar wow fadeInRight" role="progressbar" style="width: 80%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                        <span class="pac">100%</span>
-                                                    </div>
-                                                    <div class="single-review">
-                                                        <div class="stars">
-                                                            <i class="fa-solid fa-star"></i>
-                                                            <i class="fa-solid fa-star"></i>
-                                                            <i class="fa-solid fa-star"></i>
-                                                            <i class="fa-solid fa-star"></i>
-                                                            <i class="fa-regular fa-star"></i>
-                                                        </div>
-                                                        <div class="single-progress-area-incard">
-                                                            <div class="progress">
-                                                                <div class="progress-bar wow fadeInRight" role="progressbar" style="width: 80%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                        <span class="pac">80%</span>
-                                                    </div>
-                                                    <div class="single-review">
-                                                        <div class="stars">
-                                                            <i class="fa-solid fa-star"></i>
-                                                            <i class="fa-solid fa-star"></i>
-                                                            <i class="fa-solid fa-star"></i>
-                                                            <i class="fa-regular fa-star"></i>
-                                                            <i class="fa-regular fa-star"></i>
-                                                        </div>
-                                                        <div class="single-progress-area-incard">
-                                                            <div class="progress">
-                                                                <div class="progress-bar wow fadeInRight" role="progressbar" style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                        <span class="pac">60%</span>
-                                                    </div>
-                                                    <div class="single-review">
-                                                        <div class="stars">
-                                                            <i class="fa-solid fa-star"></i>
-                                                            <i class="fa-solid fa-star"></i>
-                                                            <i class="fa-regular fa-star"></i>
-                                                            <i class="fa-regular fa-star"></i>
-                                                            <i class="fa-regular fa-star"></i>
-                                                        </div>
-                                                        <div class="single-progress-area-incard">
-                                                            <div class="progress">
-                                                                <div class="progress-bar wow fadeInRight" role="progressbar" style="width: 80%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                        <span class="pac">40%</span>
-                                                    </div>
-                                                    <div class="single-review">
-                                                        <div class="stars">
-                                                            <i class="fa-solid fa-star"></i>
-                                                            <i class="fa-regular fa-star"></i>
-                                                            <i class="fa-regular fa-star"></i>
-                                                            <i class="fa-regular fa-star"></i>
-                                                            <i class="fa-regular fa-star"></i>
-                                                        </div>
-                                                        <div class="single-progress-area-incard">
-                                                            <div class="progress">
-                                                                <div class="progress-bar wow fadeInRight" role="progressbar" style="width: 80%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>
-                                                        </div>
-                                                        <span class="pac">30%</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="product-reviews">
                                                 {% include "product_module/includes/product_comments.html" %}
                                             </div>
-                                            <div class="submit-review-area" id='comment_area_form'>
-                                                <form method="post" action="" novalidate id="form">
-                                                    {% csrf_token %}
-                                                    <h5 class="title">نظر خود را ارسال کنید</h5>
-                                                    <div class="your-rating">
-                                                        <span>امتیاز شما به این محصول:</span>
-                                                        <div class="stars">
-                                                            {{form.product_rating}}
+                                            {% if request.user.is_authenticated %}
+                                                <div class="submit-review-area" id='comment_area_form'>
+                                                    <form method="post" action="" novalidate id="form">
+                                                        {% csrf_token %}
+                                                        <h5 class="title">نظر خود را ارسال کنید</h5>
+                                                        <div class="your-rating">
+                                                            <span>امتیاز شما به این محصول:</span>
+                                                            <div>
+                                                                {{form.product_rating}}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div>
-                                                        {{ form.description }}
-                                                    <div>
-                                                    <a onclick="SendProductReviewComment({{product.id}})" class="rts-btn btn-primary cursor-pointer" type="submit">ارسال </a>
-                                                </form>
-                                            </div>
-                                            
+                                                        <div>
+                                                            {{ form.description }}
+                                                        <div>
+                                                        <a onclick="SendProductReviewComment({{product.id}})" class="rts-btn btn-primary cursor-pointer" type="submit">ارسال </a>
+                                                    </form>
+                                                </div>
+                                                {% else %}
+                                                <p class="alert alert-warning text-center">برای ثبت نظر خود ابتدا باید وارد <a href="{% url "account_module:user-login" %}">حساب کاربری</a> خود شوید</p>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
-                                </div>
+                            </div>
                         </div>
                     </div>
                     

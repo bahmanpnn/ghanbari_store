@@ -132,3 +132,7 @@
     background-color: #cf6705ab !important; /* Slightly darker orange on hover */
 }
 
+.price-style{
+    color:rgb(128, 28, 2) !important;
+    font-weight: 600 !important;
+}

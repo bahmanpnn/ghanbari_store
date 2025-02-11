@@ -291,12 +291,12 @@
                                                     <span class="availability">بسته {{other_product.weight}} گرمی</span>
                                                     {% if other_product.price_with_discount and other_product.discount_percent %}
                                                         <div class="price-area">
-                                                            <span class="current">{{other_product.price_with_discount}} تومان</span>
+                                                            <span class="current price-style">{{other_product.price_with_discount}} تومان</span>
                                                             <div class="previous">{{other_product.price}} تومان</div>
                                                         </div>
                                                         {% else %}
                                                         <div class="price-area">
-                                                            <span class="current">{{other_product.price}} تومان</span>
+                                                            <span class="current price-style">{{other_product.price}} تومان</span>
                                                         </div>
                                                     {% endif %}
                                                     <div class="cart-counter-action">
