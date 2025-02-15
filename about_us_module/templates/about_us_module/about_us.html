@@ -1,5 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
+{% load poll_extras %}
+
+
 {% block header_references %}
+    <link rel="stylesheet" href="{% static "about_us_module/css/about_us.css" %}">
 {% endblock header_references %}
 
 {% block content %}
@@ -11,7 +16,7 @@
                     <div class="inner-content-about-area">
                         <h1 class="title">آیا می خواهید ما را بشناسید؟</h1>
                         <p class="disc">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
-                        <a href="#" class="rts-btn btn-primary">با ما تماس بگیرید</a>
+                        <a href="{% url "contact_module:contact-us" %}" class="rts-btn btn-primary">با ما تماس بگیرید</a>
                     </div>
                 </div>
             </div>
@@ -25,31 +30,19 @@
                 <div class="col-lg-12">
                     <div class="counter-area-main-wrapper">
                         <div class="single-counter-area">
-                            <h2 class="title"><span class="counter">60</span> M+</h2>
+                            <h2 class="title"><span class="counter">{{total_paid_amount|format_stat}}</span>+ تومان</h2>
                             <p><br>
-                                مشتریان
-                             
-                                خوشحال</p>
+                                مبلغ خرید شده از ما</p>
                         </div>
                         <div class="single-counter-area">
-                            <h2 class="title"><span class="counter">105</span> M+</h2>
+                            <h2 class="title"><span class="counter">{{ user_count|format_stat }}</span>+</h2>
                             <p><br>
-                                محصولات
-                             
-                                خواربار فروشی</p>
+                            کاربر در خوشه </p>
                         </div>
                         <div class="single-counter-area">
-                            <h2 class="title"><span class="counter">80</span> K+</h2>
+                            <h2 class="title"><span class="counter">{{ total_orders |format_stat}}</span>+</h2>
                             <p><br>
-                                فروشنده
-                             
-                                فعال</p>
-                        </div>
-                        <div class="single-counter-area">
-                            <h2 class="title"><span class="counter">60</span> K+</h2>
-                            <p>
-                                فروشگاه <br>
-                                در سراسر جهان
+                            سفارش در خوشه
                             </p>
                         </div>
                     </div>
@@ -71,7 +64,7 @@
                 <div class="col-lg-8 pl--60 pl_md--10 pt_md--30 pl_sm--10 pt_sm--30">
                     <div class="about-content-area-1">
                         <h2 class="title">
-                            مقصد شما برای محصولات با کیفیت <br>و ملزومات شربت خانه
+                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است
                         </h2>
                         <p class="disc">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد</p>
                         <div class="check-main-wrapper">
@@ -116,7 +109,7 @@
                     <div class="single-service-area-style-one">
                         <div class="icon-area">
                             <span class="bg-text">01</span>
-                            <img src="/static/assets/images/service/01.svg" alt="سرویس">
+                            <img class="orange-svg" src="/static/assets/images/service/01.svg" alt="سرویس">
                         </div>
                         <div class="bottom-content">
                             <h3 class="title">
@@ -132,7 +125,7 @@
                     <div class="single-service-area-style-one">
                         <div class="icon-area">
                             <span class="bg-text">02</span>
-                            <img src="/static/assets/images/service/02.svg" alt="سرویس">
+                            <img class="orange-svg" src="/static/assets/images/service/02.svg" alt="سرویس">
                         </div>
                         <div class="bottom-content">
                             <h3 class="title">
@@ -148,7 +141,7 @@
                     <div class="single-service-area-style-one">
                         <div class="icon-area">
                             <span class="bg-text">03</span>
-                            <img src="/static/assets/images/service/03.svg" alt="سرویس">
+                            <img class="orange-svg" src="/static/assets/images/service/03.svg" alt="سرویس">
                         </div>
                         <div class="bottom-content">
                             <h3 class="title">

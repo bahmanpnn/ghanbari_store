@@ -12,15 +12,6 @@ register=template.Library()
 def three_digits(value:int):
     return '{:,}'.format(value)
 
-# @register.simple_tag
-# def multiply(price,count,*args, **kwargs):
-#     return three_digits(price*count)
-
-# @register.simple_tag
-# def tax(total_amount):
-#     return three_digits(total_amount/10)
-
-
 
 @register.filter(name='jalal_date')
 def jalal_date(value):
@@ -35,9 +26,11 @@ def jalal_date(value):
 
     return datetime2jalali(value).strftime('%H:%M:%S - %y/%m/%d ')
 
+
 @register.filter(name='jalal_time')
 def jalal_time(value):
     return date2jalali(value)
+
 
 @register.filter
 def is_favorite_product(product_id, user_id):
@@ -60,3 +53,31 @@ def query_update(request, **kwargs):
             query_params[key] = value
     return query_params.urlencode()
 
+
+# Formatting numbers for display
+@register.filter
+def format_stat(value):
+    if value is None or value == 0:
+        return "0"
+    elif value < 10:
+        return f"{int(value)}"
+    elif value < 100:
+        return "10"
+    elif value < 1000:
+        return "100"
+    elif value < 10000:
+        return "1K"
+    else:
+        return f"{int(value / 1000)}K"
+    
+
+
+
+
+# @register.simple_tag
+# def multiply(price,count,*args, **kwargs):
+#     return three_digits(price*count)
+
+# @register.simple_tag
+# def tax(total_amount):
+#     return three_digits(total_amount/10)

@@ -8,7 +8,7 @@ class OrderBasket(models.Model):
     user=models.ForeignKey(User,on_delete=models.PROTECT)
     is_paid=models.BooleanField(default=False)
     payment_date=models.DateTimeField(null=True,blank=True)
-    discount=models.PositiveIntegerField(null=True,blank=True,default=None)
+    discount=models.PositiveIntegerField(null=True,blank=True,default=0)
 
     def __str__(self):
         return str(self.user)
@@ -46,6 +46,7 @@ class OrderBasket(models.Model):
     def get_free_transportation(self):
         total=self.get_total_amount()
         return max(0,150-total)
+
 
 class OrderDetail(models.Model):
     product=models.ForeignKey(Product,on_delete=models.PROTECT)
