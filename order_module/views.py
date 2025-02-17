@@ -17,7 +17,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
-
+from site_settings_module.models import SiteSetting
 
 
 def add_product_to_basket(request):
@@ -70,105 +70,203 @@ def add_product_to_basket(request):
             'confirm_button_text':'رفتن به صفحه ورود'
         })
 
-@method_decorator(login_required,name='dispatch')
-class UserOrderBasket(View,LoginRequiredMixin):
-    template_name='order_module/basket.html'
 
-    def get(self,request):
-        current_basket,is_created=OrderBasket.objects.prefetch_related('order_detail').get_or_create(is_paid=False,user_id=request.user.id)
+@method_decorator(login_required, name='dispatch')
+class UserOrderBasket(View, LoginRequiredMixin):
+    template_name = 'order_module/basket.html'
 
-        return render(request,self.template_name,{
-            'user_basket':current_basket,
-            'need_for_free_transportation':150
-            })
+    def get(self, request):
+        current_basket, _ = OrderBasket.objects.get_or_create(is_paid=False, user_id=request.user.id)
+
+        return render(request, self.template_name, {
+            'user_basket': current_basket,
+            'need_for_free_transportation': SiteSetting.get_free_shipping_threshold(),
+        })
+
     
-
 @login_required
 def remove_user_basket_card_order_detail(request):
-    detail_id=request.GET.get('detail_id')
+    detail_id = request.GET.get('detail_id')
+    current_basket, _ = OrderBasket.objects.get_or_create(is_paid=False, user_id=request.user.id)
+
     if detail_id == "all":
-        current_basket,_=OrderBasket.objects.prefetch_related('order_detail').get_or_create(is_paid=False,user_id=request.user.id)
         current_basket.order_detail.all().delete()
-        context={
-            'user_basket':current_basket,
-            'need_for_free_transportation':150
-            }
-        return JsonResponse({
-            'status':'success',
-            'body':render_to_string("order_module/includes/basket_cart.html",context),
-            'mbody':render_to_string("order_module/includes/remove_order_detail_ajax.html",context)
-        })
-
     elif detail_id is None:
-        return JsonResponse({
-            'status':'detail-not-found'
-        })
+        return JsonResponse({'status': 'detail-not-found'})
+    else:
+        count, _ = OrderDetail.objects.filter(
+            id=detail_id, order_basket=current_basket
+        ).delete()
+        
+        if count == 0:
+            return JsonResponse({'status': 'detail-not-found'})
 
-    count,target_order_detail=OrderDetail.objects.filter(id=detail_id,order_basket__is_paid=False,order_basket__user_id=request.user.id).delete()
-    if count == 0:
-        return JsonResponse({
-            'status':'detail_not_found'
-        })
-    
-    current_basket,is_created=OrderBasket.objects.prefetch_related('order_detail').get_or_create(is_paid=False,user_id=request.user.id)
-
-    # total=total_price+tax    
-    context={
-        'user_basket':current_basket,
-        'need_for_free_transportation':150
-        }
+    context = {
+        'user_basket': current_basket,
+        'need_for_free_transportation': SiteSetting.get_free_shipping_threshold(),
+    }
 
     return JsonResponse({
-        'status':'success',
-        'body':render_to_string("order_module/includes/basket_cart.html",context),
-        'mbody':render_to_string("order_module/includes/remove_order_detail_ajax.html",context)
+        'status': 'success',
+        'body': render_to_string("order_module/includes/basket_cart.html", context),
+        'mbody': render_to_string("order_module/includes/remove_order_detail_ajax.html", context)
     })
 
 
 @login_required
 def change_order_detail_count(request):
-    detail_id=request.GET.get('detail_id')
-    state=request.GET.get('state')
+    detail_id = request.GET.get('detail_id')
+    state = request.GET.get('state')
 
-    if detail_id is None or state is None:
-        return JsonResponse({
-            'status':'invalid-request'
-        })
+    if not detail_id or not state:
+        return JsonResponse({'status': 'invalid-request'})
 
-    target_order_detail=OrderDetail.objects.filter(order_basket__user_id=request.user.id,id=detail_id,order_basket__is_paid=False).first()
-    if target_order_detail is None:
-        return JsonResponse({
-            'status':'detail-not-found'
-        })
-    
+    target_order_detail = OrderDetail.objects.filter(
+        order_basket__user_id=request.user.id, id=detail_id, order_basket__is_paid=False
+    ).first()
+
+    if not target_order_detail:
+        return JsonResponse({'status': 'detail-not-found'})
+
     if state == "increase":
-        target_order_detail.count+=1
+        target_order_detail.count += 1
         target_order_detail.save()
-    elif state == "decrease" and target_order_detail.count ==1:
-        target_order_detail.delete()
-    elif state == "decrease" and target_order_detail.count >=1:
-        target_order_detail.count-=1
-        target_order_detail.save()
+    elif state == "decrease":
+        if target_order_detail.count == 1:
+            target_order_detail.delete()
+        else:
+            target_order_detail.count -= 1
+            target_order_detail.save()
     else:
-        return JsonResponse({
-            'status':'invalid state'
-        })
-    
-    current_basket,is_created=OrderBasket.objects.prefetch_related('order_detail').get_or_create(is_paid=False,user_id=request.user.id)
+        return JsonResponse({'status': 'invalid-state'})
 
-    # total_price=current_basket.get_total_amount()
-    # tax=total_price/10
-    # total=total_price+tax 
-    context={
-        'user_basket':current_basket,
-        'need_for_free_transportation':150
-        # 'tax':tax,
-        # 'total':total
-        }
+    current_basket, _ = OrderBasket.objects.get_or_create(is_paid=False, user_id=request.user.id)
+
+    context = {
+        'user_basket': current_basket,
+        'need_for_free_transportation': SiteSetting.get_free_shipping_threshold(),
+    }
 
     return JsonResponse({
-        'status':'success',
-        'body':render_to_string("order_module/includes/remove_order_detail_ajax.html",context)
+        'status': 'success',
+        'body': render_to_string("order_module/includes/remove_order_detail_ajax.html", context)
     })
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# @method_decorator(login_required,name='dispatch')
+# class UserOrderBasket(View,LoginRequiredMixin):
+#     template_name='order_module/basket.html'
+
+#     def get(self,request):
+#         current_basket,_=OrderBasket.objects.prefetch_related('order_detail').get_or_create(is_paid=False,user_id=request.user.id)
+#         need_for_free_transportation=SiteSetting.get_free_shipping_threshold()
+
+#         return render(request,self.template_name,{
+#             'user_basket':current_basket,
+#             'need_for_free_transportation':need_for_free_transportation,
+#             })
+
+
+
+# @login_required
+# def remove_user_basket_card_order_detail(request):
+#     detail_id=request.GET.get('detail_id')
+#     need_for_free_transportation=SiteSetting.get_free_shipping_threshold()
+#     if detail_id == "all":
+#         current_basket,_=OrderBasket.objects.prefetch_related('order_detail').get_or_create(is_paid=False,user_id=request.user.id)
+#         current_basket.order_detail.all().delete()
+        
+
+#         context={
+#             'user_basket':current_basket,
+#             'need_for_free_transportation':need_for_free_transportation,
+#             }
+#         return JsonResponse({
+#             'status':'success',
+#             'body':render_to_string("order_module/includes/basket_cart.html",context),
+#             'mbody':render_to_string("order_module/includes/remove_order_detail_ajax.html",context)
+#         })
+
+#     elif detail_id is None:
+#         return JsonResponse({
+#             'status':'detail-not-found'
+#         })
+
+#     count,target_order_detail=OrderDetail.objects.filter(id=detail_id,order_basket__is_paid=False,order_basket__user_id=request.user.id).delete()
+#     if count == 0:
+#         return JsonResponse({
+#             'status':'detail_not_found'
+#         })
+    
+#     current_basket,_=OrderBasket.objects.prefetch_related('order_detail').get_or_create(is_paid=False,user_id=request.user.id)
+
+#     # total=total_price+tax    
+#     context={
+#         'user_basket':current_basket,
+#         'need_for_free_transportation':need_for_free_transportation,
+#         }
+
+#     return JsonResponse({
+#         'status':'success',
+#         'body':render_to_string("order_module/includes/basket_cart.html",context),
+#         'mbody':render_to_string("order_module/includes/remove_order_detail_ajax.html",context)
+#     })
+
+
+# @login_required
+# def change_order_detail_count(request):
+#     detail_id=request.GET.get('detail_id')
+#     state=request.GET.get('state')
+
+#     if detail_id is None or state is None:
+#         return JsonResponse({
+#             'status':'invalid-request'
+#         })
+
+#     target_order_detail=OrderDetail.objects.filter(order_basket__user_id=request.user.id,id=detail_id,order_basket__is_paid=False).first()
+#     if target_order_detail is None:
+#         return JsonResponse({
+#             'status':'detail-not-found'
+#         })
+    
+#     if state == "increase":
+#         target_order_detail.count+=1
+#         target_order_detail.save()
+#     elif state == "decrease" and target_order_detail.count ==1:
+#         target_order_detail.delete()
+#     elif state == "decrease" and target_order_detail.count >=1:
+#         target_order_detail.count-=1
+#         target_order_detail.save()
+#     else:
+#         return JsonResponse({
+#             'status':'invalid state'
+#         })
+    
+#     current_basket,is_created=OrderBasket.objects.prefetch_related('order_detail').get_or_create(is_paid=False,user_id=request.user.id)
+#     need_for_free_transportation=SiteSetting.get_free_shipping_threshold()
+#     # total_price=current_basket.get_total_amount()
+#     # tax=total_price/10
+#     # total=total_price+tax 
+#     context={
+#         'user_basket':current_basket,
+#         'need_for_free_transportation':need_for_free_transportation,
+#         }
+
+#     return JsonResponse({
+#         'status':'success',
+#         'body':render_to_string("order_module/includes/remove_order_detail_ajax.html",context)
+#     })

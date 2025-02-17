@@ -1,5 +1,7 @@
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
+from django.core.exceptions import ValidationError
+# from ckeditor.fields import CKEditor5Field 
 
 
 class SiteSetting(models.Model):
@@ -12,7 +14,6 @@ class SiteSetting(models.Model):
     site_name=models.CharField(max_length=150)
     site_url=models.CharField(max_length=255)
 
-    
     #social media
     facebook=models.URLField(blank=True,null=True)
     whatsup=models.URLField(blank=True,null=True)
@@ -21,8 +22,21 @@ class SiteSetting(models.Model):
     twitter=models.URLField(blank=True,null=True)
     youtube=models.URLField(blank=True,null=True)
 
+    # free shipping threshold
+    free_shipping_threshold = models.PositiveIntegerField(default=150)
+
     def __str__(self):
         return self.site_name
+    
+    def save(self, *args, **kwargs):
+        if SiteSetting.objects.exists() and not self.pk:
+            raise ValidationError("فقط یک مقدار تنظیمات مجاز است. ابتدا مقدار قبلی را حذف کنید.")
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def get_free_shipping_threshold(cls):
+        setting = cls.objects.first()
+        return setting.free_shipping_threshold if setting else 150
 
 
 class BranchLocation(models.Model):
