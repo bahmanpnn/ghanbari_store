@@ -1,4 +1,3 @@
-// Done
 function addProductToBasket(productId){
     // var count=$('#productCount').val();
     var count = $(`#productCount_${productId}`).val();
@@ -79,6 +78,37 @@ function addModalProductToBasket(productId) {
     });
 }
 
+function updateTotal() {
+    const freeShippingRadio = document.getElementById("f-option");
+    const flatRateRadio = document.getElementById("s-option");
+    const totalPriceElement = document.getElementById("total_price_display");
+    const shippingCostInput = document.getElementById("shipping_cost");
+    const basketTotalInput = document.getElementById("basket_total");
+
+    if (!totalPriceElement || !basketTotalInput || !shippingCostInput) {
+        console.error("Error: Some elements are missing for updateTotal()");
+        return;
+    }
+
+    let basketTotal = parseInt(basketTotalInput.value) || 0;
+    let shippingCost = freeShippingRadio?.checked ? 0 : parseInt(shippingCostInput.value) || 0;
+    let finalTotal = basketTotal + shippingCost;
+
+    totalPriceElement.innerText = finalTotal.toLocaleString() + " تومان";
+}
+
+// Run on page load
+document.addEventListener("DOMContentLoaded", function () {
+    updateTotal();
+    
+    // Reattach event listeners every time page updates
+    document.body.addEventListener("change", function (event) {
+        if (event.target.matches("#f-option, #s-option")) {
+            updateTotal();
+        }
+    });
+});
+
 
 function orderDetail(detailId) {
     $.get('/orders/remove_basket_card_order_detail/?detail_id=' + detailId).then(res=> {
@@ -88,6 +118,8 @@ function orderDetail(detailId) {
             
             // Update Full Basket Page (if visible)
             $('#order-detail-content').html(res.mbody);
+            // Wait for DOM update, then call updateTotal()
+            setTimeout(updateTotal, 20);
 
             // Extract updated count from the new HTML
             let newBasketCount = $("#basket-card .fa-cart-shopping").attr("data-basket-count");
@@ -104,9 +136,11 @@ function orderDetail(detailId) {
 function removeOrderBasket(detailId) {
     $.get('/orders/remove_basket_card_order_detail/?detail_id=' + detailId).then(res=>{
         if (res.status === "success") {
-            $('#basket-card').html(res.body);
+            $('#basket-card').empty().html(res.body);
 
-            $('#order-detail-content').html(res.mbody);
+            $('#order-detail-content').empty().html(res.mbody);
+            //  Wait for DOM update, then call updateTotal()
+            setTimeout(updateTotal, 20);
             
             // Extract updated count from the new HTML
             let newBasketCount = $("#basket-card .fa-cart-shopping").attr("data-basket-count");
@@ -119,14 +153,17 @@ function removeOrderBasket(detailId) {
     });
 }
 
-// Done
+
 function changeOrderDetailCount(detailId,state) {
     $.get('/orders/change_order_detail_count/?detail_id=' + detailId+'&state='+state).then(res=>{
         if (res.status === "success") {
             $('#order-detail-content').html(res.body);
+            // Wait for DOM update, then call updateTotal()
+            setTimeout(updateTotal, 20);
         }
     });
 }
+
 
 function SendArticleComment(ArticleId){
 
@@ -282,3 +319,6 @@ function SendProductReviewComment(productId) {
         alert('خطایی رخ داد!');
     });
 }
+
+
+

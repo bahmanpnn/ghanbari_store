@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from account_module.models import User
 from product_module.models import Product
 from site_settings_module.models import SiteSetting
+from django.utils.timezone import now
 
 
 
@@ -11,10 +12,11 @@ class OrderBasket(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     is_paid = models.BooleanField(default=False)
     payment_date = models.DateTimeField(null=True, blank=True)
-    discount = models.PositiveIntegerField(null=True, blank=True, default=0)
+    # discount = models.PositiveIntegerField(null=True, blank=True, default=0)
+    coupon=models.ForeignKey("Coupon", on_delete=models.SET_NULL, null=True, blank=True) 
 
     def __str__(self):
-        return str(self.user)
+        return f"Basket - {self.user}"
 
     def get_total_amount(self):
         """Calculates the total amount considering discounts."""
@@ -23,10 +25,12 @@ class OrderBasket(models.Model):
             for order in self.order_detail.all()
         )
         
-        if self.discount:
-            discount_price = (self.discount / 100) * total_amount
+        if self.coupon and self.coupon.is_valid():
+            discount_price = (self.coupon.discount / 100) * total_amount
             return float(total_amount - discount_price)
         
+        self.coupon=None
+        self.save(update_fields=['coupon'])
         return total_amount
 
     def get_free_transportation(self):
@@ -39,6 +43,7 @@ class OrderBasket(models.Model):
         threshold = SiteSetting.get_free_shipping_threshold()
         total = self.get_total_amount()
         return min((total / threshold) * 100 if threshold else 100, 100)
+
 
 class OrderDetail(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
@@ -54,6 +59,19 @@ class OrderDetail(models.Model):
         return (self.product.price_with_discount or self.product.price) * self.count
 
 
+class Coupon(models.Model):
+    code = models.CharField(max_length=15, unique=True)
+    valid_from = models.DateTimeField()
+    valid_to = models.DateTimeField()
+    discount = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(99)])
+    is_active = models.BooleanField(default=False)
+
+    def is_valid(self):
+        """Check if coupon is active and within the valid time range."""
+        return self.is_active and self.valid_from <= now() <= self.valid_to
+
+    def __str__(self):
+        return self.code
 
 
 
@@ -61,6 +79,41 @@ class OrderDetail(models.Model):
 
 
 
+
+
+
+# class OrderBasket(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.PROTECT)
+#     is_paid = models.BooleanField(default=False)
+#     payment_date = models.DateTimeField(null=True, blank=True)
+#     discount = models.PositiveIntegerField(null=True, blank=True, default=0)  # This stores the discount percentage
+
+#     def __str__(self):
+#         return f"Basket - {self.user}"
+
+#     def get_total_amount(self):
+#         """Calculates the total amount considering discounts (excluding transportation)."""
+#         total_amount = sum(
+#             (order.product.price_with_discount if order.product.price_with_discount else order.product.price) * order.count
+#             for order in self.order_detail.all()
+#         )
+        
+#         if self.discount:
+#             discount_price = (self.discount / 100) * total_amount
+#             return float(total_amount - discount_price)
+        
+#         return total_amount
+
+#     def get_free_transportation(self):
+#         """Returns the remaining amount needed for free shipping."""
+#         free_threshold = SiteSetting.get_free_shipping_threshold()
+#         return max(0, free_threshold - self.get_total_amount())
+
+#     def get_free_transportation_progress(self):
+#         """Calculates progress towards free shipping."""
+#         threshold = SiteSetting.get_free_shipping_threshold()
+#         total = self.get_total_amount()
+#         return min((total / threshold) * 100 if threshold else 100, 100)
 
 
 

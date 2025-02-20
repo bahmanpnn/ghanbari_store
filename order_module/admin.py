@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import OrderBasket,OrderDetail
+from .models import OrderBasket,OrderDetail,Coupon
 
 # class OrderBasketAdmin(admin.ModelAdmin):
 #     list_display=['user','is_paid','payment_date','discount']
@@ -18,7 +18,8 @@ class OrderDetailAdminInline(admin.TabularInline):
 
 
 class OrderBasketAdmin(admin.ModelAdmin):
-    list_display=['user','is_paid','payment_date','discount']
+    list_display=['user','is_paid','payment_date']
     inlines=[OrderDetailAdminInline]
 
 admin.site.register(OrderBasket,OrderBasketAdmin)
+admin.site.register(Coupon)

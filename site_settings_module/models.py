@@ -25,6 +25,9 @@ class SiteSetting(models.Model):
     # free shipping threshold
     free_shipping_threshold = models.PositiveIntegerField(default=150)
 
+    # free shipping threshold
+    transportation_rate = models.PositiveIntegerField(default=100)
+
     def __str__(self):
         return self.site_name
     
@@ -37,6 +40,11 @@ class SiteSetting(models.Model):
     def get_free_shipping_threshold(cls):
         setting = cls.objects.first()
         return setting.free_shipping_threshold if setting else 150
+
+    @classmethod
+    def get_transportation_rate(cls):
+        setting = cls.objects.first()
+        return setting.transportation_rate if setting else 100
 
 
 class BranchLocation(models.Model):

@@ -83,10 +83,12 @@
             {% endfor %}
             <!-- end single product cart area -->
             <div class="bottom-cupon-code-cart-area">
-                <form action="#">
-                    <input type="text" placeholder="کد تخفيف">
-                    <button class="rts-btn btn-primary">اعمال کد</button>
+                <form id="apply-coupon-form" action="{% url 'order_module:apply_coupon' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="text" name="coupon_code" placeholder="کد تخفيف" required>
+                    <button type="submit" class="rts-btn btn-primary">اعمال کد</button>
                 </form>
+                <p id="coupon-message"></p>                
                 <a onclick="orderDetail('all')" class="rts-btn btn-primary mr--50 cursor-pointer">همه را پاک کن</a>
             </div>
         </div>
@@ -96,44 +98,49 @@
             <h5 class="title">مجموع سبد خرید</h5>
             <div class="subtotal">
                 <span>مجموع بدون هزینه ارسال</span>
-                <h6 class="price">{{user_basket.get_total_amount|three_digits}} تومان</h6>
+                <h6 class="price" id="total-amount">
+                    {{ user_basket.get_total_amount|three_digits }} تومان
+                </h6>
             </div>
             <div class="shipping">
                 <span>هزينه ارسال</span>
                 <ul>
                     {% if user_basket.get_total_amount > need_for_free_transportation %}
                     <li>
-                        <input type="radio" id="f-option" name="selector" >
+                        <input type="radio" id="f-option" name="selector" checked>
                         <label for="f-option">ارسال رایگان</label>
-                        
                         <div class="check"></div>
-                        </li>
+                    </li>
+                    <input type="hidden" id="shipping_cost" value="0">
                     {% else %}
                     <li>
                         <input type="radio" id="f-option" name="selector" disabled>
                         <label for="f-option">ارسال رایگان</label>
-                        
                         <div class="check"></div>
                     </li>
-                    {% endif %}
-                    
                     <li>
-                    <input type="radio" id="s-option" name="selector">
-                    <label for="s-option">نرخ ثابت</label>
-                    
-                    <div class="check"><div class="inside"></div></div>
+                        <input type="radio" id="s-option" name="selector" checked>
+                        <label for="s-option">نرخ ثابت ({{ transportation_rate|three_digits }} تومان)</label>
+                        <div class="check"><div class="inside"></div></div>
                     </li>
-                    
-                    {% comment %} <li>
-                        <p>گزینه های حمل و نقل در هنگام تسویه حساب به روز می شود</p>
-                        <p class="bold">محاسبه حمل و نقل</p>
-                    </li> {% endcomment %}
+                    <input type="hidden" id="shipping_cost" value="{{ transportation_rate }}">
+                    {% endif %}
                 </ul>
             </div>
             <div class="bottom">
                 <div class="wrapper">
                     <span>جمع فرعی</span>
-                    <h6 class="price">{{user_basket.get_total_amount|three_digits}} تومان</h6>
+                    <h6 class="price" id="total_price_display">
+                        {% if user_basket.get_total_amount > need_for_free_transportation %}
+                            {{ user_basket.get_total_amount|three_digits }} تومان
+                            {% else %}
+                            {% if total_with_tr %}
+                            {{ total_with_tr|three_digits }} تومان
+                            {% else %}
+                                {{ user_basket.get_total_amount|three_digits }} تومان                        
+                            {% endif %}
+                        {%endif%}
+                    </h6>
                 </div>
                 <div class="button-area">
                     <button class="rts-btn btn-primary">به پرداخت ادامه دهید</button>
@@ -141,6 +148,11 @@
             </div>
         </div>
     </div>
+    
+    <!-- Hidden input to store basket total for JavaScript calculations -->
+    <input type="hidden" id="basket_total" value="{{ user_basket.get_total_amount }}">
+    
+    
 {% else %}
     <div class="col-xl-9 col-lg-12 col-md-12 col-12 order-2 order-xl-1 order-lg-2 order-md-2 order-sm-2">
         <div class="cart-area-main-wrapper">
@@ -164,35 +176,41 @@
             <h5 class="title">مجموع سبد خرید</h5>
             <div class="subtotal">
                 <span>مجموع بدون هزینه ارسال</span>
-                <h6 class="price">0.0 تومان</h6>
+                <h6 class="price">
+                    {{ user_basket.get_total_amount|three_digits }} تومان
+                </h6>
             </div>
             <div class="shipping">
                 <span>هزينه ارسال</span>
                 <ul>
+                    {% if user_basket.get_total_amount > need_for_free_transportation %}
                     <li>
-                    <input type="radio" id="f-option" name="selector" disabled>
-                    <label for="f-option">ارسال رایگان</label>
-                    
-                    <div class="check"></div>
+                        <input type="radio" id="f-option" name="selector" checked>
+                        <label for="f-option">ارسال رایگان</label>
+                        <div class="check"></div>
                     </li>
-                    
+                    <input type="hidden" id="shipping_cost" value="0">
+                    {% else %}
                     <li>
-                    <input type="radio" id="s-option" name="selector">
-                    <label for="s-option">نرخ ثابت</label>
-                    
-                    <div class="check"><div class="inside"></div></div>
+                        <input type="radio" id="f-option" name="selector" disabled>
+                        <label for="f-option">ارسال رایگان</label>
+                        <div class="check"></div>
                     </li>
-                    
-                    {% comment %} <li>
-                        <p>گزینه های حمل و نقل در هنگام تسویه حساب به روز می شود</p>
-                        <p class="bold">محاسبه حمل و نقل</p>
-                    </li> {% endcomment %}
+                    <li>
+                        <input type="radio" id="s-option" name="selector" checked>
+                        <label for="s-option">نرخ ثابت ({{ transportation_rate|three_digits }} تومان)</label>
+                        <div class="check"><div class="inside"></div></div>
+                    </li>
+                    <input type="hidden" id="shipping_cost" value="{{ transportation_rate }}">
+                    {% endif %}
                 </ul>
             </div>
             <div class="bottom">
                 <div class="wrapper">
                     <span>جمع فرعی</span>
-                    <h6 class="price">0.0 تومان</h6>
+                    <h6 class="price" id="total_price_display">
+                        {{ user_basket.get_total_amount|three_digits }} تومان
+                    </h6>
                 </div>
                 <div class="button-area">
                     <button class="rts-btn btn-primary">به پرداخت ادامه دهید</button>
@@ -200,4 +218,7 @@
             </div>
         </div>
     </div>
+    
+    <!-- Hidden input to store basket total for JavaScript calculations -->
+    <input type="hidden" id="basket_total" value="{{ user_basket.get_total_amount }}">
 {% endif %}
