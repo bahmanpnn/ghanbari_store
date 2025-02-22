@@ -18,6 +18,8 @@ from django.views.decorators.csrf import csrf_exempt
 from product_module.models import Product
 from site_settings_module.models import SiteSetting
 from .models import OrderBasket,OrderDetail,Coupon
+from .forms import CheckOutForm
+
 
 
 def add_product_to_basket(request):
@@ -210,10 +212,99 @@ def apply_coupon(request):
     return JsonResponse({"status": "error", "message": "درخواست نامعتبر است!"})
 
 
+class CheckOutView(View,LoginRequiredMixin):
+    template_name="order_module/checkout.html"
+    form_class=CheckOutForm
+
+    def get(self,request):
+        user = request.user
+        address = user.user_address.first()  # Get the first address if available
+        user_order_basket=OrderBasket.objects.prefetch_related('order_detail').filter(is_paid=False, user_id=request.user.id).first()
+
+        return render(request,self.template_name,{
+            'form':self.form_class(instance=address, user=user),
+            'order_basket':user_order_basket,
+            'need_for_free_transportation': SiteSetting.get_free_shipping_threshold(),
+            'transportation_rate': SiteSetting.get_transportation_rate(),
+            'total':user_order_basket.get_total_amount() if user_order_basket.get_total_amount() > SiteSetting.get_free_shipping_threshold() else SiteSetting.get_free_shipping_threshold()+user_order_basket.get_total_amount(),
+        })
+
+    def post(self,request):
+        # print(request.POST)
+        # user = request.user
+        # address = user.user_address.first()  # Get the first address if available
+        # user_order_basket=OrderBasket.objects.prefetch_related('order_detail').filter(is_paid=False, user_id=request.user.id).first()
+
+        # return render(request,self.template_name,{
+        #     'form':self.form_class(instance=address, user=user),
+        #     'order_basket':user_order_basket,
+        #     'need_for_free_transportation': SiteSetting.get_free_shipping_threshold(),
+        #     'transportation_rate': SiteSetting.get_transportation_rate(),
+        #     'total':user_order_basket.get_total_amount() if user_order_basket.get_total_amount() > SiteSetting.get_free_shipping_threshold() else SiteSetting.get_free_shipping_threshold()+user_order_basket.get_total_amount(),
+        # })
+        user = request.user
+        address = user.user_address.first() 
+
+        form = CheckOutForm(request.POST, instance=address, user=user)
+        if form.is_valid():
+            # Save user address (update existing or create new)
+            user_address = form.save(commit=False)
+            user_address.user = user
+            user_address.save()
+            
+            # Proceed to payment
+            return redirect("payment_gateway")
+    
 
 
 
 
+
+# from django.shortcuts import redirect, get_object_or_404
+# from django.utils.timezone import now
+# from .models import OrderBasket, Checkout
+# from payment_gateway import process_payment  # Hypothetical function
+
+
+# def checkout(request):
+#     user = request.user
+#     order_basket = get_object_or_404(OrderBasket, user=user, is_paid=False)
+
+#     # Create a new checkout instance (even if user retries payment)
+#     checkout_instance = Checkout.objects.create(
+#         user=user,
+#         order_basket=order_basket,
+#         phone_number=user.phone_number,
+#         email=user.email,
+#         first_name=user.first_name,
+#         last_name=user.last_name,
+#         province=user.user_address.first().province if user.user_address.exists() else "",
+#         city=user.user_address.first().city if user.user_address.exists() else "",
+#         main_address=user.user_address.first().main_address if user.user_address.exists() else "",
+#         zip_code="",
+#         about_order_text=request.POST.get("about_order_text", ""),
+#         is_successful=False,  # Payment pending
+#     )
+
+#     # Redirect to payment gateway
+#     payment_response = process_payment(order_basket)
+
+#     if payment_response.get("status") == "success":
+#         # Payment was successful → Update Checkout
+#         checkout_instance.is_successful = True
+#         checkout_instance.save(update_fields=["is_successful"])
+
+#         # Mark order as paid
+#         order_basket.is_paid = True
+#         order_basket.payment_date = now()
+#         order_basket.save(update_fields=["is_paid", "payment_date"])
+
+#         # Delete old unsuccessful checkouts
+#         Checkout.objects.filter(user=user, order_basket=order_basket, is_successful=False).delete()
+
+#         return redirect("payment_success_url")
+
+#     return redirect("payment_failed_url")
 
 
 

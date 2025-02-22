@@ -143,7 +143,7 @@
                     </h6>
                 </div>
                 <div class="button-area">
-                    <button class="rts-btn btn-primary">به پرداخت ادامه دهید</button>
+                    <a href="{% url "order_module:user-checkout" %}"><button class="rts-btn btn-primary">به پرداخت ادامه دهید</button></a>
                 </div>
             </div>
         </div>
@@ -212,9 +212,9 @@
                         {{ user_basket.get_total_amount|three_digits }} تومان
                     </h6>
                 </div>
-                <div class="button-area">
+                {% comment %} <div class="button-area">
                     <button class="rts-btn btn-primary">به پرداخت ادامه دهید</button>
-                </div>
+                </div> {% endcomment %}
             </div>
         </div>
     </div>
