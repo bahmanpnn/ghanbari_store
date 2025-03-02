@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import SiteSetting,BranchLocation,FooterLinkBox,FooterLinkItem,SiteBanner,TeamMember
+from .models import SiteSetting,BranchLocation,FooterLinkBox,FooterLinkItem,SiteBanner,TeamMember,SocialMediaLink
 
-
+admin.site.register(SocialMediaLink)
 admin.site.register(SiteSetting)
 admin.site.register(BranchLocation)
 admin.site.register(FooterLinkBox)

@@ -14,13 +14,13 @@ class SiteSetting(models.Model):
     site_name=models.CharField(max_length=150)
     site_url=models.CharField(max_length=255)
 
-    #social media
-    facebook=models.URLField(blank=True,null=True)
-    whatsup=models.URLField(blank=True,null=True)
-    instagram=models.URLField(blank=True,null=True)
-    telegram=models.URLField(blank=True,null=True)
-    twitter=models.URLField(blank=True,null=True)
-    youtube=models.URLField(blank=True,null=True)
+    # #social media
+    # facebook=models.URLField(blank=True,null=True)
+    # whatsup=models.URLField(blank=True,null=True)
+    # instagram=models.URLField(blank=True,null=True)
+    # telegram=models.URLField(blank=True,null=True)
+    # twitter=models.URLField(blank=True,null=True)
+    # youtube=models.URLField(blank=True,null=True)
 
     # free shipping threshold
     free_shipping_threshold = models.PositiveIntegerField(default=150)
@@ -98,4 +98,29 @@ class TeamMember(models.Model):
     image=models.ImageField(upload_to='images/team_members',blank=True,null=True)
     full_name=models.CharField(max_length=127)
     position=models.CharField(max_length=127)
+
+
+class SocialMediaLink(models.Model):
+    PLATFORM_CHOICES = [
+        ("facebook", "Facebook"),
+        ("twitter", "Twitter"),
+        ("whatsup", "Whatsup"),
+        ("telegram", "Telegram"),
+        ("instagram", "Instagram"),
+        ("linkedin", "LinkedIn"),
+        ("youtube", "YouTube"),
+        ("tiktok", "TikTok"),
+        ("github", "GitHub"),
+    ]
+
+    platform = models.CharField(
+        max_length=50, choices=PLATFORM_CHOICES, unique=True
+    )
+    url = models.URLField()
+
+    def __str__(self):
+        return self.get_platform_display()  # Shows the readable name in the admin panel
+    
+
+
 
