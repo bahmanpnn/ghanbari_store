@@ -20,18 +20,16 @@ class OrderBasket(models.Model):
 
     def get_total_amount(self):
         """Calculates the total amount considering discounts."""
-        total_amount = sum(
-            (order.product.price_with_discount if order.product.price_with_discount else order.product.price) * order.count
-            for order in self.order_detail.all()
-        )
-        
+        total_amount = sum(order.get_total_price() for order in self.order_detail.all())
+
         if self.coupon and self.coupon.is_valid():
             discount_price = (self.coupon.discount / 100) * total_amount
             return float(total_amount - discount_price)
-        
-        self.coupon=None
+
+        self.coupon = None
         self.save(update_fields=['coupon'])
         return total_amount
+
 
     def get_free_transportation(self):
         """Returns the remaining amount needed for free shipping."""
@@ -55,8 +53,8 @@ class OrderDetail(models.Model):
         return str(self.order_basket)
 
     def get_total_price(self):
-        """Calculates total price per item considering discounts."""
-        return (self.product.price_with_discount or self.product.price) * self.count
+        """Returns the final price if set; otherwise, calculates dynamically."""
+        return self.final_price * self.count if self.final_price else (self.product.price_with_discount or self.product.price) * self.count
 
 
 class Coupon(models.Model):
@@ -76,8 +74,8 @@ class Coupon(models.Model):
 
 
 class Checkout(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="checkouts")
-    order_basket = models.ForeignKey(OrderBasket, on_delete=models.CASCADE, related_name="checkouts")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="checkout")
+    order_basket = models.OneToOneField(OrderBasket, on_delete=models.CASCADE, related_name="checkout")
 
     phone_number = models.CharField(max_length=15)
     email = models.EmailField(null=True,blank=True)
@@ -91,10 +89,10 @@ class Checkout(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     # if is paid of orderbasket switches to true after payment gateway.it switches to true
-    is_successful = models.BooleanField(default=False) 
+    is_successfull = models.BooleanField(default=False) 
 
     def __str__(self):
-        return f"Checkout for {self.user} - {self.order_basket} ({'Paid' if self.is_successful else 'Pending'})"
+        return f"Checkout for {self.order_basket.id} ({'Paid' if self.is_successfull else 'Pending'})"
 
 
 

@@ -99,6 +99,7 @@ def user_favorite_products(request):
         'user_favorite_products':user_favorite_products
     })
 
+
 def user_order_detail(request,order_id):
     target_order_basket=OrderBasket.objects.prefetch_related('order_detail').filter(id=order_id).first()
     

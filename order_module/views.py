@@ -19,6 +19,7 @@ from product_module.models import Product
 from site_settings_module.models import SiteSetting
 from .models import OrderBasket,OrderDetail,Coupon
 from .forms import CheckOutForm
+from django.contrib import messages
 
 
 
@@ -221,39 +222,42 @@ class CheckOutView(View,LoginRequiredMixin):
         address = user.user_address.first()  # Get the first address if available
         user_order_basket=OrderBasket.objects.prefetch_related('order_detail').filter(is_paid=False, user_id=request.user.id).first()
 
-        return render(request,self.template_name,{
+        context={
             'form':self.form_class(instance=address, user=user),
             'order_basket':user_order_basket,
             'need_for_free_transportation': SiteSetting.get_free_shipping_threshold(),
             'transportation_rate': SiteSetting.get_transportation_rate(),
             'total':user_order_basket.get_total_amount() if user_order_basket.get_total_amount() > SiteSetting.get_free_shipping_threshold() else SiteSetting.get_free_shipping_threshold()+user_order_basket.get_total_amount(),
-        })
+        }
+        return render(request,self.template_name,context)
 
-    def post(self,request):
-        # print(request.POST)
-        # user = request.user
-        # address = user.user_address.first()  # Get the first address if available
-        # user_order_basket=OrderBasket.objects.prefetch_related('order_detail').filter(is_paid=False, user_id=request.user.id).first()
+    # def post(self,request):
+    #     user = request.user
+    #     address = user.user_address.first() 
+    #     user_order_basket=OrderBasket.objects.prefetch_related('order_detail').filter(is_paid=False, user_id=request.user.id).first()
+    #     if not user_order_basket.order_detail:
+    #         messages.error(request, "سبد خرید شما خالی است.")
+    #         return redirect("order_module:order-basket")
 
-        # return render(request,self.template_name,{
-        #     'form':self.form_class(instance=address, user=user),
-        #     'order_basket':user_order_basket,
-        #     'need_for_free_transportation': SiteSetting.get_free_shipping_threshold(),
-        #     'transportation_rate': SiteSetting.get_transportation_rate(),
-        #     'total':user_order_basket.get_total_amount() if user_order_basket.get_total_amount() > SiteSetting.get_free_shipping_threshold() else SiteSetting.get_free_shipping_threshold()+user_order_basket.get_total_amount(),
-        # })
-        user = request.user
-        address = user.user_address.first() 
-
-        form = CheckOutForm(request.POST, instance=address, user=user)
-        if form.is_valid():
-            # Save user address (update existing or create new)
-            user_address = form.save(commit=False)
-            user_address.user = user
-            user_address.save()
+    #     form = CheckOutForm(request.POST, instance=address, user=user)
+    #     if form.is_valid():
+    #         # Save user address (update existing or create new)
+    #         user_address = form.save(commit=False)
+    #         user_address.user = user
+    #         user_address.save()
             
-            # Proceed to payment
-            return redirect("payment_gateway")
+    #         # Proceed to payment
+    #         return redirect("zarinpal_module:request")
+        
+
+    #     context={
+    #         'form':self.form_class(instance=address, user=user),
+    #         'order_basket':user_order_basket,
+    #         'need_for_free_transportation': SiteSetting.get_free_shipping_threshold(),
+    #         'transportation_rate': SiteSetting.get_transportation_rate(),
+    #         'total':user_order_basket.get_total_amount() if user_order_basket.get_total_amount() > SiteSetting.get_free_shipping_threshold() else SiteSetting.get_free_shipping_threshold()+user_order_basket.get_total_amount(),
+    #     }
+    #     return render(request,self.template_name,context)
     
 
 

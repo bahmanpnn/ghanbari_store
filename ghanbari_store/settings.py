@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'polls.apps.PollsConfig',
     'user_profile_module.apps.UserProfileModuleConfig',
     'site_settings_module.apps.SiteSettingsModuleConfig',
+    'zarinpal_module.apps.ZarinpalModuleConfig',
 
     # third party packages
     'django_render_partial',
@@ -237,7 +238,7 @@ CKEDITOR_5_CONFIGS = {
 # }
 
 
-# redis and cache
+# Redis And Cache
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
@@ -247,3 +248,11 @@ CACHES = {
         }
     }
 }
+
+
+# Payment Gateway Configuration
+# SANDBOX MODE
+ZARINPAL_SANDBOX = True  # Set to False in production
+ZARINPAL_MERCHANT_ID = "00000000-0000-0000-0000-000000000000"  # Sandbox merchant ID
+ZARINPAL_CALLBACK_URL = "http://127.0.0.1:8000/zarinpal/verify/"
+# MERCHANT="a9aea4fd-edb9-4ccf-bd62-170e87927e24" # testing uuid and its not valid merchant id

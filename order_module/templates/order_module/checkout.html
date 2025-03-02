@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% load poll_extras %}
+{% load static %}
+
 {% block title %}{% endblock title %}
 
 {% block header_references %}
-
+    <link rel="stylesheet" href="/static/order_module/css/custom_order_module.css" />
 {% endblock header_references %}
 
 {% block content %}
@@ -264,7 +266,7 @@
                 <div class="col-lg-6 pr--40 pr_md--5 pr_sm--5 order-2 order-xl-1 order-lg-2 order-md-2 order-sm-2 mt_md--30 mt_sm--30">
                     <div class="rts-billing-details-area">
                         <h3 class="title">جزئیات صورتحساب</h3>
-                        <form method="POST" action="" novalidate>
+                        <form method="POST" action="{% url 'zarinpal_module:request' %}" id="checkout-form" novalidate>
                             {% csrf_token %}
                             <div class="half-input-wrapper">
                                 <div class="single-input">
@@ -310,7 +312,15 @@
                                 <label for="ordernotes">یادداشت های سفارش </label>
                                 {{ form.about_order_text }}
                             </div>
+                            <div>
+                                {{form.errors}}
+                            </div>
+
                             {% comment %} <button class="rts-btn btn-primary" id="pay-button" style="pointer-events: none; opacity: 0.5;">برو به صفحه پرداخت</button> {% endcomment %}
+                            
+                            <!-- Hidden Submit Button -->
+                            <button type="submit" id="hidden-submit" style="display: none;"></button>
+
                         </form>
                         
                     </div>
@@ -378,7 +388,7 @@
                                 <input id="terms-checkbox" type="checkbox">
                                 <label for="terms-checkbox">شرایط و ضوابط را خوانده ام و موافقم *</label>
                             </div>
-                            <a href="" class="rts-btn btn-primary" id="pay-button" style="pointer-events: none; opacity: 0.5;">برو به صفحه پرداخت</a>
+                            <a href="{% url "zarinpal_module:request" %}" class="rts-btn btn-primary" id="pay-button" style="pointer-events: none; opacity: 0.5;">برو به صفحه پرداخت</a>
                             <br>
                             <a href="{% url "order_module:order-basket" %}" class="rts-btn btn-primary">به روز رسانی سبد خرید</a>
                         </div>
@@ -396,6 +406,31 @@
         document.addEventListener("DOMContentLoaded", function () {
             const termsCheckbox = document.getElementById("terms-checkbox");
             const payButton = document.getElementById("pay-button");
+            const checkoutForm = document.getElementById("checkout-form");
+            const hiddenSubmit = document.getElementById("hidden-submit");
+
+            // Enable Pay Button When Terms are Accepted
+            termsCheckbox.addEventListener("change", function () {
+                if (this.checked) {
+                    payButton.style.pointerEvents = "auto"; 
+                    payButton.style.opacity = "1";
+                } else {
+                    payButton.style.pointerEvents = "none"; 
+                    payButton.style.opacity = "0.5";
+                }
+            });
+
+            // Handle Pay Button Click
+            payButton.addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent default <a> behavior
+                hiddenSubmit.click();
+            });
+        });
+    </script>
+    {% comment %} <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const termsCheckbox = document.getElementById("terms-checkbox");
+            const payButton = document.getElementById("pay-button");
 
             termsCheckbox.addEventListener("change", function () {
                 if (this.checked) {
@@ -407,5 +442,5 @@
                 }
             });
         });
-    </script>
+    </script> {% endcomment %}
 {% endblock footer_references %}
