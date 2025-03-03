@@ -1,3 +1,6 @@
+{% load poll_extras %}
+
+
 <div id="basket-card">
     {% if user_basket.order_detail.all %}
     <i class="fa-sharp fa-regular fa-cart-shopping" data-basket-count="{{user_basket.order_detail.count}}"></i>
@@ -12,16 +15,17 @@
                     </div>
                     <div class="details">
                         <a href="shop-details.html">
-                            <h5 class="title">{{order.product.title}}</h5>
+                            <h5 class="title">{{order.product.title|truncatechars:80}}</h5>
                         </a>
                         <div class="number">
                             {{order.count}}
                             x
                             {% comment %} <i class="fa-regular fa-x"></i> {% endcomment %}
-                            {% if order.product.discount_price %}
-                                <span>{{order.product.discount_price}} تومان</span>
+
+                            {% if order.product.price_with_discount %}
+                                <span>{{order.product.price_with_discount|three_digits}} تومان</span>
                             {% else %}
-                                <span>{{order.product.price}} تومان</span>
+                                <span>{{order.product.price|three_digits}} تومان</span>
                             {% endif %}
                         </div>
                     </div>
@@ -35,27 +39,36 @@
             <div class="bottom-content-deals mt--10">
                 <div class="top">
                     <span>مجموع فرعی: </span>
-                    <span class="number-c">{{user_basket.get_total_amount}} تومان</span>
+                    <span class="number-c">{{user_basket.get_total_amount|three_digits}} تومان</span>
                 </div>
-                <div class="single-progress-area-incard">
-                    <div class="progress">
-                        <div class="progress-bar wow fadeInRight" role="progressbar" style="width: 80%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                {% if user_basket.get_total_amount > need_for_free_transportation %}
+                    <div class="single-progress-area-incard">
+                        <div class="progress">
+                            <div class="progress-bar wow fadeInRight" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
                     </div>
-                </div>
-                <p><span>{{need_for_free_transportation}} تومان</span> بیشتر خرج کنید تا به <span>ارسال رایگان برسید</span></p>
+                    <p><span></span> خرید شما بیشتر از {{need_for_free_transportation|three_digits}} هزار تومان میباشد.بنا براین میتوانید از گزینه ارسال رایگان استفاده کنید</p>
+                {% else %}
+                    <div class="single-progress-area-incard">
+                        <div class="progress">
+                            <div class="progress-bar wow fadeInRight" role="progressbar" style="width: {{user_basket.get_free_transportation_progress|safe}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <p><span> {{user_basket.get_free_transportation|three_digits}}تومان</span> به سبد خرید اضافه کنید و ارسال رایگان دریافت کنید</p>
+                {% endif %}
             </div>
             <div class="button-wrapper d-flex align-items-center justify-content-between">
                 <a href="{% url "order_module:order-basket" %}" class="rts-btn btn-primary">مشاهده سبد </a>
-                <a href="checkout.html" class="rts-btn btn-primary border-only">خرید</a>
+                <a href="{% url "order_module:user-checkout" %}" class="rts-btn btn-primary border-only">صفحه پرداخت</a>
             </div>
         </div>
     </div>
     <a href="{% url "order_module:order-basket" %}" class="over_link"></a>    
     {% else %}
-    <i class="fa-sharp fa-regular fa-cart-shopping" data-basket-count="0"></i>
+    <i class="fa-sharp fa-regular fa-cart-shopping" data-basket-count="{{user_basket.order_detail.count}}"></i>
         <span class="text">سبد خرید من</span>
         <div class="category-sub-menu card-number-show">
-            <h5 class="shopping-cart-number">سبد خرید (True)</h5>
+            <h5 class="shopping-cart-number">سبد خرید ({{user_basket.order_detail.count}})</h5>
             <div class="cart-item-1 border-top">
                 <h2>سبد خرید شما خالی است</h2>
             </div>
@@ -63,18 +76,26 @@
                 <div class="bottom-content-deals mt--10">
                     <div class="top">
                         <span>مجموع فرعی: </span>
-                        <span class="number-c">108.00 تومان</span>
+                        <span class="number-c">{{user_basket.get_total_amount|three_digits}} تومان</span>
                     </div>
-                    <div class="single-progress-area-incard">
-                        <div class="progress">
-                            <div class="progress-bar wow fadeInRight" role="progressbar" style="width: 80%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    {% if user_basket.get_total_amount > need_for_free_transportation %}
+                        <div class="single-progress-area-incard">
+                            <div class="progress">
+                                <div class="progress-bar wow fadeInRight" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                         </div>
-                    </div>
-                    <p><span>125.00 تومان</span> بیشتر خرج کنید تا به <span>ارسال رایگان برسید</span></p>
+                        <p><span></span> خرید شما بیشتر از {{need_for_free_transportation|three_digits}} هزار تومان میباشد.بنا براین میتوانید از گزینه ارسال رایگان استفاده کنید</p>
+                    {% else %}
+                        <div class="single-progress-area-incard">
+                            <div class="progress">
+                                <div class="progress-bar wow fadeInRight" role="progressbar" style="width: {{user_basket.get_free_transportation_progress|safe}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <p><span> {{user_basket.get_free_transportation|three_digits}}تومان</span> به سبد خرید اضافه کنید و ارسال رایگان دریافت کنید</p>
+                    {% endif %}
                 </div>
                 <div class="button-wrapper d-flex align-items-center justify-content-between">
                     <a href="{% url "order_module:order-basket" %}" class="rts-btn btn-primary">مشاهده سبد </a>
-                    <a href="checkout.html" class="rts-btn btn-primary border-only">خرید</a>
                 </div>
             </div>
         </div>

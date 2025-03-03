@@ -207,7 +207,7 @@ def add_product_comment(request):
 
             return JsonResponse({'status': 'success',
                                  'icon':'success',
-                                  'message': 'نظر شما با موفقیت ثبت شد'})
+                                  'message': 'نظر شما با موفقیت ثبت شد.پس از بررسی ادمین نظر شما به نظرات اضافه میشود'})
 
         return JsonResponse({'status': 'not-authenticated',
                              'icon':'warning',

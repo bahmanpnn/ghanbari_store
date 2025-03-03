@@ -33,5 +33,3 @@ class ArticleComment(models.Model):
         return f'{self.article.id}'
 
 
-# class ArticleImages(models.Model):
-#     pass

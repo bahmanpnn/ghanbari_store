@@ -98,31 +98,20 @@
                             <div class="comment-replay-area-start">
                                 {% include "blog_module/includes/article_comments.html" %}
                                 <br>
-                                {% if request.user.is_authenticated %}                                                        
-                                <!--new comment area-->
-                                <div class="submit-review-area" id='comment_area_form'>
-                                    <form method="post" action="" novalidate id="form">
-                                        {% csrf_token %}
-                                        <h5 class="title">نظر خود را ارسال کنید</h5>
-                                        <div class="your-rating">
-                                            <span>امتیاز شما به این محصول:</span>
-                                            <div class="stars">
-                                                {{ form.product_rating }}
-                                            </div>
-                                        </div>
-                                        <div>
-                                            {{ form.description }}
-                                        </div>
-                                        <button type="button" onclick="SendProductReviewComment({{ product.id }})" 
-                                                class="rts-btn btn-primary cursor-pointer">
-                                            ارسال
-                                        </button>
-                                    </form>
-                                </div>
-                                    <!--end new comment area-->
-                                    {% else %}
-                                    <p class="text-center alert alert-warning">برای ثبت نظر خود ابتدا باید <a href="{% url "account_module:user-login" %}"> وارد حساب خود </a> شوید</p>
-                                {% endif %}
+                                {% if request.user.is_authenticated %}                                                        <!--new comment area-->
+                                    <div class="contact-form-wrapper-1 mt--50" id='comment_form'>
+                                        <h3 class="title mb--10 text-center">نظر خود را بنویسید</h3>
+                                        <br>
+                                        <form class="contact-form-1" id="form">
+                                            <input type='hidden' value="" id='parentId'>
+                                            <textarea name="message" name="text" id='text' placeholder="نظر خود را بنویسید"></textarea>
+                                            <a class="rts-btn btn-primary mt--20 cursor-pointer" onclick=SendArticleComment({{article.id}})>ارسال</a>
+                                        </form>
+                                    </div>
+                                <!--end new comment area-->
+                                {% else %}
+                                <p class="text-center alert alert-warning">برای ثبت نظر خود ابتدا باید <a href="{% url "account_module:user-login" %}"> وارد حساب خود </a> شوید</p>
+                            {% endif %}
                             </div>
                         </div>
                     </div>

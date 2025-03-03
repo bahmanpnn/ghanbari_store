@@ -1,4 +1,5 @@
 from .models import OrderBasket
+from site_settings_module.models import SiteSetting
 
 
 def basket_products(request):
@@ -7,7 +8,8 @@ def basket_products(request):
     if user_basket is not None:
         context={
             'user_basket':user_basket,
-            'need_for_free_transportation':user_basket.get_total_amount()
+            'need_for_free_transportation': SiteSetting.get_free_shipping_threshold(),
+            'transportation_rate': SiteSetting.get_transportation_rate(),
         }
         return context
     else:
