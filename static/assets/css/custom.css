@@ -6,6 +6,7 @@
     background-color: rgb(184, 92, 6) !important;
     color: azure !important;
 }
+
 .favorite-heart {
     color: rgb(152, 11, 11) !important;
     font-weight: bold;
@@ -38,12 +39,15 @@
     -webkit-box-orient: vertical; /* Required for line-clamp */
 }
 
-.main-card-text {
-    height: 65px; /* Reserve space for up to 3 lines of text */
-    line-height: 30px; /* Match line height to text size */
-    display: -webkit-box;
-    -webkit-line-clamp: 3; /* Limit to 3 lines */
-    -webkit-box-orient: vertical; /* Required for line-clamp */
+/* this is for mostbought products and product of the week style to handle text style */
+@media (min-width: 768px) {
+    .main-card-text {
+        height: 65px; /* Reserve space for up to 3 lines of text */
+        line-height: 30px; /* Match line height to text size */
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* Limit to 3 lines */
+        -webkit-box-orient: vertical; /* Required for line-clamp */
+    }
 }
 
 
