@@ -21,6 +21,10 @@ class OrderBasket(models.Model):
     def get_total_amount(self):
         """Calculates the total amount considering discounts."""
         total_amount = sum(order.get_total_price() for order in self.order_detail.all())
+        # if self.order_detail.all():
+        #     total_amount = sum(order.get_total_price() for order in self.order_detail.all())
+        # else:
+        #     total_amount=0
 
         if self.coupon and self.coupon.is_valid():
             discount_price = (self.coupon.discount / 100) * total_amount

@@ -10,8 +10,12 @@ register=template.Library()
 
 @register.filter(name='three_digits')
 def three_digits(value:int):
-    return '{:,}'.format(value)
-
+    if value is None:
+        return "0"
+    try:
+        return '{:,}'.format(value)
+    except:
+        return "0"
 
 @register.filter(name='jalal_date')
 def jalal_date(value):

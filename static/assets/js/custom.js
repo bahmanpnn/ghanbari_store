@@ -78,46 +78,16 @@ function addModalProductToBasket(productId) {
     });
 }
 
-function updateTotal() {
-    const freeShippingRadio = document.getElementById("f-option");
-    const flatRateRadio = document.getElementById("s-option");
-    const totalPriceElement = document.getElementById("total_price_display");
-    const shippingCostInput = document.getElementById("shipping_cost");
-    const basketTotalInput = document.getElementById("basket_total");
-
-    if (!totalPriceElement || !basketTotalInput || !shippingCostInput) {
-        console.error("Error: Some elements are missing for updateTotal()");
-        return;
-    }
-
-    let basketTotal = parseInt(basketTotalInput.value) || 0;
-    let shippingCost = freeShippingRadio?.checked ? 0 : parseInt(shippingCostInput.value) || 0;
-    let finalTotal = basketTotal + shippingCost;
-
-    totalPriceElement.innerText = finalTotal.toLocaleString() + " تومان";
-}
-
-// Run on page load
-document.addEventListener("DOMContentLoaded", function () {
-    updateTotal();
-    
-    // Reattach event listeners every time page updates
-    document.body.addEventListener("change", function (event) {
-        if (event.target.matches("#f-option, #s-option")) {
-            updateTotal();
-        }
-    });
-});
-
 
 function orderDetail(detailId) {
     $.get('/orders/remove_basket_card_order_detail/?detail_id=' + detailId).then(res=> {
         if (res.status === "success") {
             // Update Mini-Basket
-            $('#basket-card').html(res.body);
+            $('#basket-card').empty().html(res.body);
+            $('#basket-card-mobile').empty().html(res.mobile_body);
             
             // Update Full Basket Page (if visible)
-            $('#order-detail-content').html(res.mbody);
+            $('#order-detail-content').empty().html(res.mbody);
             // Wait for DOM update, then call updateTotal()
             setTimeout(updateTotal, 20);
 
@@ -137,6 +107,7 @@ function removeOrderBasket(detailId) {
     $.get('/orders/remove_basket_card_order_detail/?detail_id=' + detailId).then(res=>{
         if (res.status === "success") {
             $('#basket-card').empty().html(res.body);
+            $('#basket-card-mobile').empty().html(res.mobile_body);
 
             $('#order-detail-content').empty().html(res.mbody);
             //  Wait for DOM update, then call updateTotal()
@@ -157,7 +128,8 @@ function removeOrderBasket(detailId) {
 function changeOrderDetailCount(detailId,state) {
     $.get('/orders/change_order_detail_count/?detail_id=' + detailId+'&state='+state).then(res=>{
         if (res.status === "success") {
-            $('#order-detail-content').html(res.body);
+            $('#order-detail-content').empty().html(res.body);
+            $('#basket-card-mobile').empty().html(res.mobile_body);
             // Wait for DOM update, then call updateTotal()
             setTimeout(updateTotal, 20);
         }

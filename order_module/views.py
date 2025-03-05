@@ -121,7 +121,8 @@ def remove_user_basket_card_order_detail(request):
     return JsonResponse({
         'status': 'success',
         'body': render_to_string("order_module/includes/basket_cart.html", context),
-        'mbody': render_to_string("order_module/includes/remove_order_detail_ajax.html", context)
+        'mobile_body': render_to_string("order_module/includes/basket_cart_mobile.html", context),
+        'mbody': render_to_string("order_module/includes/remove_order_detail_ajax.html", context),
     })
 
 
@@ -162,7 +163,9 @@ def change_order_detail_count(request):
 
     return JsonResponse({
         'status': 'success',
-        'body': render_to_string("order_module/includes/remove_order_detail_ajax.html", context)
+        'body': render_to_string("order_module/includes/remove_order_detail_ajax.html", context),
+        'mobile_body': render_to_string("order_module/includes/basket_cart_mobile.html", context),
+
     })
 
 

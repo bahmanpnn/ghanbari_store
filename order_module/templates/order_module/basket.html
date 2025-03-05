@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block header_references %}
 {% endblock header_references %}
 {% block content %}
@@ -34,6 +36,7 @@
 {% endblock content %}
 
 {% block footer_references %}
+    <script src="/static/order_module/js/custom.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const freeShippingRadio = document.getElementById("f-option");
