@@ -1,3 +1,36 @@
+function updateTotal() {
+    const freeShippingRadio = document.getElementById("f-option");
+    const flatRateRadio = document.getElementById("s-option");
+    const totalPriceElement = document.getElementById("total_price_display");
+    const shippingCostInput = document.getElementById("shipping_cost");
+    const basketTotalInput = document.getElementById("basket_total");
+
+    if (!totalPriceElement || !basketTotalInput || !shippingCostInput) {
+        console.error("Error: Some elements are missing for updateTotal()");
+        return;
+    }
+
+    let basketTotal = parseInt(basketTotalInput.value) || 0;
+    let shippingCost = freeShippingRadio?.checked ? 0 : parseInt(shippingCostInput.value) || 0;
+    let finalTotal = basketTotal + shippingCost;
+
+    totalPriceElement.innerText = finalTotal.toLocaleString() + " تومان";
+}
+
+
+// Run on page load
+// document.addEventListener("DOMContentLoaded", function () {
+//     updateTotal();
+    
+//     // Reattach event listeners every time page updates
+//     document.body.addEventListener("change", function (event) {
+//         if (event.target.matches("#f-option, #s-option")) {
+//             updateTotal();
+//         }
+//     });
+// });
+
+
 function addProductToBasket(productId){
     // var count=$('#productCount').val();
     var count = $(`#productCount_${productId}`).val();
@@ -33,6 +66,7 @@ function addProductToBasket(productId){
 
     })
 }
+
 
 function addModalProductToBasket(productId) {
     var quantityInputId = $(".add-to-basket-btn").data("quantity-id");
@@ -218,7 +252,6 @@ function showLargeImage(imageSrc) {
     $(".product-thumb.zoom").css('background-image', `url(${imageSrc})`);
 }
 
-// done
 function removeUserFavoriteProduct(favoriteProductId) {
     $.get('/profile/remove_user_favorite_product/?favorite_product_id=' + favoriteProductId).then(res=> {
         if (res.status === "success") {

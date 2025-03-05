@@ -52,7 +52,14 @@ def header_component(request):
 
 
 def mobile_sidebar_component(request):
-    return render(request,'mobile_sidebar_component.html')
+    try:
+        site_setting = SiteSetting.objects.filter(is_main_setting=True).first()
+    except:
+        site_setting = None
+    context={
+        'site_setting':site_setting
+    }
+    return render(request,'mobile_sidebar_component.html',context)
 
 
 def navbar_component(request):

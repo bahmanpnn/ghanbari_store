@@ -1,7 +1,7 @@
 <button class="close-icon-menu"><i class="far fa-times"></i></button>
 
-<form action="#" class="search-input-area-menu mt--30">
-    <input type="text" placeholder="جستجو..." required="" />
+<form action="{% url "product_module:products" %}" class="search-input-area-menu mt--30" novalidate >
+    <input type="text" name="product-search" placeholder=" جستجو" />
     <button><i class="fa-light fa-magnifying-glass"></i></button>
 </form>
 
@@ -9,7 +9,7 @@
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">منو</button>
-            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">دسته بندی</button>
+            {% comment %} <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">دسته بندی</button> {% endcomment %}
         </div>
     </nav>
 
@@ -19,91 +19,29 @@
             <div class="mobile-menu-main">
                 <nav class="nav-main mainmenu-nav mt--30">
                     <ul class="mainmenu metismenu" id="mobile-menu-active">
-                        <li class="has-droupdown">
-                            <a href="#" class="main">صفحه اصلی</a>
-                            <ul class="submenu mm-collapse">
-                                <li><a class="mobile-menu-link" href="index.html">صفحه اصلی یک</a></li>
-                                <li><a class="mobile-menu-link" href="index-two.html">صفحه اصلي دو</a></li>
-                                <li><a class="mobile-menu-link" href="index-three.html">صفحه اصلی سه</a></li>
-                                <li><a class="mobile-menu-link" href="index-four.html">صفحه اصلی چهار</a></li>
-                                <li><a class="mobile-menu-link" href="index-five.html">صفحه اصلی پنج</a></li>
-                            </ul>
+                        <li>
+                            <a href="{% url "home_module:home-page" %}" class="main">صفحه اصلی</a>
                         </li>
                         <li>
-                            <a href="about.html" class="main">درباره</a>
-                        </li>
-                        <li class="has-droupdown">
-                            <a href="#" class="main">صفحات</a>
-                            <ul class="submenu mm-collapse">
-                                <li><a class="mobile-menu-link" href="about.html">درباره</a></li>
-                                <li><a class="mobile-menu-link" href="faq.html">سوالات متداول</a></li>
-                                <li><a class="mobile-menu-link" href="invoice.html">صورتحساب</a></li>
-                                <li><a class="mobile-menu-link" href="contact.html">تماس</a></li>
-                                <li><a class="mobile-menu-link" href="register.html">ثبت نام</a></li>
-                                <li><a class="mobile-menu-link" href="login.html">وارد شدن</a></li>
-                                <li><a class="mobile-menu-link" href="privacy-policy.html">سیاست حفظ حریم خصوصی</a></li>
-                                <li><a class="mobile-menu-link" href="cookies-policy.html">خط مشی کوکی ها</a></li>
-                                <li><a class="mobile-menu-link" href="terms-condition.html">شرایط شرایط</a></li>
-                                <li><a class="mobile-menu-link" href="404.html">صفحه خطا</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-droupdown">
-                            <a href="#" class="main">فروشگاه</a>
-                            <ul class="submenu mm-collapse">
-                                <li class="has-droupdown third-lvl">
-                                    <a class="main" href="#">چیدمان فروشگاه</a>
-                                    <ul class="submenu-third-lvl mm-collapse">
-                                        <li><a href="shop-grid-sidebar.html"></a>فروشگاه گريد سايدبار</li>
-                                        <li><a href="shop-list-sidebar.html"></a>فروشگاه ليست سايدبار</li>
-                                        <li><a href="shop-grid-top-filter.html"></a>فروشگاه گريد فيلتر بالا</li>
-                                        <li><a href="shop-list-top-filter.html"></a>فیلتر برتر لیست فروشگاه</li>
-                                    </ul>
-                                </li>
-                                <li class="has-droupdown third-lvl">
-                                    <a class="main" href="#">جزئیات فروشگاه</a>
-                                    <ul class="submenu-third-lvl mm-collapse">
-                                        <li><a href="shop-details.html"></a>جزئیات فروشگاه</li>
-                                        <li><a href="shop-details-2.html"></a>جزئیات فروشگاه 2</li>
-                                        <li><a href="shop-grid-top-filter.html"></a>فروشگاه گريد فيلتر بالا</li>
-                                        <li><a href="shop-list-top-filter.html"></a>فیلتر برتر لیست فروشگاه</li>
-                                    </ul>
-                                </li>
-                                <li class="has-droupdown third-lvl">
-                                    <a class="main" href="#">مشخصات محصول</a>
-                                    <ul class="submenu-third-lvl mm-collapse">
-                                        <li><a href="shop-details-variable.html"></a>متغیر جزئیات فروشگاه</li>
-                                        <li><a href="shop-details-affiliats.html"></a>جزئیات فروشگاه وابسته ها</li>
-                                        <li><a href="shop-details-group.html"></a>گروه جزئیات فروشگاه</li>
-                                        <li><a href="shop-compare.html"></a>مقايسه محصول</li>
-                                    </ul>
-                                </li>
-                                <li class="has-droupdown third-lvl">
-                                    <a class="main" href="#">خرید دیگران</a>
-                                    <ul class="submenu-third-lvl mm-collapse">
-                                        <li><a href="cart.html"></a>سبد خرید</li>
-                                        <li><a href="checkout.html"></a>صورتحساب</li>
-                                        <li><a href="trackorder.html"></a>پیگیری سفارش</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="has-droupdown">
-                            <a href="#" class="main">وبلاگ</a>
-                            <ul class="submenu mm-collapse">
-                                <li><a class="mobile-menu-link" href="blog.html">وبلاگ</a></li>
-                                <li><a class="mobile-menu-link" href="blog-list-right-sidebar.html">نوار سمت چپ وبلاگ</a></li>
-                                <li><a class="mobile-menu-link" href="blog-list-left-sidebar.html">وبلاگ سايدبار راست</a></li>
-                            </ul>
+                            <a href="{% url "about_us_module:about-us" %}" class="main">درباره ما</a>
                         </li>
                         <li>
-                            <a href="contact.html" class="main">با ما تماس بگیرید</a>
+                            <a href="{% url "contact_module:contact-us" %}" class="main">تماس با ما</a>
                         </li>
+                        <li>
+                            <a href="{% url "blog_module:articles" %}" class="main">مقالات</a>
+                        </li>
+                        {% if request.user.is_authenticated and request.user.is_superuser %}
+                            <li>
+                                <a href="/admin" class="main">ادمین</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </nav>
             </div>
             <!-- mobile menu area end -->
         </div>
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+        {% comment %} <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
             <div class="category-btn category-hover-header menu-category">
                 <ul class="category-sub-menu" id="category-active-menu">
                     <li>
@@ -192,25 +130,34 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div> {% endcomment %}
     </div>
 </div>
 
 <!-- button area wrapper start -->
 <div class="button-area-main-wrapper-menuy-sidebar mt--50">
     <div class="contact-area">
-        <div class="phone">
-            <i class="fa-light fa-headset"></i>
-            <a href="#">02345697871</a>
-        </div>
+        {% if site_setting.phone %}
+            <div class="phone">
+                <i class="fa-light fa-headset"></i>
+                <a href="">{{site_setting.phone}}</a>
+            </div>
+        {% endif %}
+        {% if site_setting.email %}
         <div class="phone">
             <i class="fa-light fa-envelope"></i>
-            <a href="#">02345697871</a>
+            <a href="">{{site_setting.email}}</a>
         </div>
+        {% endif %}
+
     </div>
     <div class="buton-area-bottom">
-        <a href="login.html" class="rts-btn btn-primary">ورود </a>
-        <a href="register.html" class="rts-btn btn-primary">ثبت نام</a>
+        {% if request.user.is_authenticated %}
+            <a href="{% url "account_module:user-logout" %}" class="rts-btn btn-primary">خروج</a>
+        {% else %}
+            <a href="{% url "account_module:user-register" %}" class="rts-btn btn-primary">ثبت نام</a>
+            <a href="{% url "account_module:user-login" %}" class="rts-btn btn-primary">ورود</a>
+        {% endif %}
     </div>
 </div>
 <!-- button area wrapper end -->

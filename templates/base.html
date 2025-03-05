@@ -115,17 +115,22 @@
         </div>
         <!--================= Preloader End Here =================-->
 
-        <div class="search-input-area">
-            <div class="container">
-                <div class="search-input-inner">
-                    <div class="input-div">
-                        <input id="searchInput1" class="search-input" type="text" placeholder="جستجو بر اساس کلمه کلیدی یا #" />
-                        <button><i class="far fa-search"></i></button>
+        <!--mobile search form-->
+        <form action="{% url "product_module:products" %}" class="search-header" novalidate> 
+            <div class="search-input-area">
+                <div class="container">
+                    <div class="search-input-inner">
+                        <div class="input-div">
+                                <input type="text" name="product-search" placeholder=" دنبال چه محصولی هستی؟" />
+                                <button><i class="far fa-search"></i></button>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                <div id="close" class="search-close-icon"><i class="far fa-times"></i></div>
             </div>
-            <div id="close" class="search-close-icon"><i class="far fa-times"></i></div>
-        </div>
+        </form>
+        <!--end mobile search form-->
+        
         <div id="anywhere-home" class="anywere"></div>
         
         <!-- progress area start -->
