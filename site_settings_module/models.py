@@ -79,7 +79,7 @@ class SiteBanner(models.Model):
     class SiteBannerPosition(models.TextChoices):
         article_detail='article_detail','صفحه جزئیات مقالات'
         articles='articles','صفحه مقالات'
-        # profile_dashboard='dashboard','صفحه پروفایل کاربر (داشبورد)'
+        profile_dashboard='profile_dashboard','صفحه پروفایل کاربر (داشبورد)'
 
     title=models.CharField(max_length=200,null=True,blank=True)
     description=models.CharField(max_length=62,default="")

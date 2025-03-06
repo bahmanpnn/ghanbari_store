@@ -53,9 +53,24 @@
                                     <h2 class="title text-center" >سلام {{request.user.first_name}}!</h2>
                                 {% endif %}
                                 <h5 class="disc text-center">
-                                    از داشبورد حساب خود می&zwnj;توانید سفارش&zwnj;های اخیر خود را مشاهده کنید، آدرس&zwnj;های ارسال و صورت&zwnj;حساب خود را مدیریت کنید و رمز عبور و جزئیات حساب خود را ویرایش کنید.
+                                    از داشبورد حساب خود می‌توانید سفارش‌های اخیر خود را مشاهده کنید، آدرس‌های ارسال و صورت‌حساب خود را مدیریت کنید و رمز عبور و جزئیات حساب خود را ویرایش کنید
                                 </h5>
                             </div>
+                            {% if profile_dashboard_banner %}
+                            <div class="dashboard-banner">
+                                <a>
+                                    {% comment %} <a href="{% if profile_dashboard_banner.url %}{{ profile_dashboard_banner.url }}{% else %}{% url "product_module:products" %}{% endif %}"> {% endcomment %}
+                                    <img src="{{ profile_dashboard_banner.image.url }}" alt="Dashboard Banner" class="img-fluid">
+                                </a>
+                            </div>
+                            {% else %}
+                                <div class="dashboard-banner">
+                                    <a>
+                                    {% comment %} <a href="{% url "product_module:products" %}"> {% endcomment %}
+                                        <img src="/static/assets/images/contact/02.jpg" alt="Dashboard Banner" class="img-fluid">
+                                    </a>
+                                </div>
+                            {% endif %}
                         </div>
                         <!--end dashboard tab-->
 

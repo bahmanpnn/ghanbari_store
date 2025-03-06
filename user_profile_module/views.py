@@ -12,6 +12,8 @@ from .forms import EditUserAddressForm,EditUserInformationForm,ChangePasswordFor
 from .models import UserFavoriteProduct
 # from permissions import is_authenticated_permission
 # from django.utils.decorators import method_decorator
+from site_settings_module.models import SiteBanner
+
 
 
 # @method_decorator(is_authenticated_permission,name='dispatch')
@@ -24,12 +26,15 @@ class UserProfileView(View):
     def get(self, request):
         user_orders = OrderBasket.objects.annotate(items=Count('order_detail')).filter(is_paid=True, user_id=request.user.id)
         user_address = UserAddress.objects.filter(user=request.user).first()
+        profile_dashboard_banner=SiteBanner.objects.filter(is_active=True,position__exact=SiteBanner.SiteBannerPosition.profile_dashboard).first()
+        
 
         return render(request, self.template_name, {
             'user_orders': user_orders,
             'address_form': self.address_form(instance=user_address),
             'user_information_form': self.user_information_form(instance=request.user),
             'user_password_form': self.user_password_form(),
+            'profile_dashboard_banner':profile_dashboard_banner
         })
 
     def post(self, request):

@@ -25,3 +25,17 @@
     margin-left: 8px !important; /* Adjust spacing */
 }
 
+.dashboard-banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.dashboard-banner img {
+    max-width: 90%;
+    height: auto;
+    border-radius: 10px; /* Optional: Adds rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a slight shadow */
+}
