@@ -18,7 +18,7 @@ class OrderDetailAdminInline(admin.TabularInline):
 
 
 class OrderBasketAdmin(admin.ModelAdmin):
-    list_display=['user','is_paid','payment_date','get_total_amount']
+    list_display=['user','is_paid','payment_date','get_total_amount','coupon']
     inlines=[OrderDetailAdminInline]
 
 class CheckOutAdmin(admin.ModelAdmin):

@@ -24,7 +24,7 @@ class UserProfileView(View):
     user_password_form = ChangePasswordForm
 
     def get(self, request):
-        user_orders = OrderBasket.objects.annotate(items=Count('order_detail')).filter(is_paid=True, user_id=request.user.id)
+        user_orders = OrderBasket.objects.annotate(items=Count('order_detail')).filter(is_paid=True, user_id=request.user.id).order_by('-payment_date')
         user_address = UserAddress.objects.filter(user=request.user).first()
         profile_dashboard_banner=SiteBanner.objects.filter(is_active=True,position__exact=SiteBanner.SiteBannerPosition.profile_dashboard).first()
         
