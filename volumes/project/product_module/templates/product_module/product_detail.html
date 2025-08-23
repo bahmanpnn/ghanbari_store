@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% load static %}
+{% load thumbnail %}
+{% load poll_extras %}
+
+
+{% block header_references %}
+    <link rel="stylesheet" href="{% static "product_module/css/product_custom.css" %}">
+{% endblock header_references %}
+
+{% block content %}
+    <div class="rts-navigation-area-breadcrumb bg_light-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="navigator-breadcrumb-wrapper">
+                        <a href="{% url "home_module:home-page" %}">صفحه اصلی</a>
+                        <i class="fa-regular fa-chevron-left"></i>
+                        <a class="{% url "product_module:products" %}" href="{% url "product_module:products" %}">محصولات</a>
+                        <i class="fa-regular fa-chevron-left"></i>
+                        <a class="current">{{product.title}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-seperator bg_light-1">
+        <div class="container">
+            <hr class="section-seperator">
+        </div>
+    </div>
+
+    <div class="rts-chop-details-area rts-section-gap bg_light-1">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-12 mt--0">
+                    <div class="shopdetails-style-1-wrapper">
+                        <div class="product-details-popup-wrapper in-shopdetails">
+                            <div class="rts-product-details-section rts-product-details-section2 product-details-popup-section">
+                                <div class="product-details-popup">
+                                    <div class="details-product-area">
+                                        <div class="product-thumb-area">
+                                            <div class="cursor"></div>
+                                            {% for product_image in product_images %}
+                                                <div class="thumb-wrapper one filterd-items {% if forloop.first %}figure {% else %}hide{% endif %}">
+                                                    <div class="product-thumb zoom" onmousemove="zoom(event)" style="background-image: url({{ product_image.image.url }})">
+                                                    {% thumbnail product_image.image "449x390" quality=100 crop="center" as im %}
+                                                            <img id="mainImage" src="{{ im.url }}" alt="عکس محصول">
+                                                    {% endthumbnail %}
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                            <div class="product-thumb-filter-group">
+                                                {% for product_image in product_images %}
+                                                    <div class="thumb-filter filter-btn {% if forloop.first %}active{% endif %}" data-show="{{forloop.counter}}">
+                                                        {% thumbnail product_image.image "80x80" quality=85 crop="center" as im %}
+                                                            <a onclick="showLargeImage('{{ product_image.image.url }}')">
+                                                                <img src="{{im.url}}" alt="عکس محصول">
+                                                            </a>
+                                                        {% endthumbnail %}
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="contents">
+                                            <div class="product-status">
+                                                <div class="top-stars-wrapper">
+                                                    <div class="rating-disc">
+                                                        <div class="stars">
+                                                            {% for i in "12345" %}
+                                                                <i class="fa {% if avg_rate >= forloop.counter %}fa-solid fa-star{% elif avg_rate > forloop.counter0 and avg_rate < forloop.counter %}fa-solid fa-star-half-alt{% else %}fa-regular fa-star{% endif %}"></i>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <span class="star-count-style">({{ accepted_comments.count }})</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <h2 class="product-title">{{product.title}}</h2>
+                                            <p class="mt--20 mb--20">
+                                               {{product.short_description}}
+                                            </p>
+                                            <span class="product-price mb--15 d-block price-style" >
+                                                {% if product.price_with_discount %}
+                                                    {{product.price_with_discount}} تومان 
+                                                    <span class="old-price ml--15">{{product.price}} تومان</span>
+                                                    {% else %}
+                                                    {{product.price}} تومان 
+                                                {% endif %}
+                                            </span>
+
+                                            
+                                            <div class="product-bottom-action">
+                                                <div class="cart-edits">
+                                                    <div class="quantity-edit action-item">
+                                                        <button class="button"><i class="fal fa-minus minus"></i></button>
+                                                        <input id="productCount_{{product.id}}" type="text" min="1" class="input" value="1"/>
+                                                        <button class="button plus">+<i class="fal fa-plus plus"></i></button>
+                                                    </div>
+                                                </div>
+                                                <button onclick="addProductToBasket({{product.id}})" type="submit" class="rts-btn btn-primary radious-sm with-icon">
+                                                    <div class="btn-text">افزودن به سبد</div>
+                                                    <div class="arrow-icon">
+                                                        <i class="fa-regular fa-cart-shopping"></i>
+                                                    </div>
+                                                    <div class="arrow-icon">
+                                                        <i class="fa-regular fa-cart-shopping"></i>
+                                                    </div>
+                                                </button>
+                                            </div>
+                                            <div class="product-uniques">
+                                                <span class="sku product-unipue mb--10"><span style="font-weight: 400; margin-left: 10px;">شناسه محصول:</span> {{product.id}} </span>
+                                                <span class="sku product-unipue mb--10"><span style="font-weight: 400; margin-left: 10px;">وزن محصول:</span> {{product.weight}} </span>
+                                                <span class="sku product-unipue mb--10 {% if product.quantity > 0 and product.quantity < 10 %}price-style{% endif %}"><span>موجود:</span> 
+                                                {% if product.quantity > 0 and product.quantity < 10 %}فقط {{product.quantity}} عدد باقی مانده است{% elif product.quantity > 0 and product.quantity > 10 %}موجود است {% else %}موجود نمی باشد{% endif %}
+                                                </span>
+                                            </div>
+                                            <div class="share-option-shop-details">
+                                                <div class="single-share-option">
+                                                    <div class="icon">
+                                                        <a onclick="addProductToFavoriteList({{ product.id }})">
+                                                            <div class="single-action openuptip message-show-action" data-flow="up" title="افزودن به علاقمندی ها">
+                                                                <i id="product_{{product.id}}" 
+                                                                    {% if product.id|is_favorite_product:request.user.id %}class="fa-light fa-heart favorite-heart" 
+                                                                    {% else %}class="fa-regular fa-heart" 
+                                                                    {% endif %}>
+                                                                </i>
+                                                            </div>
+                                                        </a> 
+                                                    </div>
+                                                    <span>افزودن به علاقمندي ها</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-discription-tab-shop mt--50">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">جزئیات محصول</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">اطلاعات تکمیلی</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="profile-tabt" data-bs-toggle="tab" data-bs-target="#profile-tab-panes" type="button" role="tab" aria-controls="profile-tab-panes" aria-selected="false">نظرات مشتریان ({{accepted_comments.count}})</button>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade   show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                                    <div class="single-tab-content-shop-details">
+                                        <p class="disc">
+                                            {{product.content|safe}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                                    <div class="single-tab-content-shop-details">
+                                        <p class="disc">
+                                            اجیر ناامید جسمانی در کوآلای گوریل عزیز زمزمه بازی می&zwnj;کردند و بسیار از خوبی&zwnj;های کوتزال دور می&zwnj;افتند و از خوبی&zwnj;های متعجب بی&zwnj;حساب می&zwnj;کردند و علف&zwnj;زار نزدیک گوش ماهی&zwnj;های بسیار مهم و سخت عصبی، گرسنه&zwnj;ای برخی و عزیزان با عصبانیت این جدا.
+                                        </p>
+                                        <div class="table-responsive table-shop-details-pd">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>کد محصول</th>
+                                                        <th>{{product.id}}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>وزن محصول</td>
+                                                        <td>{{product.weight}}</td>
+                                                    </tr>
+                                                    {% if product.calorie %}
+                                                    <tr>
+                                                        <td>کالری محصول</td>
+                                                        <td>{{product.calorie}}</td>
+                                                    </tr>
+                                                    {% endif %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <p class="cansellation mt--20">
+                                            <span>بازگشت/لغو:</span> هیچ تغییری که قبلاً به مشتری تحویل داده شده است اعمال نخواهد شد. در صورت مشاهده مشکل در کیفیت یا کمیت محصول، مشتری می تواند سفارش خود را در زمان تحویل با حضور مسئول تحویل، عودت یا لغو کند.
+                                        </p>
+                                        <p class="note">
+                                            <span>توجه:</span> مدت زمان تحویل محصول ممکن است به دلیل موجود بودن محصول در انبار متفاوت باشد.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="profile-tab-panes" role="tabpanel" aria-labelledby="profile-tabt" tabindex="0">
+                                    <div class="single-tab-content-shop-details">
+                                        <div class="product-details-review-product-style">
+                                            <div class="average-stars-area-right">
+                                                <div class="top-stars-wrapper">
+                                                    <h4 class="review">{{ avg_rate|default:"0.0" }}</h4>
+                                                    <div class="rating-disc">
+                                                        <span>میانگین امتیاز</span>
+                                                        <div class="stars">
+                                                            {% for i in "12345" %}
+                                                                <i class="fa {% if avg_rate >= forloop.counter %}fa-solid fa-star{% elif avg_rate > forloop.counter0 and avg_rate < forloop.counter %}fa-solid fa-star-half-alt{% else %}fa-regular fa-star{% endif %}"></i>
+                                                            {% endfor %}
+                                                            <span>({{ accepted_comments.count }} نظر)</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-reviews">
+                                                {% include "product_module/includes/product_comments.html" %}
+                                            </div>
+                                            {% if request.user.is_authenticated %}
+                                                <div class="submit-review-area" id='comment_area_form'>
+                                                    <form method="post" action="" novalidate id="form">
+                                                        {% csrf_token %}
+                                                        <h5 class="title">نظر خود را ارسال کنید</h5>
+                                                        <div class="your-rating">
+                                                            <span>امتیاز شما به این محصول:</span>
+                                                            <div>
+                                                                {{form.product_rating}}
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            {{ form.description }}
+                                                        <div>
+                                                        <a onclick="SendProductReviewComment({{product.id}})" class="rts-btn btn-primary cursor-pointer" type="submit">ارسال </a>
+                                                    </form>
+                                                </div>
+                                                {% else %}
+                                                <p class="alert alert-warning text-center">برای ثبت نظر خود ابتدا باید وارد <a href="{% url "account_module:user-login" %}">حساب کاربری</a> خود شوید</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}
+
+
+

@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block header_references %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="/static/contact_module/css/contact_custom.css" />
+{% endblock header_references %}
+
+{% block content %}
+
+    <!-- rts contact main wrapper -->
+    <div class="rts-contact-main-wrapper-banner bg_image">
+        <div class="container">
+            <div class="row">
+                <div class="co-lg-12">
+                    <div class="contact-banner-content">
+                        <h1 class="title">
+                            از ما سوال بپرسید
+                        </h1>
+                        <p class="disc">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- rts contact main wrapper end -->
+
+    <div class="rts-map-contact-area rts-section-gap2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="contact-right-area-main-wrapper">
+                        <h2 class="title">
+                            شما می توانید از ما سوال بپرسید!
+                        </h2>
+                        <p class="disc">
+                            برای تمام سوالات و نظرات خود با ما تماس بگیرید و یا می توانید با دفاتر تماس ما در زمان کوتاه تری مشکلات خود را حل کنید.
+                        </p>
+                        {% if main_site_setting.branches  %}
+                            {% for branch in main_site_setting.branches.all %}
+                                <div class="location-single-card">
+                                    <div class="icon">
+                                        <i class="fa-light fa-location-dot"></i>
+                                    </div>
+                                    <div class="information">
+                                        <h3 class="title">{{branch.branch_name}}</h3>
+                                        <p>{{branch.branch_address}}</p>
+                                        {% if branch.branch_phone %}
+                                            <a class="number">{{branch.branch_phone}}</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-8 pl--50 pl_sm--5 pl_md--5">
+                    <div id="map2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- rts contact-form area start -->
+    <div class="rts-contact-form-area rts-section-gapBottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bg_light-1 contact-form-wrapper-bg">
+                        <div class="row">
+                            <div class="col-lg-7 pr--30 pr_md--10 pr_sm--5">
+                                <div class="contact-form-wrapper-1">
+                                    <h3 class="title mb--50">اگر سوالی دارید فرم را پر کنید</h3>
+                                    <form action="" method="post" class="contact-form-1" novalidate>
+                                        {% csrf_token %}
+                                        {% for field in form %}
+                                            <p>{{field.errors}}</p>
+                                        {% endfor %}
+                                        <div class="contact-form-wrapper--half-area">
+                                            <div class="single">
+                                                {{form.name}}
+                                                {% comment %} {{form.name.errors}} {% endcomment %}
+                                            </div>
+                                            <div class="single">
+                                                {{form.email}}
+                                                {% comment %} {{form.email.errors}} {% endcomment %}
+                                            </div>
+                                        </div>
+                                        <div class="single-select ">
+                                            {{form.subject}}
+                                            {% comment %} {{form.subject.errors}} {% endcomment %}
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div>
+                                            {{form.text}}
+                                            {% comment %} {{form.text.errors}} {% endcomment %}
+                                        </div>
+                                        <button class="rts-btn btn-primary mt--20">ارسال پیام</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 mt_md--30 mt_sm--30">
+                                <div class="thumbnail-area">
+                                    <img src="/static/assets/images/contact/02.jpg" alt="فرم تماس">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- rts contact-form area end -->
+
+{% endblock content %}
+
+{% block footer_references %}
+    <script>
+        var map = L.map('map2').setView([37.446204, 59.102560], 16); // Office's coordinates
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        L.marker([37.446204, 59.102560]).addTo(map) // Office's coordinates 37.446204, 59.102560
+            .bindPopup('<div class="text-center"><b>شعبه مرکزی</b><br><a href="https://www.google.com/maps/dir/?api=1&destination=37.446204, 59.102560" target="_blank">رفتن به گوگل مپ</a></div>')
+            .openPopup();
+    </script>
+{% endblock footer_references %}

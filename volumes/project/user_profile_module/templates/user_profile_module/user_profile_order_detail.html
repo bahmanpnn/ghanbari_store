@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load poll_extras %}
+{% load static %}
+
+
+{% block title %}{% endblock title %}
+
+{% block header_references %}
+    <link rel="stylesheet" href="{% static "user_profile_module/css/user_profile.css" %}">
+{% endblock header_references %}
+
+
+{% block content %}
+
+    <div class="rts-navigation-area-breadcrumb">
+        <div class="container-2">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="navigator-breadcrumb-wrapper">
+                        <a href="{% url "home_module:home-page" %}">صفحه اصلی</a>
+                        <i class="fa-regular fa-chevron-left"></i>
+                        <a class="current">حساب کاربری</a>
+                        <i class="fa-regular fa-chevron-left"></i>
+                        <a class="current">جزئیات خرید</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section-seperator bg_light-1">
+        <div class="container">
+            <hr class="section-seperator">
+        </div>
+    </div>  
+    <div class="account-tab-area-start rts-section-gap">
+        <div class="container-2">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="order-table-account">
+                        {% if order %}
+                        <div class="h2 title text-center">سفارش {{order.id}}</div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">محصول</th>
+                                        <th class="text-center">تعداد</th>
+                                        <th class="text-center">قیمت نهایی</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for order_detail in order.order_detail.all %}
+                                    <tr>
+                                        <td><a style="text-decoration:none;" href="{% url "product_module:product-detail" pk=order_detail.product.pk slug=order_detail.product.slug %}">{{order_detail.product|truncatewords:15}}</a></td>
+                                        <td class="text-center">{{order_detail.count}}</td>
+                                        <td class="text-center">{{order_detail.final_price|three_digits}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center bg-light"><h4>مجموع خرید : {{order.get_total_amount|three_digits}}</h4></td>
+                                        <td class="text-center bg-dark"></td>
+                                        <td class="text-center bg-dark"></td>
+                                    </tr>
+                                    {% if order.coupon %}
+                                        <tr>
+                                            <td class="text-center bg-light"><h4>درصد تخفیف این خرید: %{{order.coupon.discount}}</h4></td>
+                                            <td class="text-center bg-dark"></td>
+                                            <td class="text-center bg-dark"></td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+

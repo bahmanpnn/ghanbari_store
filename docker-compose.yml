@@ -1,0 +1,89 @@
+services:
+  app:
+    build: ./app
+    # container_name: 'app'
+    restart: always
+    expose:
+      - '8000'
+    volumes:
+      - type: 'bind'
+        source: './volumes/project'
+        target: '/app'
+
+      - type: 'bind'
+        source: './volumes/static'
+        target: '/app/static'
+
+      - type: 'bind'
+        source: './volumes/media_files'
+        target: '/app/media_files'
+        
+    environment:
+      - "MARIADB_DATABASE=django_app"
+      - "MARIADB_USER=django_user"
+      - "MARIADB_PASSWORD=1234"
+      - "MARIADB_HOST=mariadb" # database service name(mariadb)
+      - "REDIS_HOST=redis"
+    depends_on:
+      - "mariadb"
+      - "nginx"
+      - "redis"
+    networks:
+      - ghanbari_store_app_network
+      - ghanbari_store_app_nginx
+      
+  nginx:
+    build: './nginx'
+    # container_name: 'nginx'
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - type: 'bind'
+        source: './volumes/media_files'
+        target: '/app/media_files'
+      - type: 'bind'
+        source: './volumes/static'
+        target: '/app/static'
+    networks:
+      - ghanbari_store_app_nginx
+
+  mariadb:
+    image: 'mariadb:latest'
+    # container_name: 'mariadb'
+    restart: always
+    expose:
+      - '3306'
+    environment:
+      - "MARIADB_DATABASE=django_app"
+      - "MARIADB_USER=django_user"
+      - "MARIADB_PASSWORD=1234"
+      - "MARIADB_ROOT_PASSWORD=1234"
+      
+      - "DB_HOST=mariadb"
+      - "DB_NAME=django_app"
+      - "DB_USER=django_user"
+      - "DB_PASSWORD=1234"
+      - "DJANGO_SUPERUSER_USERNAME=admin"
+      - "DJANGO_SUPERUSER_EMAIL=admin@localhost"
+      - "DJANGO_SUPERUSER_PASSWORD=admin"
+    volumes:
+      - type: 'bind'
+        source: './volumes/dbdata'
+        target: '/var/lib/mysql'
+    networks:
+      - ghanbari_store_app_network
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - ghanbari_store_app_network
+
+
+
+
+networks:
+  ghanbari_store_app_network:
+  ghanbari_store_app_nginx:

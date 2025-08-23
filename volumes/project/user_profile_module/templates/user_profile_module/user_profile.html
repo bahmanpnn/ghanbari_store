@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% load poll_extras %}
+{% load static %}
+
+
+{% block title %}{% endblock title %}
+
+{% block header_references %}
+    <link rel="stylesheet" href="{% static "user_profile_module/css/user_profile.css" %}">
+{% endblock header_references %}
+
+
+{% block content %}
+
+    <div class="rts-navigation-area-breadcrumb">
+        <div class="container-2">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="navigator-breadcrumb-wrapper">
+                        <a href="{% url "home_module:home-page" %}">صفحه اصلی</a>
+                        <i class="fa-regular fa-chevron-left"></i>
+                        <a class="current">حساب کاربری</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section-seperator bg_light-1">
+        <div class="container">
+            <hr class="section-seperator">
+        </div>
+    </div>  
+    <div class="account-tab-area-start rts-section-gap">
+        <div class="container-2">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="nav accout-dashborard-nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fa-regular fa-chart-line"></i>داشبورد</button>
+                        <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fa-regular fa-bag-shopping"></i>سفارش</button>
+                        <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fa-sharp fa-regular fa-location-dot"></i>نشانی من</button>
+                        <button class="nav-link" id="v-pills-settingsa-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settingsa" type="button" role="tab" aria-controls="v-pills-settingsa" aria-selected="false"><i class="fa-light fa-user"></i>جزئیات حساب</button>
+                        <button class="nav-link" id="v-pills-settingsb-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settingsb" type="button" role="tab" aria-controls="v-pills-settingsb" aria-selected="false"><i class="fa-light fa-user"></i>تغییر رمز عبور</button>
+                        <a href="{% url "account_module:user-logout" %}"><button class="nav-link" id="v-pills-settingsb-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settingsb" type="button" role="tab" aria-controls="v-pills-settingsb" aria-selected="false"><i class="fa-light fa-left-from-bracket"></i>خروج</button></a>
+                    </div>
+                </div>
+                <div class="col-lg-9 pl--50 pl_md--10 pl_sm--10 pt_md--30 pt_sm--30">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        
+                        <!--dashboard tab-->
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+                            <div class="dashboard-account-area">
+                                {% if request.user.first_name %}
+                                    <h2 class="title text-center" >سلام {{request.user.first_name}}!</h2>
+                                {% endif %}
+                                <h5 class="disc text-center">
+                                    از داشبورد حساب خود می‌توانید سفارش‌های اخیر خود را مشاهده کنید، آدرس‌های ارسال و صورت‌حساب خود را مدیریت کنید و رمز عبور و جزئیات حساب خود را ویرایش کنید
+                                </h5>
+                            </div>
+                            {% if profile_dashboard_banner %}
+                            <div class="dashboard-banner">
+                                <a>
+                                    {% comment %} <a href="{% if profile_dashboard_banner.url %}{{ profile_dashboard_banner.url }}{% else %}{% url "product_module:products" %}{% endif %}"> {% endcomment %}
+                                    <img src="{{ profile_dashboard_banner.image.url }}" alt="Dashboard Banner" class="img-fluid">
+                                </a>
+                            </div>
+                            {% else %}
+                                <div class="dashboard-banner">
+                                    <a>
+                                    {% comment %} <a href="{% url "product_module:products" %}"> {% endcomment %}
+                                        <img src="/static/assets/images/contact/02.jpg" alt="Dashboard Banner" class="img-fluid">
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <!--end dashboard tab-->
+
+                        <!--order tab-->
+                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
+                            <div class="order-table-account">
+                                {% if user_orders %}
+                                <div class="h2 title text-center">سفارشات شما</div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>سفارش</th>
+                                                <th>تاریخ</th>
+                                                <th>وضعیت</th>
+                                                <th>مجموع پرداختی</th>
+                                                <th>اقدامات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for order in user_orders %}
+                                                <tr>
+                                                    <td>{{order.id}}#</td>
+                                                    <td>{{order.payment_date|jalal_date}}
+                                                    </td>
+                                                    <td>تکمیل شده</td>
+                                                    <td>{{order.get_total_amount|three_digits}} هزار تومان</td>
+                                                    <td><a href="{% url "user_profile_module:user-order-detail" order_id=order.id %}" class="btn-small d-block">جزئیات</a></td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% else %}
+                                    <h3 class="text-center">لیست خریدهای شما خالی می باشد و تاکنون خریدی ثبت نکرده اید</h3>
+                                    <p class="text-center">آیا میخواهید سبد خرید خود را <a>تکمیل و پرداخت</a> کنید؟</p>
+                                    <p class="text-center"> <a class="alert-warning" href="{% url "order_module:order-basket" %}">تکمیل خرید سبد خرید موجود؟</a></p>
+
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!--end order tab-->
+
+                        <!--address tab-->
+                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
+                            <h2 class="title text-center">آدرس </h2>
+                            <form action="" method="post" class="account-details-area" novalidate>
+                                {% csrf_token %}
+                                <div class="input-half-area">
+                                    <div class="single-input">
+                                        {{address_form.province}}
+                                    </div>
+                                    <div class="single-input">
+                                        {{address_form.city}}
+                                    </div>
+                                </div>
+                                <div class="single-input">
+                                    {{address_form.main_address}}
+                                </div>
+                                {% for field in address_form %}
+                                    {{field.errors}}
+                                {% endfor %}
+                                
+                                <button class="rts-btn" name='user-address'>ویرایش کنید</button>
+                            </form>
+                        </div>
+                        <!--address tab-->
+
+                        <!--user information tab-->
+                        <div class="tab-pane fade" id="v-pills-settingsa" role="tabpanel" aria-labelledby="v-pills-settingsa-tab" tabindex="0">
+                            <form action="" method='post' class="account-details-area" novalidate>
+                                {% csrf_token %}
+                                <h2 class="title text-center">جزئیات حساب</h2>
+                                <div class="input-half-area">
+                                    <div class="single-input">
+                                        {{user_information_form.first_name}}
+                                    </div>
+                                    <div class="single-input">
+                                        {{user_information_form.last_name}}
+                                    </div>
+                                </div>
+                                {{user_information_form.phone_number}}
+                                {{user_information_form.email}}
+                                {% for field in user_information_form %}
+                                    {{field.errors}}
+                                {% endfor %}
+                                <button class="rts-btn btn-primary" name='user-information'>ذخیره تغییرات</button>
+                            </form>
+                        </div>
+                        <!--end user information tab-->
+                        <!--user password tab-->
+                        <div class="tab-pane fade" id="v-pills-settingsb" role="tabpanel" aria-labelledby="v-pills-settingsb-tab" tabindex="0">
+                            <form action="" method='post' class="account-details-area" novalidate>
+                                {% csrf_token %}
+                                <h2 class="title text-center">تغییر رمز عبور</h2>
+                                {{user_password_form.password}}
+                                {{user_password_form.new_password}}
+                                {{user_password_form.confirm_new_password}}
+                                {% for field in user_password_form %}
+                                    {{field.errors}}
+                                {% endfor %}
+                                <button class="rts-btn btn-primary" name='user-password'>تغییر </button>
+                            </form>
+                        </div>
+                        <!-- end user password tab-->
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+

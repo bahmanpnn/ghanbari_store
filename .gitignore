@@ -1,3 +1,7 @@
 venv/
+env/
+static/
+medias/
+/__pycache__/
+__pycache__/
 db.sqlite3
-todo.txt

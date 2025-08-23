@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+{% load poll_extras %}
+{% load thumbnail %}
+{% load render_partial %}
+
+
+
+{% block header_references %}
+    <link rel="stylesheet preload" href="{% static "assets/css/custom.css" %}" as="style">
+    <link rel="stylesheet" href="{% static "blog_module/css/blog_custom.css" %}">
+{% endblock header_references %}
+
+{% block title %}مقالات{% endblock title %}
+{% block content %}
+
+<!-- header style two End -->
+<!-- rts header area end -->
+    <!-- rts header area end -->
+    <div class="rts-navigation-area-breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="navigator-breadcrumb-wrapper">
+                        <a href="{% url "home_module:home-page" %}">صفحه اصلی</a>
+                        <i class="fa-regular fa-chevron-left"></i>
+                        <a class="current">وبلاگ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-seperator">
+        <div class="container">
+            <hr class="section-seperator">
+        </div>
+    </div>
+
+
+    <!-- blog area start -->
+    <div class="blog-sidebar-area rts-section-gap">
+        <div class="container">
+            <div class="row">
+                <!-- blog sidebar -->
+                <div class="col-lg-4 pr--30  pr_md--10 pr_sm--10 rts-sticky-column-item">
+                    <div class="theiaStickySidebar">
+                        {%render_partial 'blog_module.views.article_component' %} 
+                        {% for banner in banners %}
+                            {% include "blog_module/includes/banner_content.html" with banner=banner %}
+                        {% endfor %}
+                    </div>                 
+                </div>
+                <!-- end blog sidebar -->
+
+                <div class="col-lg-8">
+                    <div class="single-blog-main-wrapper-top">
+
+                        {% for article in articles %}
+                            <div class="single-blog-style-card-border mb--40">
+                                <a href="{% url "blog_module:article-detail" pk=article.pk slug=article.slug %}" class="thumbnail">
+                                    {% thumbnail article.image "956x552" quality=100 crop="center" as im %}
+                                        <img src="{{im.url}}" alt="{{article.title}}">
+                                    {% endthumbnail %}
+                                </a>
+                                <div class="inner-content-body">
+                                    <div class="tag-area">
+                                        <div class="single">
+                                            <i class="fa-light fa-clock"></i>
+                                            <span>{{article.created_date|jalal_date}}</span>
+                                        </div>
+                                        {% comment %} <div class="single">
+                                            <i class="fa-light fa-folder"></i>
+                                            <span>tag</span>
+                                        </div> {% endcomment %}
+                                    </div>
+                                    <a class="title-main" href="blog-details.html">
+                                        <h3 class="title">
+                                            {{article.title}}
+                                        </h3>
+                                    </a>
+                                    <p class="disc mb--20">{{article.short_description}}</p>
+                                    <div class="button-area">
+                                        <a href="{% url "blog_module:article-detail" pk=article.pk slug=article.slug %}" class="rts-btn btn-primary radious-sm with-icon">
+                                            <div class="btn-text">
+                                            جزئیات را بخوانید
+                                            </div>
+                                            <div class="arrow-icon">
+                                                <i class="fa-solid fa-circle-plus"></i>
+                                            </div>
+                                            <div class="arrow-icon">
+                                                <i class="fa-solid fa-circle-plus"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- blog pagination -->
+        <div class="row mt--50">
+            <div class="col-lg-12 ">
+                <div class="pagination-area-main-wrappper article-pagination">
+                    <ul class="pagination post-pagination">
+                        {% if page_obj.has_previous %}
+                        <li><a href="?page={{page_obj.previous_page_number}}"><button><i class="fa-regular fa-chevrons-right"></i></button></a></li>
+                        {% endif %}
+        
+                        {% if page_obj.has_next or page_obj.has_previous %}
+                            {% for page in paginator.page_range %}
+                                <li {% if page_obj.number == page %}class='active'{% endif %}><a href="?page={{page}}"><button>{{page}}</button></a></li>
+                            {% endfor %}
+                        {% endif %}
+        
+                        {% if page_obj.has_next %}
+                            <li><a href="?page={{page_obj.next_page_number}}"><button><i class="fa-regular fa-chevrons-left"></i></button></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- end blog pagination -->
+    </div>
+    <!-- blog area ends -->
+
+
+
+</div>
+
+{% endblock content %}
+
+

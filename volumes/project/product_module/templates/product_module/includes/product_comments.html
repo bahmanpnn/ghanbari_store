@@ -1,0 +1,22 @@
+<div class="comments-section">
+    {% for comment in accepted_comments %}
+        <div class="single-review">
+            {% if comment.user.first_name or comment.user.last_name %}
+                <h5 class="user-name">{{comment.user.first_name}} {{ comment.user.last_name }}</h5>
+            {% elif comment.user.email %}
+                <h5 class="user-name">{{comment.user.email}}</h5>
+            {% else %}
+                <h5 class="user-name">کاربر</h5>
+            {% endif %}
+            <div class="stars">
+                {% for i in "12345" %}
+                    <i class="fa {% if comment.rating >= forloop.counter %}fa-solid fa-star{% elif comment.rating > forloop.counter0 and comment.rating < forloop.counter %}fa-solid fa-star-half-alt{% else %}fa-regular fa-star{% endif %}"></i>
+                {% endfor %}
+            </div>
+            <p class="comment-text">{{ comment.description }}</p>
+            <br>
+        </div>
+    {% empty %}
+        <p class="text-center">اولین نفری باشید که نظر خود را ثبت میکند</p>
+    {% endfor %}
+</div>
