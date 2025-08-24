@@ -11,11 +11,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-%jl3&1t%-)^*feq)t9u-qdyckmfwo_bl1p*jzy!0ps^%)38x$u'
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-%jl3&1t%-)^*feq)t9u-qdyckmfwo_bl1p*jzy!0ps^%)38x$u")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
 
+DEBUG = os.environ.get("DEBUG_MODE",False)
 ALLOWED_HOSTS = ["*"]
+
+# ALLOWED_HOSTS = ["localhost", "127.0.0.1", "yourdomain.com"]
+# ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
+# CSRF for Cookies
+# CSRF_TRUSTED_ORIGINS = ["*"]
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost",
+    "http://127.0.0.1",
+    # "https://yourdomain.com",
+]
+
 
 
 # Application definition
@@ -83,25 +95,28 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ghanbari_store.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
+#         'USER':'postgres',
+#         'PASSWORD':'postgres',
+#         'HOST':'ghanbari_store_postgres',
+#         'PORT':'5432',
 #     }
 # }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': BASE_DIR.parent / 'dbdata',
-        'NAME': os.environ.get('MARIADB_DATABASE'),
-        'USER':os.environ.get('MARIADB_USER'),
-        'PASSWORD':os.environ.get('MARIADB_PASSWORD'),
-        'HOST':os.environ.get('MARIADB_HOST'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get("POSTGRES_DB", "postgres"),
+        'USER': os.environ.get("POSTGRES_USER", "postgres"),
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD", "postgres"),
+        'HOST': os.environ.get("POSTGRES_HOST", "ghanbari_store_postgres"),
+        'PORT':'5432',
     }
 }
+
 
 
 # Password validation
@@ -135,29 +150,12 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-# STATIC_URL = '/static/' #this is for load static in templates
-
-# # this is for all the directory that set in django settings and load all the static files
-# # STATICFILES_DIRS = [BASE_DIR / 'static'] # developing mode
-# # STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] # developing mode
-
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static') # production mode
-# # is the directory that use for production mode and when you run collectstatic command,
-# # all the static files that are in static_files directories collect in that.
-
-# #media url is for load and server medias in site and templates
-# MEDIA_URL='/medias/'
-
-# #media root is for uploading medias from user and site.it needs to add urls in base urls project
-# # MEDIA_ROOT= BASE_DIR / 'medias'
-# MEDIA_ROOT= os.path.join(BASE_DIR, 'medias')
 
 # Extra configs
 STATIC_URL = "/static/"
-STATIC_ROOT=BASE_DIR / "static"
+STATIC_ROOT=BASE_DIR / "static_files"
+
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL="/media_files/"
 MEDIA_ROOT=BASE_DIR / "media_files"
@@ -215,45 +213,6 @@ CKEDITOR_5_CONFIGS = {
 }
 
 
-# CKEDITOR_5_CONFIGS = {
-#     'default': {
-#         'toolbar': [
-#             'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|',
-#             'insertTable', 'tableColumn', 'tableRow', 'mergeTableCells'
-#             'alignment', 'fontFamily', 'fontSize', 'fontColor', 'fontBackgroundColor', '|',
-#             'numberedList', 'bulletedList', 'blockQuote', '|',
-#             'link', 'imageUpload', 'mediaEmbed', '|', 'undo', 'redo', '|', 'removeFormat'
-#         ],
-#         'fontSize': {
-#             'options': [
-#                 'tiny',
-#                 'small',
-#                 'default',
-#                 'big',
-#                 'huge'
-#             ],
-#         },
-#         'fontFamily': {
-#             'options': [
-#                 'default',
-#                 'Arial, Helvetica, sans-serif',
-#                 'Courier New, Courier, monospace',
-#                 'Georgia, serif',
-#                 'Lucida Sans Unicode, Lucida Grande, sans-serif',
-#                 'Tahoma, Geneva, sans-serif',
-#                 'Times New Roman, Times, serif',
-#                 'Trebuchet MS, Helvetica, sans-serif',
-#                 'Verdana, Geneva, sans-serif'
-#             ],
-#         },
-#         'height': 300,
-#         'width': '100%',
-#         'image': {
-#             'upload': 'ck_editor_5_upload_image',
-#         },
-#     },
-# }
-
 
 # Payment Gateway Configuration
 # SANDBOX MODE
@@ -264,10 +223,13 @@ ZARINPAL_CALLBACK_URL = "http://127.0.0.1:8000/zarinpal/verify/"
 
 
 # Redis And Cache
+# REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
+REDIS_HOST = os.environ.get("REDIS_HOST", "redis")
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache", # Or "redis_cache.RedisCache" if using redis-py directly
-        "LOCATION": "redis://redis:6379/1", # Use the Redis service name defined in docker-compose
+        "LOCATION": f"redis://{REDIS_HOST}:6379/1", # Use the Redis service name defined in docker compose and redis host from env file
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
@@ -275,5 +237,5 @@ CACHES = {
 }
 
 # If using Redis for Celery broker and backend:
-CELERY_BROKER_URL = 'redis://redis:6379/0'
-CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+CELERY_BROKER_URL = f"redis://{REDIS_HOST}:6379/0"
+CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:6379/0"
