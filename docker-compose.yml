@@ -1,65 +1,46 @@
 services:
   app:
     build: ./app
-    # container_name: 'app'
     restart: always
     expose:
-      - '8000'
+      - "8000"
     volumes:
-      - type: 'bind'
-        source: './volumes/project'
-        target: '/app'
-
-      - type: 'bind'
-        source: './volumes/static_files'
-        target: '/app/static_files'
-
-      - type: 'bind'
-        source: './volumes/media_files'
-        target: '/app/media_files'
-
+      - project_data:/app
+      - static_files:/app/static_files
+      - media_files:/app/media_files
     depends_on:
-      - "ghanbari_store_postgres"
-      - "redis"
+      - ghanbari_store_postgres
+      - redis
     env_file:
       - .env
     networks:
       - ghanbari_store_app_network
       - ghanbari_store_nginx_network
-    
+
   ghanbari_store_postgres:
     image: postgres:latest
-    # container_name: ghanbari_store_postgres
+    restart: always
     volumes:
       - ghanbari_store_postgresql:/var/lib/postgresql/data
-      # - type: 'bind'
-      #   source: './volumes/dbdata'
-      #   target: '/var/lib/postgresql/data'
-    restart: always
     env_file:
       - .env
     expose:
       - "5432"
     networks:
       - ghanbari_store_app_network
-      
+
   nginx:
-    build: './nginx'
-    # container_name: 'nginx'
+    build: ./nginx
     restart: always
     ports:
       - "80:80"
     volumes:
-      - type: 'bind'
-        source: './volumes/media_files'
-        target: '/app/media_files'
-      - type: 'bind'
-        source: './volumes/static_files'
-        target: '/app/static_files'
+      - media_files:/app/media_files
+      - static_files:/app/static_files
     networks:
       - ghanbari_store_nginx_network
     depends_on:
-      - "app"
+      - app
 
   redis:
     image: redis:alpine
@@ -71,39 +52,10 @@ services:
 
 volumes:
   ghanbari_store_postgresql:
+  project_data:
+  static_files:
+  media_files:
 
 networks:
   ghanbari_store_app_network:
   ghanbari_store_nginx_network:
-
-
-
-
-
-
-
-  # mariadb:
-  #   image: 'mariadb:latest'
-  #   # container_name: 'mariadb'
-  #   restart: always
-  #   expose:
-  #     - '3306'
-  #   environment:
-  #     - "MARIADB_DATABASE=django_app"
-  #     - "MARIADB_USER=django_user"
-  #     - "MARIADB_PASSWORD=1234"
-  #     - "MARIADB_ROOT_PASSWORD=1234"
-      
-  #     - "DB_HOST=mariadb"
-  #     - "DB_NAME=django_app"
-  #     - "DB_USER=django_user"
-  #     - "DB_PASSWORD=1234"
-  #     - "DJANGO_SUPERUSER_USERNAME=admin"
-  #     - "DJANGO_SUPERUSER_EMAIL=admin@localhost"
-  #     - "DJANGO_SUPERUSER_PASSWORD=admin"
-  #   volumes:
-  #     - type: 'bind'
-  #       source: './volumes/dbdata'
-  #       target: '/var/lib/mysql'
-  #   networks:
-  #     - ghanbari_store_app_network
