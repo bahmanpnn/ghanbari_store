@@ -1,0 +1,82 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="footer-main-content-wrapper pb--70 pb_sm--30">
+                <!-- single footer area wrapper -->
+                <div class="single-footer-wized">
+                    {% if site_setting.phone %}
+                        <h3 class="footer-title">درباره شرکت</h3>
+                        <div class="call-area">
+                            <div class="icon">
+                                <i class="fa-solid fa-phone-rotary"></i>
+                            </div>
+                            <div class="info">
+                                <span>سوالی دارید؟ با ما تماس بگیرید 24/7 </span>
+                                <a class="number rts">{{site_setting.phone}}</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="opening-hour">
+                        <div class="single">
+                            <p>شنبه تا پنجشنبه: <span>8:00 صبح تا 20:00 بعد از ظهر</span></p>
+                        </div>
+                        <div class="single">
+                            <p>جمعه: <span>8:00 صبح تا 16:00 بعد از ظهر</span></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- single footer area wrapper -->
+                {% for footer_link_box in footer_link_boxes %}
+                <!-- single footer area wrapper -->
+                    <div class="single-footer-wized">
+                        <h3 class="footer-title">{{footer_link_box.title}}</h3>
+                        <div class="footer-nav">
+                            <ul>
+                                {% for footer_link_item in footer_link_box.footer_link_items.all %}
+                                    <li><a href="">{{footer_link_item.title}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                <!-- single footer area wrapper -->
+                {% endfor %}
+                <!-- single footer area wrapper -->
+                <div class="single-footer-wized">
+                    <h3 class="footer-title">خبرنامه ما</h3>
+                    <p class="disc-news-letter">
+                        برای دریافت آخرین تخفیفات و خبر ها درباره خوشه آدرس ایمیل خود را وارد کنید
+                    </p>
+
+                    <form class="footersubscribe-form" action="{% url 'home_module:footer-component' %}" method="post" novalidate>
+                        {% csrf_token %}
+                        {{ email_form.email }}
+                        {{ email_form.email.errors }}
+                        <button class="rts-btn btn-primary">ثبت</button>
+                    </form>
+                    <p class="dsic">
+                        من می خواهم اخبار و پیشنهاد ویژه را دریافت کنم
+                    </p>
+                </div>
+                <!-- single footer area wrapper -->
+            </div>
+            <div class="social-and-payment-area-wrapper">
+                <div class="social-one-wrapper">
+                    <span>ما را دنبال کنید:</span>
+                    <ul>
+                        {% for link in social_media_links %}
+                            <li>
+                                <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">
+                                    <i class="fa-brands fa-{{ link.platform }}"></i>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% comment %} <div class="payment-access">
+                    <span>پرداخت می پذیرد:</span>
+                    <img src="/static/assets/images/payment/01.png" alt="" />
+                </div> {% endcomment %}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,61 +1,76 @@
 services:
   app:
     build: ./app
+    # container_name: 'app'
     restart: always
     expose:
-      - "8000"
+      - '8000'
     volumes:
-      - project_data:/app
+      
       - static_files:/app/static_files
       - media_files:/app/media_files
+
+
     depends_on:
-      - ghanbari_store_postgres
-      - redis
+      - "ghanbari_store_postgres"
+      - "redis"
     env_file:
       - .env
     networks:
       - ghanbari_store_app_network
       - ghanbari_store_nginx_network
-
+    
   ghanbari_store_postgres:
-    image: postgres:latest
-    restart: always
+    image: postgres:latest # next time set a version.latest is not good and you will face with conflict after sometime!!
+    # container_name: ghanbari_store_postgres
     volumes:
       - ghanbari_store_postgresql:/var/lib/postgresql/data
+      # - type: 'bind'
+      #   source: './volumes/dbdata'
+      #   target: '/var/lib/postgresql/data'
+    restart: always
     env_file:
       - .env
     expose:
       - "5432"
     networks:
       - ghanbari_store_app_network
-
+      
   nginx:
-    build: ./nginx
+    build: './nginx'
+    # container_name: 'nginx'
     restart: always
     ports:
       - "80:80"
     volumes:
-      - media_files:/app/media_files
       - static_files:/app/static_files
+      - media_files:/app/media_files
+
+      # - type: 'bind'
+      #   source: './volumes/media_files'
+      #   target: '/app/media_files'
+      # - type: 'bind'
+      #   source: './volumes/static_files'
+      #   target: '/app/static_files'
     networks:
       - ghanbari_store_nginx_network
     depends_on:
-      - app
+      - "app"
 
   redis:
     image: redis:alpine
-    ports:
-      - "6379:6379"
+    expose:
+      - "6379"
     networks:
       - ghanbari_store_app_network
 
 
 volumes:
   ghanbari_store_postgresql:
-  project_data:
   static_files:
   media_files:
 
 networks:
   ghanbari_store_app_network:
   ghanbari_store_nginx_network:
+

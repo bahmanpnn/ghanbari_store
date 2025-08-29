@@ -1,0 +1,316 @@
+{% load render_partial %}
+
+<div class="search-header-area-main">
+    <div class="container">
+        <div class="row">
+            <!--fullscreen header :/ -->
+            <div class="col-lg-12">
+                <div class="logo-search-category-wrapper">
+                    <a href="index.html" class="logo-area">
+                        {% comment %} <img src="/static/assets/images/logo/logo-01.svg" alt="لوگوی اصلی" class="logo" /> {% endcomment %}
+                        <img style="height:67px;border-radius:9px" src="/static/assets/images/logo/header_khooshe_logo.svg" alt="لوگوی اصلی" class="logo" />
+                    </a>
+                    <div class="category-search-wrapper">
+                        {% comment %} <div class="category-btn category-hover-header">
+                            <img class="parent" src="/static/assets//images/icons/bar-1.svg" alt="نمادها" />
+                            <span>دسته بندی ها</span>
+                            <ul class="category-sub-menu" id="category-active-four">
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets//images/icons/01.svg" alt="نمادها" />
+                                        <span>صبحانه و لبنیات</span>
+                                        <i class="fa-regular fa-plus"></i>
+                                    </a>
+                                    <ul class="submenu mm-collapse">
+                                        <li><a class="mobile-menu-link" href="#">صبحانه</a></li>
+                                        <li><a class="mobile-menu-link" href="#">شام</a></li>
+                                        <li><a class="mobile-menu-link" href="#">پمپ کردن</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets//images/icons/02.svg" alt="نمادها" />
+                                        <span>گوشت و غذاهای دریایی</span>
+                                        <i class="fa-regular fa-plus"></i>
+                                    </a>
+                                    <ul class="submenu mm-collapse">
+                                        <li><a class="mobile-menu-link" href="#">صبحانه</a></li>
+                                        <li><a class="mobile-menu-link" href="#">شام</a></li>
+                                        <li><a class="mobile-menu-link" href="#">پمپ کردن</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets//images/icons/03.svg" alt="نمادها" />
+                                        <span>نان و نانوایی</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets//images/icons/04.svg" alt="نمادها" />
+                                        <span>چیپس و اسنک</span>
+                                        <i class="fa-regular fa-plus"></i>
+                                    </a>
+                                    <ul class="submenu mm-collapse">
+                                        <li><a class="mobile-menu-link" href="#">صبحانه</a></li>
+                                        <li><a class="mobile-menu-link" href="#">شام</a></li>
+                                        <li><a class="mobile-menu-link" href="#">پمپ کردن</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets//images/icons/05.svg" alt="نمادها" />
+                                        <span>مراقبت های پزشکی</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets//images/icons/06.svg" alt="نمادها" />
+                                        <span>نان و نانوایی</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets//images/icons/07.svg" alt="نمادها" />
+                                        <span>بیسکویت و تنقلات</span>
+                                        <i class="fa-regular fa-plus"></i>
+                                    </a>
+                                    <ul class="submenu mm-collapse">
+                                        <li><a class="mobile-menu-link" href="#">صبحانه</a></li>
+                                        <li><a class="mobile-menu-link" href="#">شام</a></li>
+                                        <li><a class="mobile-menu-link" href="#">پمپ کردن</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets//images/icons/08.svg" alt="نمادها" />
+                                        <span>غذای یخ زده</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets//images/icons/09.svg" alt="نمادها" />
+                                        <span>مواد غذایی و منگنه</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets//images/icons/10.svg" alt="نمادها" />
+                                        <span>سایر موارد</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div> {% endcomment %}
+                        <form action="{% url "product_module:products" %}" class="search-header" novalidate>
+                            <input type="text" name="product-search" placeholder=" جستجو" />
+                            <button class="rts-btn btn-primary with-icon">
+                                <div class="arrow-icon">
+                                    <i class="fa-light fa-magnifying-glass"></i>
+                                </div>
+                            </button>
+                        </form>
+                    </div>
+
+                    {% comment %}
+                    i think this div element is useless 
+                    
+                    <div class="actions-area">
+                        <div class="search-btn" id="searchs">
+                            <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M15.75 14.7188L11.5625 10.5312C12.4688 9.4375 12.9688 8.03125 12.9688 6.5C12.9688 2.9375 10.0312 0 6.46875 0C2.875 0 0 2.9375 0 6.5C0 10.0938 2.90625 13 6.46875 13C7.96875 13 9.375 12.5 10.5 11.5938L14.6875 15.7812C14.8438 15.9375 15.0312 16 15.25 16C15.4375 16 15.625 15.9375 15.75 15.7812C16.0625 15.5 16.0625 15.0312 15.75 14.7188ZM1.5 6.5C1.5 3.75 3.71875 1.5 6.5 1.5C9.25 1.5 11.5 3.75 11.5 6.5C11.5 9.28125 9.25 11.5 6.5 11.5C3.71875 11.5 1.5 9.28125 1.5 6.5Z"
+                                    fill="#1F1F25"
+                                ></path>
+                            </svg>
+                        </div>
+                        <div class="menu-btn" id="menu-btn">
+                            <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect y="14" width="20" height="2" fill="#1F1F25"></rect>
+                                <rect y="7" width="20" height="2" fill="#1F1F25"></rect>
+                                <rect width="20" height="2" fill="#1F1F25"></rect>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    {% endcomment %}
+                    <div class="accont-wishlist-cart-area-header">
+                        {% if request.user.is_authenticated %}
+                        <a href="{% url "user_profile_module:user-profile" %}" class="btn-border-only account">
+                            <i class="fa-light fa-user"></i>
+                            <span>حساب کاربری</span>
+                        </a>
+                        <a href="{% url "user_profile_module:user-favorite-list" %}" class="btn-border-only wishlist">
+                            <i class="fa-regular fa-heart"></i>
+                            <span>لیست علاقه مندیها</span>
+                        </a>
+                        <div class="btn-border-only cart category-hover-header">
+                            {% include "order_module/includes/basket_cart.html" %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="rts-header-nav-area-one header--sticky">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="nav-and-btn-wrapper">
+                    <div class="nav-area">
+                        {% render_partial 'home_module.views.navbar_component' %}
+                    </div>
+                    <!-- button-area -->
+                    <div class="left-btn-area">
+                        <a href="http://127.0.0.1:8000/products/?product_filter=most-bought" class="btn-narrow">محصولات پرطرفدار</a>
+                        <a href="http://127.0.0.1:8000/products/?product_filter=discounted">
+                            <button class="rts-btn btn-primary">
+                                محصولات تخفیف دار
+                                <span>خرید</span>
+                            </button>
+                        </a>
+                    </div>
+                    <!-- button-area end -->
+                </div>
+            </div>
+            <!-- mobile and normal screen header-->
+            <div class="col-lg-12">
+                <div class="logo-search-category-wrapper after-md-device-header">
+                    <a href="{% url "home_module:home-page" %}" class="logo-area">
+                        <img src="/static/assets/images/logo/khooshe.png" alt="لوگوی اصلی" class="logo" />
+                        {% comment %} <img src="/static/assets/images/logo/logo-02.svg" alt="لوگوی اصلی" class="logo" /> {% endcomment %}
+                        
+                    </a>
+                    {% comment %}
+                    i think this div element is useless 
+                    <div class="category-search-wrapper">
+                        <div class="category-btn category-hover-header">
+                            <img class="parent" src="/static/assets/images/icons/bar-1.svg" alt="نمادها" />
+                            <span>دسته بندی ها</span>
+                            <ul class="category-sub-menu">
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets/images/icons/01.svg" alt="نمادها" />
+                                        <span>صبحانه و لبنیات</span>
+                                        <i class="fa-regular fa-plus"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets/images/icons/02.svg" alt="نمادها" />
+                                        <span>گوشت و غذاهای دریایی</span>
+                                        <i class="fa-regular fa-plus"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets/images/icons/03.svg" alt="نمادها" />
+                                        <span>نان و نانوایی</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets/images/icons/04.svg" alt="نمادها" />
+                                        <span>چیپس و اسنک</span>
+                                        <i class="fa-regular fa-plus"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets/images/icons/05.svg" alt="نمادها" />
+                                        <span>مراقبت های پزشکی</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets/images/icons/06.svg" alt="نمادها" />
+                                        <span>نان و نانوایی</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets/images/icons/07.svg" alt="نمادها" />
+                                        <span>بیسکویت و تنقلات</span>
+                                        <i class="fa-regular fa-plus"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets/images/icons/08.svg" alt="نمادها" />
+                                        <span>غذای یخ زده</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets/images/icons/09.svg" alt="نمادها" />
+                                        <span>مواد غذایی و منگنه</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="menu-item">
+                                        <img src="/static/assets/images/icons/10.svg" alt="نمادها" />
+                                        <span>سایر موارد</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <form action="#" class="search-header">
+                            <input type="text" placeholder="محصولات، دسته&zwnj;ها یا برندها را جستجو کنید" required="" />
+                            <button class="rts-btn btn-primary radious-sm with-icon">
+                                <span class="btn-text">جستجو</span>
+                                <span class="arrow-icon">
+                                    <i class="fa-light fa-magnifying-glass"></i>
+                                </span>
+                                <span class="arrow-icon">
+                                    <i class="fa-light fa-magnifying-glass"></i>
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                    {% endcomment %}
+                    <div class="main-wrapper-action-2 d-flex">
+                        {% if request.user.is_authenticated %}
+                        <div class="accont-wishlist-cart-area-header">
+                            <a href="{% url "user_profile_module:user-profile" %}" class="btn-border-only account">
+                                <i class="fa-light fa-user"></i>
+                                حساب
+                            </a>
+                            <a href="{% url "user_profile_module:user-favorite-list" %}" class="btn-border-only wishlist">
+                                <i class="fa-regular fa-heart"></i>
+                                لیست علاقه مندیها
+                            </a>
+                            
+                            <div class="btn-border-only cart category-hover-header">
+                                <!-- todo:handle this mobile card that when items are more than 2/3,
+                                user just scroll for them and card doesnt cover
+                                all the mobile screen!! -->
+                                {% include "order_module/includes/basket_cart_mobile.html" %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="actions-area">
+                            <div class="search-btn" id="search">
+                                <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M15.75 14.7188L11.5625 10.5312C12.4688 9.4375 12.9688 8.03125 12.9688 6.5C12.9688 2.9375 10.0312 0 6.46875 0C2.875 0 0 2.9375 0 6.5C0 10.0938 2.90625 13 6.46875 13C7.96875 13 9.375 12.5 10.5 11.5938L14.6875 15.7812C14.8438 15.9375 15.0312 16 15.25 16C15.4375 16 15.625 15.9375 15.75 15.7812C16.0625 15.5 16.0625 15.0312 15.75 14.7188ZM1.5 6.5C1.5 3.75 3.71875 1.5 6.5 1.5C9.25 1.5 11.5 3.75 11.5 6.5C11.5 9.28125 9.25 11.5 6.5 11.5C3.71875 11.5 1.5 9.28125 1.5 6.5Z"
+                                        fill="#1F1F25"
+                                    ></path>
+                                </svg>
+                            </div>
+                            <div class="menu-btn">
+                                <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect y="14" width="20" height="2" fill="#1F1F25"></rect>
+                                    <rect y="7" width="20" height="2" fill="#1F1F25"></rect>
+                                    <rect width="20" height="2" fill="#1F1F25"></rect>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end mobile and normal screen header-->
+        </div>
+    </div>
+</div>

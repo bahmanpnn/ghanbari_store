@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
+
+{% block title %}{% endblock title %}
+
+{% block header_references %}
+    <link rel="stylesheet" href="{% static "user_profile_module/css/user_profile.css" %}">
+{% endblock header_references %}
+
+
+
+{% block content %}
+
+<div class="rts-navigation-area-breadcrumb bg_light-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="navigator-breadcrumb-wrapper">
+                    <a href="">حساب کاربری</a>
+                    <i class="fa-regular fa-chevron-left"></i>
+                    <a class="current">مورد علاقه ها</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section-seperator bg_light-1">
+    <div class="container">
+        <hr class="section-seperator">
+    </div>
+</div>  
+
+
+
+<!-- rts cart area start -->
+<div class="rts-cart-area rts-section-gap bg_light-1">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-12">
+                <div class="rts-cart-list-area wishlist" id="user-favorite-list">
+                    {% include "user_profile_module/includes/user_favorite_component.html" with user_favorite_products=user_favorite_products %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- rts cart area end -->
+  
+
+{% endblock content %}
+
+
+
+
+

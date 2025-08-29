@@ -1,0 +1,104 @@
+{% load poll_extras %}
+
+
+<div id="basket-card">
+    {% if user_basket.order_detail.all %}
+    <i class="fa-sharp fa-regular fa-cart-shopping" data-basket-count="{{user_basket.order_detail.count}}" ></i>
+    <span class="text">سبد خرید من</span>
+    <div class="category-sub-menu card-number-show">
+        <h5 class="shopping-cart-number">سبد خرید ({{user_basket.order_detail.count}})</h5>
+        {% for order in user_basket.order_detail.all %}
+            <div class="cart-item-1 {% if forloop.first %}border-top{% endif %}">
+                <div class="img-name">
+                    <div class="thumbanil">
+                        <img src="{{order.product.image.url}}" alt="" />
+                    </div>
+                    <div class="details">
+                        <a href="shop-details.html">
+                            <h5 class="title">{{order.product.title|truncatechars:80}}</h5>
+                        </a>
+                        <div class="number">
+                            {{order.count}}
+                            x
+                            {% comment %} <i class="fa-regular fa-x"></i> {% endcomment %}
+
+                            {% if order.product.price_with_discount %}
+                                <span>{{order.product.price_with_discount|three_digits}} تومان</span>
+                            {% else %}
+                                <span>{{order.product.price|three_digits}} تومان</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="close-c1">
+                    <a onclick="removeOrderBasket({{order.id}})"><i class="fa-regular fa-times"></i></a>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="sub-total-cart-balance">
+            <div class="bottom-content-deals mt--10">
+                <div class="top">
+                    <span>مجموع فرعی: </span>
+                    <span class="number-c">{{user_basket.get_total_amount|three_digits}} تومان</span>
+                </div>
+                {% if user_basket.get_total_amount > need_for_free_transportation %}
+                    <div class="single-progress-area-incard">
+                        <div class="progress">
+                            <div class="progress-bar wow fadeInRight" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <p><span></span> خرید شما بیشتر از {{need_for_free_transportation|three_digits}} هزار تومان میباشد.بنا براین میتوانید از گزینه ارسال رایگان استفاده کنید</p>
+                {% else %}
+                    <div class="single-progress-area-incard">
+                        <div class="progress">
+                            <div class="progress-bar wow fadeInRight" role="progressbar" style="width: {{user_basket.get_free_transportation_progress|safe}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <p><span> {{user_basket.get_free_transportation|three_digits}}تومان</span> به سبد خرید اضافه کنید و ارسال رایگان دریافت کنید</p>
+                {% endif %}
+            </div>
+            <div class="button-wrapper d-flex align-items-center justify-content-between">
+                <a href="{% url "order_module:order-basket" %}" class="rts-btn btn-primary">مشاهده سبد </a>
+                <a href="{% url "order_module:user-checkout" %}" class="rts-btn btn-primary border-only">صفحه پرداخت</a>
+            </div>
+        </div>
+    </div>
+    <a href="{% url "order_module:order-basket" %}" class="over_link"></a>    
+    {% else %}
+    <i class="fa-sharp fa-regular fa-cart-shopping" data-basket-count="0"></i>
+        <span class="text">سبد خرید من</span>
+        <div class="category-sub-menu card-number-show">
+            <h5 class="shopping-cart-number">سبد خرید (0)</h5>
+            <div class="cart-item-1 border-top">
+                <h2>سبد خرید شما خالی است</h2>
+            </div>
+            <div class="sub-total-cart-balance">
+                <div class="bottom-content-deals mt--10">
+                    <div class="top">
+                        <span>مجموع فرعی: </span>
+                        <span class="number-c">{{user_basket.get_total_amount|three_digits}} تومان</span>
+                    </div>
+                    {% if user_basket.get_total_amount > need_for_free_transportation %}
+                        <div class="single-progress-area-incard">
+                            <div class="progress">
+                                <div class="progress-bar wow fadeInRight" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <p><span></span> خرید شما بیشتر از {{need_for_free_transportation|three_digits}} هزار تومان میباشد.بنا براین میتوانید از گزینه ارسال رایگان استفاده کنید</p>
+                    {% else %}
+                        <div class="single-progress-area-incard">
+                            <div class="progress">
+                                <div class="progress-bar wow fadeInRight" role="progressbar" style="width: {{user_basket.get_free_transportation_progress|safe}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <p><span> {{user_basket.get_free_transportation|three_digits}}تومان</span> به سبد خرید اضافه کنید و ارسال رایگان دریافت کنید</p>
+                    {% endif %}
+                </div>
+                <div class="button-wrapper d-flex align-items-center justify-content-between">
+                    <a href="{% url "order_module:order-basket" %}" class="rts-btn btn-primary">مشاهده سبد </a>
+                </div>
+            </div>
+        </div>
+        <a href="{% url "order_module:order-basket" %}" class="over_link"></a>
+    {% endif %}
+</div>
